@@ -57,7 +57,9 @@ void DrzewoAVL::Dodawani_Wezla(DrzewoAVL* &korzen, TYP_DANYCH nowa_wartosc)
     Wkorzen = korzen;
 
     if(Wkorzen == NULL) korzen = temp;
-
+    ;
+    ;
+    ;
 
 
 
