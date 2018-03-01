@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Release" />
+	<File name="Klasa_drzewo.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="1246" topLine="40" />
+	</File>
+	<File name="Klasa_drzewo.hpp" open="1" top="0" tabpos="3">
+		<Cursor position="607" topLine="8" />
+	</File>
+	<File name="main.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="80" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>

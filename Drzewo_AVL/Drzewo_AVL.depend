@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1519677244 source:c:\users\piotr\documents\usp\wxwidgets\drzewo_avl\main.cpp
+	<iostream>
+	"Klasa_drzewo.hpp"
+
+1519680124 c:\users\piotr\documents\usp\wxwidgets\drzewo_avl\klasa_drzewo.hpp
+	<iostream>
+
