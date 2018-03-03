@@ -3,27 +3,24 @@
 
 #include <iostream>
 #include <cstdlib>
+#include "Klasa_wezel.hpp"
+
 #define TYP_DANYCH int
 
 class DrzewoAVL
 {
-    DrzewoAVL* rodzic;
-    DrzewoAVL* lewy;
-    DrzewoAVL* prawy;
-    TYP_DANYCH wartosc;
-    int wr;
+    Wezel* korzen;
 
-    void Rotacja_PP(DrzewoAVL* &korzen, DrzewoAVL* WGorny);
-    void Rotacja_LL(DrzewoAVL* WGorny);
-    void Rotacja_PL(DrzewoAVL* WGorny);
-    void Rotacja_LP(DrzewoAVL* WGorny);
-
-    void Wyswietl_Wezel(DrzewoAVL* wezel);
+    void Rotacja_PP(Wezel* WGorny);
+    void Rotacja_LL(Wezel* WGorny);
+    void Rotacja_PL(Wezel* WGorny);
+    void Rotacja_LP(Wezel* WGorny);
 
     public:
 
     DrzewoAVL();
     DrzewoAVL(TYP_DANYCH pocz_wartosc);
+    ~DrzewoAVL();
 
     void Dodawani_Wezla(TYP_DANYCH nowa_wartosc);
     void Usuwanie_Wezla();

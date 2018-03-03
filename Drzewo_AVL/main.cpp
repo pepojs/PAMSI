@@ -3,11 +3,11 @@
 
 int main()
 {
-    DrzewoAVL* Korzen = new DrzewoAVL(10);
+    DrzewoAVL drzewo(10);
 
-    Korzen->Dodawani_Wezla(15);
-    Korzen->Dodawani_Wezla(5);
-    Korzen->Dodawani_Wezla(9);
-    Korzen->Przegladaj_Drzewo();
+    drzewo.Dodawani_Wezla(11);
+    drzewo.Przegladaj_Drzewo();
+    drzewo.Dodawani_Wezla(12);
+    drzewo.Przegladaj_Drzewo();
     return 0;
 }

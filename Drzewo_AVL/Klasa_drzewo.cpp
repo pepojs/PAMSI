@@ -4,61 +4,60 @@ using namespace std;
 
 DrzewoAVL::DrzewoAVL()
 {
-    rodzic = NULL;
-    lewy = NULL;
-    prawy = NULL;
-    wartosc = 0;
-    wr = 0;
+    korzen = new Wezel();
 }
 
 DrzewoAVL::DrzewoAVL(TYP_DANYCH pocz_wartosc)
 {
-    rodzic = NULL;
-    lewy = NULL;
-    prawy = NULL;
-    wartosc = pocz_wartosc;
-    wr = 0;
+    korzen = new Wezel(pocz_wartosc);
 }
 
-void DrzewoAVL::Rotacja_PP(DrzewoAVL* &korzen, DrzewoAVL* Wezel_Gorny)
+DrzewoAVL::~DrzewoAVL()
 {
-    DrzewoAVL* temp;
-    DrzewoAVL* ojciecW;
+    delete(korzen);
+}
+void DrzewoAVL::Rotacja_PP(Wezel* Wezel_Gorny)
+{
+    Wezel* Wpom;
+    Wezel* Wpom_rodzic;
 
-    temp = Wezel_Gorny->prawy;
-    ojciecW = Wezel_Gorny->rodzic;
+    Wpom = Wezel_Gorny->prawy;
+    Wpom_rodzic = Wezel_Gorny->rodzic;
 
-    Wezel_Gorny->prawy = temp->lewy;
+    Wezel_Gorny->prawy = Wpom->lewy;
 
     if(Wezel_Gorny->prawy != NULL) Wezel_Gorny->prawy->rodzic = Wezel_Gorny;
 
-    temp->lewy = Wezel_Gorny;
-    temp->rodzic = ojciecW;
-    Wezel_Gorny->rodzic = temp;
+    Wpom->lewy = Wezel_Gorny;
+    Wpom->rodzic = Wpom_rodzic;
+    Wezel_Gorny->rodzic = Wpom;
 
-    if(ojciecW == NULL) korzen = temp;
-    else if(ojciecW->lewy == Wezel_Gorny) ojciecW->lewy = temp;
-    else ojciecW->prawy = temp;
+    if(Wpom_rodzic == NULL) this->korzen = Wpom;
+    else
+    {
+        if(Wpom_rodzic->lewy == Wezel_Gorny) Wpom_rodzic->lewy = Wpom;
+        else Wpom_rodzic->prawy = Wpom;
+    }
 
-    if(temp->wr == -1)
+    if(Wpom->wr == -1)
     {
         Wezel_Gorny->wr = 0;
-        temp->wr = 0;
+        Wpom->wr = 0;
     }else
     {
         Wezel_Gorny->wr = -1;
-        temp->wr = 1;
+        Wpom->wr = 1;
     }
 }
 
 void DrzewoAVL::Dodawani_Wezla(TYP_DANYCH nowa_wartosc)
 {
-    DrzewoAVL* Wpom, *Wpom_rodz;
-    DrzewoAVL* pom = new DrzewoAVL(nowa_wartosc);
+    Wezel* Wpom, *Wpom_rodz;
+    Wezel* pom = new Wezel(nowa_wartosc);
 
-    Wpom = this;
+    Wpom = this->korzen;
 
-    if(Wpom == NULL) Wpom = pom; //Dobrze ???
+    if(Wpom == NULL) korzen = pom; //Dobrze ???
     else
     {
         //Dodawanie nowego wezla
@@ -116,8 +115,8 @@ void DrzewoAVL::Dodawani_Wezla(TYP_DANYCH nowa_wartosc)
                 }else if(Wpom_rodz->wr == 1) //posiada lewa galaz
                 {
                     if(Wpom_rodz->prawy == Wpom) Wpom_rodz->wr = 0; //Jezeli dodano galaz z prawej strony to wr sie rownowazy
-                    //Jezeli posiada galaz z lewej strony oraz wezel nizej ma galaz z prawej, nalezy zrobic rotacje LR
-                    else if(Wpom->wr == -1); //LR();
+                    //Jezeli posiada galaz z lewej strony oraz wezel nizej ma galaz z prawej, nalezy zrobic rotacje LP
+                    else if(Wpom->wr == -1); //LP();
                     //Jezeli posiada galaz z prawej strony oraz wezel nizej ma galaz z lewej, nalezy zrobic rotacje LL
                     else; //LL();
                     break;
@@ -125,10 +124,10 @@ void DrzewoAVL::Dodawani_Wezla(TYP_DANYCH nowa_wartosc)
                 }else //posiada prawa galaz
                 {
                     if(Wpom_rodz->lewy == Wpom) Wpom_rodz = 0; //Jezeli dodano galaz z lewej strony to wr sie rownowazy
-                    //Jezeli posiada galaz z prawej strony oraz wezel nizej ma galaz z lewej, nalezy zrobic rotacje RL
-                    else if(Wpom->wr == 1); //RL();
-                    //Jezeli posiada galaz z prawej strony oraz wezel nizej ma galaz z prawej, nalezy zrobic rotacje RR
-                    else ;//RR()
+                    //Jezeli posiada galaz z prawej strony oraz wezel nizej ma galaz z lewej, nalezy zrobic rotacje PL
+                    else if(Wpom->wr == 1); //PL();
+                    //Jezeli posiada galaz z prawej strony oraz wezel nizej ma galaz z prawej, nalezy zrobic rotacje PP
+                    else Rotacja_PP(Wpom_rodz);//PP()
                     break;
                 }
 
@@ -142,34 +141,12 @@ void DrzewoAVL::Dodawani_Wezla(TYP_DANYCH nowa_wartosc)
     }
 }
 
-void DrzewoAVL::Wyswietl_Wezel(DrzewoAVL* wezel)
-{
-    if(wezel->rodzic == NULL)
-        cout<<"To jest korzen"<<endl;
-    else
-        cout<<"Wartosc wezla rodzica: "<<wezel->rodzic->wartosc<<endl;
-
-    cout<<"Wartosc wezla: "<<wezel->wartosc<<endl;
-
-    if(wezel->lewy == NULL)
-        cout<<"Brak lewej galezi"<<endl;
-    else
-        cout<<"Wartosc lewej galezi: "<<wezel->lewy->wartosc<<endl;
-
-    if(wezel->prawy == NULL)
-        cout<<"Brak prawej galezi"<<endl;
-    else
-        cout<<"Wartosc prawej galezi: "<<wezel->prawy->wartosc<<endl;
-
-    cout<<"Wspolczynnik rownowagi wezla: "<<wezel->wr<<endl;
-}
-
 void DrzewoAVL::Przegladaj_Drzewo()
 {
-    DrzewoAVL* Wpom;
+    Wezel* Wpom;
     char Cpom;
 
-    Wpom = this;
+    Wpom = this->korzen;
 
     do
     {
@@ -183,7 +160,7 @@ void DrzewoAVL::Przegladaj_Drzewo()
         cout<<"Koniec przegladania drzewa: q"<<endl;
         cout<<endl;
 
-        this->Wyswietl_Wezel(Wpom);
+        Wpom->Wyswietl_Wezel();
 
         cout<<endl;
         cout<<"Podaj polecenie: "<<endl;
