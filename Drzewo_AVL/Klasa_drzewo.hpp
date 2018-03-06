@@ -11,10 +11,10 @@ class DrzewoAVL
 {
     Wezel* korzen;
 
-    void Rotacja_PP(Wezel* WGorny);
-    void Rotacja_LL(Wezel* WGorny);
-    void Rotacja_PL(Wezel* WGorny);
-    void Rotacja_LP(Wezel* WGorny);
+    void Rotacja_PP(Wezel* Wezel_Gorny);
+    void Rotacja_LL(Wezel* Wezel_Gorny);
+    void Rotacja_PL(Wezel* Wezel_Gorny);
+    void Rotacja_LP(Wezel* Wezel_Gorny);
 
     public:
 

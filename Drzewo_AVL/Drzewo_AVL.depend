@@ -25,3 +25,22 @@
 1520102510 source:c:\users\bogdo\documents\programy\pamsi\drzewo_avl\klasa_wezel.cpp
 	"Klasa_wezel.hpp"
 
+1520357526 source:c:\users\piotr\documents\usp\pamsi_clone\drzewo_avl\main.cpp
+	<iostream>
+	"Klasa_drzewo.hpp"
+
+1520360902 c:\users\piotr\documents\usp\pamsi_clone\drzewo_avl\klasa_drzewo.hpp
+	<iostream>
+	<cstdlib>
+	"Klasa_wezel.hpp"
+
+1520357526 c:\users\piotr\documents\usp\pamsi_clone\drzewo_avl\klasa_wezel.hpp
+	<iostream>
+	<cstdlib>
+
+1520357526 source:c:\users\piotr\documents\usp\pamsi_clone\drzewo_avl\klasa_drzewo.cpp
+	"Klasa_drzewo.hpp"
+
+1520358003 source:c:\users\piotr\documents\usp\pamsi_clone\drzewo_avl\klasa_wezel.cpp
+	"Klasa_wezel.hpp"
+

@@ -50,6 +50,81 @@ void DrzewoAVL::Rotacja_PP(Wezel* Wezel_Gorny)
     }
 }
 
+void DrzewoAVL::Rotacja_LL(Wezel* Wezel_Gorny)
+{
+    Wezel* Wpom;
+    Wezel* Wpom_rodzic;
+
+    Wpom = Wezel_Gorny->lewy;
+    Wpom_rodzic = Wezel_Gorny->rodzic;
+
+    Wezel_Gorny->lewy = Wezel_Gorny->prawy;
+
+    if(Wezel_Gorny->lewy != NULL) Wezel_Gorny->lewy->rodzic = Wezel_Gorny;
+
+    Wpom->prawy = Wezel_Gorny;
+    Wpom->rodzic = Wpom_rodzic;
+    Wezel_Gorny->rodzic = Wpom;
+
+    if(Wpom_rodzic == NULL) this->korzen = Wpom;
+    else
+    {
+        if(Wpom_rodzic->lewy == Wezel_Gorny) Wpom_rodzic->lewy = Wpom;
+        else Wpom_rodzic->prawy = Wpom;
+    }
+
+    if(Wpom->wr == 1)
+    {
+        Wezel_Gorny->wr = 0;
+        Wpom->wr = 0;
+    }else
+    {
+        Wezel_Gorny->wr = 1;
+        Wpom->wr = -1;
+    }
+
+}
+
+void DrzewoAVL::Rotacja_PL(Wezel* Wezel_Gorny)
+{
+    Wezel* Wpom_l, *Wpom_p;
+    Wezel* Wpom_rodzic;
+
+    Wpom_p = Wezel_Gorny->prawy;
+    Wpom_l = Wpom_p->lewy;
+
+    Wpom_rodzic = Wezel_Gorny->rodzic;
+
+    if(Wpom_p->lewy != NULL) Wpom_p->lewy->rodzic = Wpom_p;
+
+    Wezel_Gorny->prawy = Wpom_l->lewy;
+
+    if(Wezel_Gorny->prawy != NULL) Wezel_Gorny->prawy->rodzic = Wezel_Gorny;
+
+    Wpom_l->lewy = Wezel_Gorny;
+    Wpom_l->prawy = Wpom_p;
+    Wezel_Gorny->rodzic = Wpom_l;
+    Wpom_p->rodzic = Wpom_l;
+
+    Wpom_l->rodzic = Wpom_rodzic;
+
+    if(Wpom_rodzic == NULL) this->korzen = Wpom_l;
+    else
+    {
+        if(Wpom_rodzic->lewy == Wezel_Gorny) Wpom_rodzic->lewy = Wpom_l;
+        else Wpom_rodzic->prawy = Wpom_l;
+    }
+
+    if(Wpom_l->wr == -1) Wezel_Gorny->wr = 1;
+    else Wezel_Gorny->wr = 0;
+
+    if(Wpom_l->wr == 1) Wpom_p->wr = -1;
+    else Wpom_p->wr = 0;
+
+    Wpom_l->wr = 0;
+
+}
+
 void DrzewoAVL::Dodawani_Wezla(TYP_DANYCH nowa_wartosc)
 {
     Wezel* Wpom, *Wpom_rodz;
@@ -118,14 +193,14 @@ void DrzewoAVL::Dodawani_Wezla(TYP_DANYCH nowa_wartosc)
                     //Jezeli posiada galaz z lewej strony oraz wezel nizej ma galaz z prawej, nalezy zrobic rotacje LP
                     else if(Wpom->wr == -1); //LP();
                     //Jezeli posiada galaz z prawej strony oraz wezel nizej ma galaz z lewej, nalezy zrobic rotacje LL
-                    else; //LL();
+                    else Rotacja_LL(Wpom_rodz); //LL();
                     break;
 
                 }else //posiada prawa galaz
                 {
                     if(Wpom_rodz->lewy == Wpom) Wpom_rodz = 0; //Jezeli dodano galaz z lewej strony to wr sie rownowazy
                     //Jezeli posiada galaz z prawej strony oraz wezel nizej ma galaz z lewej, nalezy zrobic rotacje PL
-                    else if(Wpom->wr == 1); //PL();
+                    else if(Wpom->wr == 1) Rotacja_PL(Wpom_rodz); //PL();
                     //Jezeli posiada galaz z prawej strony oraz wezel nizej ma galaz z prawej, nalezy zrobic rotacje PP
                     else Rotacja_PP(Wpom_rodz);//PP()
                     break;
