@@ -124,6 +124,46 @@ void DrzewoAVL::Rotacja_PL(Wezel* Wezel_Gorny)
     Wpom_l->wr = 0;
 
 }
+void DrzewoAVL::Rotacja_LP(Wezel* Wezel_Gorny)
+{
+    Wezel* Wpom_l, *Wpom_p;
+    Wezel* Wpom_rodzic;
+
+    Wpom_l = Wezel_Gorny->lewy;
+    Wpom_p = Wpom_l->prawy;
+
+
+    Wpom_rodzic = Wezel_Gorny->rodzic;
+
+    Wpom_l->prawy = Wpom_p->lewy;
+
+    if(Wpom_l->prawy != NULL) Wpom_l->prawy->rodzic = Wpom_l;
+
+    Wezel_Gorny->lewy = Wpom_p->prawy;
+
+    if(Wezel_Gorny->lewy != NULL) Wezel_Gorny->lewy->rodzic = Wezel_Gorny;
+
+    Wpom_p->prawy = Wezel_Gorny;
+    Wpom_p->lewy = Wpom_l;
+    Wezel_Gorny->rodzic = Wpom_p;
+    Wpom_l->rodzic = Wpom_p;
+    Wpom_p->rodzic = Wpom_rodzic;
+
+    if(Wpom_rodzic == NULL) this->korzen = Wpom_p;
+    else
+    {
+        if(Wpom_rodzic->lewy == Wezel_Gorny) Wpom_rodzic->lewy = Wpom_p;
+        else Wpom_rodzic->prawy = Wpom_p;
+    }
+
+    if(Wpom_p->wr == 1) Wezel_Gorny->wr = -1;
+    else Wezel_Gorny->wr = 0;
+
+    if(Wpom_p->wr == -1) Wpom_l->wr = 1;
+    else Wpom_l->wr = 0;
+
+    Wpom_p->wr = 0;
+}
 
 void DrzewoAVL::Dodawani_Wezla(TYP_DANYCH nowa_wartosc)
 {
@@ -191,7 +231,7 @@ void DrzewoAVL::Dodawani_Wezla(TYP_DANYCH nowa_wartosc)
                 {
                     if(Wpom_rodz->prawy == Wpom) Wpom_rodz->wr = 0; //Jezeli dodano galaz z prawej strony to wr sie rownowazy
                     //Jezeli posiada galaz z lewej strony oraz wezel nizej ma galaz z prawej, nalezy zrobic rotacje LP
-                    else if(Wpom->wr == -1); //LP();
+                    else if(Wpom->wr == -1) Rotacja_LP(Wpom_rodz); //LP();
                     //Jezeli posiada galaz z prawej strony oraz wezel nizej ma galaz z lewej, nalezy zrobic rotacje LL
                     else Rotacja_LL(Wpom_rodz); //LL();
                     break;
