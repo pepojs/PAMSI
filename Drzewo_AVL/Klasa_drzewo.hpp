@@ -23,7 +23,7 @@ class DrzewoAVL
     ~DrzewoAVL();
 
     void Dodawani_Wezla(TYP_DANYCH nowa_wartosc);
-    void Usuwanie_Wezla();
+    TYP_DANYCH Usuwanie_Wezla(Wezel* UWezel);
     void Przegladaj_Drzewo();
 };
 

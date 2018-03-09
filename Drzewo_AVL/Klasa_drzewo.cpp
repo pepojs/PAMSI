@@ -256,6 +256,77 @@ void DrzewoAVL::Dodawani_Wezla(TYP_DANYCH nowa_wartosc)
     }
 }
 
+TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
+{
+    Wezel* Wpom, *Wpom_rodzic;
+    int rownowazyc = 0;
+    if((UWezel->lewy != NULL) && (UWezel->prawy != NULL))
+    {
+
+    }else
+    {
+        if(UWezel->lewy != NULL)
+        {
+            Wpom = UWezel->lewy;
+            UWezel->lewy = NULL;
+
+            Wpom->rodzic = UWezel->rodzic;
+            if(UWezel->rodzic != NULL)
+            {
+                if(UWezel->rodzic->lewy == UWezel) UWezel->rodzic->lewy = Wpom;
+                else UWezel->rodzic->prawy = Wpom;
+
+            }else this->korzen = Wpom;
+
+        }else
+        {
+            Wpom = UWezel->prawy;
+            UWezel->prawy = NULL;
+
+            Wpom->rodzic = UWezel->rodzic;
+            if(UWezel->rodzic != NULL)
+            {
+                if(UWezel->rodzic->lewy == UWezel) UWezel->rodzic->lewy = Wpom;
+                else UWezel->rodzic->prawy = Wpom;
+
+            }else this->korzen = Wpom;
+        }
+
+        UWezel->wr = 0;
+        rownowazyc = 1;
+    }
+
+    if(rownowazyc)
+    {
+        Wpom_rodzic = UWezel->rodzic;
+
+        while(Wpom_rodzic != NULL)
+        {
+            if(Wpom_rodzic->wr == 0)
+            {
+                if(Wpom_rodzic->lewy == Wpom) Wpom_rodzic->wr = -1;
+                else Wpom_rodzic->wr = 1;
+                break;
+
+            }else
+            {
+                // Skracanie ciezszej galezi
+                if(((Wpom_rodzic->wr == 1) && (Wpom_rodzic->lewy == Wpom)) || ((Wpom_rodzic->wr == -1) && (Wpom_rodzic->prawy == Wpom)))
+                {
+                    Wpom_rodzic->wr = 0;
+                    Wpom = Wpom_rodzic;
+                    Wpom_rodzic = Wpom_rodzic->rodzic;
+                }else
+                {
+
+                }
+            }
+        }
+
+    }
+}
+
+
 void DrzewoAVL::Przegladaj_Drzewo()
 {
     Wezel* Wpom;
