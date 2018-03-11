@@ -403,9 +403,12 @@ TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
             UWezel->lewy->rodzic = Wpom;
 
             if(UWezel->prawy != Wpom)
-            Wpom->prawy = UWezel->prawy;
-            if(UWezel->prawy != NULL)
-            UWezel->prawy->rodzic = Wpom;
+            {
+                Wpom->prawy = UWezel->prawy;
+                if(UWezel->prawy != NULL)
+                    UWezel->prawy->rodzic = Wpom;
+            }
+
         }
 
     }else
@@ -478,20 +481,20 @@ TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
                 //Jezeli ciezsze poddrzewo jest w rownowadze, nalezy zrobic odpowiednia rotacje aby zrownowazyc drzewo
                 if(Wpom3->wr == 0)
                 {
-                    if(Wpom_rodzic->wr == 1) Rotacja_LL(Wpom_rodzic);
-                    else Rotacja_PP(Wpom_rodzic);
+                    if(Wpom_rodzic->wr == 1) Rotacja_LL(Wpom2);
+                    else Rotacja_PP(Wpom2);
                     break;
                 }else if(Wpom3->wr == Wpom_rodzic->wr) //Jezeli ciezsze poddrzewo ma taki sam wspolczynnik rownowagi, rotacja zmieni wysokosc
                 {
-                    if(Wpom_rodzic->wr == 1) Rotacja_LL(Wpom_rodzic);
-                    else Rotacja_PP(Wpom_rodzic);
+                    if(Wpom_rodzic->wr == 1) Rotacja_LL(Wpom2);
+                    else Rotacja_PP(Wpom2);
                     Wpom2 = Wpom3;
                     Wpom_rodzic = Wpom3->rodzic;
                 }else //Jezeli wspolczynniki sa przeciwne
                 {
                         //Po rotacji zmiejszy sie wysokosc poddrzewa
-                    if(Wpom_rodzic->wr == 1) Rotacja_LP(Wpom_rodzic);
-                    else Rotacja_PL(Wpom_rodzic);
+                    if(Wpom_rodzic->wr == 1) Rotacja_LP(Wpom2);
+                    else Rotacja_PL(Wpom2);
                     Wpom2 = Wpom_rodzic->rodzic;
                     Wpom_rodzic = Wpom2->rodzic;
                 }

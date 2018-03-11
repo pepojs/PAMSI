@@ -7,27 +7,27 @@
 			<Cursor1 position="0" topLine="0" />
 		</Cursor>
 	</File>
+	<File name="Klasa_drzewo.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="11077" topLine="110" />
+		</Cursor>
+		<Folding>
+			<Collapse line="128" />
+		</Folding>
+	</File>
+	<File name="Klasa_drzewo.hpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="597" topLine="0" />
+		</Cursor>
+	</File>
 	<File name="main.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="461" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Klasa_drzewo.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="10951" topLine="290" />
-		</Cursor>
-		<Folding>
-			<Collapse line="169" />
-		</Folding>
-	</File>
 	<File name="Klasa_wezel.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="915" topLine="11" />
-		</Cursor>
-	</File>
-	<File name="Klasa_drzewo.hpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="597" topLine="0" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
