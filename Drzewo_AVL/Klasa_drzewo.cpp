@@ -16,6 +16,7 @@ DrzewoAVL::~DrzewoAVL()
 {
     delete(korzen);
 }
+
 void DrzewoAVL::Rotacja_PP(Wezel* Wezel_Gorny)
 {
     Wezel* Wpom;
@@ -178,12 +179,12 @@ void DrzewoAVL::Dodawani_Wezla(TYP_DANYCH nowa_wartosc)
         //Dodawanie nowego wezla
         while(1)
         {
-            if(Wpom->wartosc == nowa_wartosc)
+            /*if(Wpom->wartosc == nowa_wartosc)
             {
                 cout<<"Taki wezel juz istnieje"<<endl;
                 delete(pom);
                 return;
-            }else if(Wpom->wartosc > nowa_wartosc)
+            }else */if(Wpom->wartosc > nowa_wartosc)
             {
                 if(Wpom->lewy == NULL)
                 {
@@ -224,7 +225,7 @@ void DrzewoAVL::Dodawani_Wezla(TYP_DANYCH nowa_wartosc)
                 if(Wpom_rodz->wr == 0)
                 {
                     //Jezeli wr bylo 0, to sprawdzamy z ktorej strony dodano galaz i zmieniamy wr.
-                    if(Wpom_rodz->lewy = Wpom) Wpom_rodz->wr = 1;
+                    if(Wpom_rodz->lewy == Wpom) Wpom_rodz->wr = 1;
                     else Wpom_rodz->wr = -1;
 
                 }else if(Wpom_rodz->wr == 1) //posiada lewa galaz
@@ -238,7 +239,7 @@ void DrzewoAVL::Dodawani_Wezla(TYP_DANYCH nowa_wartosc)
 
                 }else //posiada prawa galaz
                 {
-                    if(Wpom_rodz->lewy == Wpom) Wpom_rodz = 0; //Jezeli dodano galaz z lewej strony to wr sie rownowazy
+                    if(Wpom_rodz->lewy == Wpom) Wpom_rodz->wr = 0; //Jezeli dodano galaz z lewej strony to wr sie rownowazy
                     //Jezeli posiada galaz z prawej strony oraz wezel nizej ma galaz z lewej, nalezy zrobic rotacje PL
                     else if(Wpom->wr == 1) Rotacja_PL(Wpom_rodz); //PL();
                     //Jezeli posiada galaz z prawej strony oraz wezel nizej ma galaz z prawej, nalezy zrobic rotacje PP
@@ -258,15 +259,161 @@ void DrzewoAVL::Dodawani_Wezla(TYP_DANYCH nowa_wartosc)
 
 TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
 {
-    Wezel* Wpom, *Wpom_rodzic;
-    int rownowazyc = 0;
+    Wezel* Wpom, *Wpom_rodzic, *Wpom2, *Wpom3;
+
     if((UWezel->lewy != NULL) && (UWezel->prawy != NULL))
     {
+        Wpom = UWezel->prawy;
+        //UWezel->prawy = NULL;
+        //Wpom_lewy = UWezel->lewy;
+        Wpom_rodzic = UWezel;
+
+        if((Wpom->lewy != NULL) && (Wpom->prawy != NULL))
+        {
+
+            /*Wpom->rodzic = Wpom_rodzic->rodzic;
+            if(Wpom_rodzic->rodzic != NULL)
+            {
+                if(Wpom_rodzic->rodzic->prawy == Wpom_rodzic) Wpom_rodzic->rodzic->prawy = Wpom;
+                else Wpom_rodzic->rodzic->lewy = Wpom;
+
+            }else this->korzen = Wpom;*/
+
+            while((Wpom->lewy != NULL) && (Wpom->prawy != NULL))
+            {
+                /*Wpom2 = Wpom->lewy; //Zapamientuje lewa galaz
+                Wpom->lewy = Wpom_lewy; //Podmienia lewa galaz lewa galezia rodzica
+                Wpom_lewy->rodzic = Wpom;
+
+                Wpom_rodzic = Wpom;
+                Wpom_lewy = Wpom2;
+
+                Wpom->wr = 0;*/
+
+                Wpom = Wpom->lewy;
+
+            }
+        }
+
+        if(Wpom->prawy != NULL)
+        {
+            /*Wpom->lewy = Wpom_lewy; //Podmienia lewa galaz lewa galezia rodzica
+            Wpom_lewy->rodzic = Wpom;*/
+
+
+            Wpom_rodzic = Wpom->rodzic;
+            Wpom2 = Wpom->prawy;
+
+            Wpom->rodzic->lewy = Wpom->prawy;
+            Wpom->prawy->rodzic = Wpom->rodzic;
+
+
+            Wpom->rodzic = UWezel->rodzic;
+            if(UWezel->rodzic != NULL)
+            {
+                if(UWezel->rodzic->prawy == UWezel) UWezel->rodzic->prawy = Wpom;
+                else UWezel->rodzic->lewy = Wpom;
+
+            }else this->korzen = Wpom;
+
+            Wpom->lewy = UWezel->lewy;
+            if(UWezel->lewy != NULL)
+            UWezel->lewy->rodzic = Wpom;
+
+            Wpom->prawy = UWezel->prawy;
+            if(UWezel->prawy != NULL)
+            UWezel->prawy->rodzic = Wpom;
+
+            //Wpom->wr = 0;
+
+        }else if(Wpom->lewy != NULL)
+        {
+            /*Wpom2 = Wpom->lewy;
+            Wpom->lewy = NULL;
+
+            Wpom2->rodzic = Wpom->rodzic;
+            Wpom->rodzic->prawy = Wpom2;
+
+            Wpom->rodzic = Wpom2;
+            Wpom2->prawy = Wpom;
+
+            Wpom2->lewy = Wpom_lewy;
+            Wpom_lewy->rodzic = Wpom2;
+
+            Wpom2->wr = 0;
+            Wpom->wr = 0;*/
+
+            Wpom->wr = 0;
+
+            Wpom_rodzic = Wpom->rodzic;
+            Wpom2 = Wpom;
+
+            Wpom = Wpom->lewy;
+            Wpom->rodzic->lewy = NULL;
+
+            Wpom->rodzic = UWezel->rodzic;
+            if(UWezel->rodzic != NULL)
+            {
+                if(UWezel->rodzic->prawy == UWezel) UWezel->rodzic->prawy = Wpom;
+                else UWezel->rodzic->lewy = Wpom;
+
+            }else this->korzen = Wpom;
+
+            Wpom->lewy = UWezel->lewy;
+            if(UWezel->lewy != NULL)
+            UWezel->lewy->rodzic = Wpom;
+
+            Wpom->prawy = UWezel->prawy;
+            if(UWezel->prawy != NULL)
+            UWezel->prawy->rodzic = Wpom;
+
+            Wpom->wr = UWezel->wr;
+
+        }else
+        {
+            /*Wpom->lewy = Wpom_lewy;
+            Wpom_lewy->rodzic = Wpom;
+
+            Wpom->wr = 1;*/
+
+            Wpom_rodzic = Wpom->rodzic;
+
+            if(Wpom_rodzic->lewy == Wpom)
+            {
+                Wpom2 = Wpom_rodzic->lewy;
+                Wpom_rodzic->lewy = NULL;
+
+            }else
+            {
+                Wpom2 = Wpom_rodzic->prawy;
+                Wpom_rodzic->prawy = NULL;
+            }
+
+
+            Wpom->rodzic = UWezel->rodzic;
+            if(UWezel->rodzic != NULL)
+            {
+                if(UWezel->rodzic->prawy == UWezel) UWezel->rodzic->prawy = Wpom;
+                else UWezel->rodzic->lewy = Wpom;
+
+            }else this->korzen = Wpom;
+
+            Wpom->lewy = UWezel->lewy;
+            if(UWezel->lewy != NULL)
+            UWezel->lewy->rodzic = Wpom;
+
+            if(UWezel->prawy != Wpom)
+            Wpom->prawy = UWezel->prawy;
+            if(UWezel->prawy != NULL)
+            UWezel->prawy->rodzic = Wpom;
+        }
 
     }else
     {
         if(UWezel->lewy != NULL)
         {
+            Wpom_rodzic = UWezel->rodzic;
+
             Wpom = UWezel->lewy;
             UWezel->lewy = NULL;
 
@@ -278,8 +425,12 @@ TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
 
             }else this->korzen = Wpom;
 
+            Wpom2 = Wpom;
+
         }else
         {
+            Wpom_rodzic = UWezel->rodzic;
+
             Wpom = UWezel->prawy;
             UWezel->prawy = NULL;
 
@@ -290,40 +441,67 @@ TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
                 else UWezel->rodzic->prawy = Wpom;
 
             }else this->korzen = Wpom;
+
+            Wpom2 = Wpom;
         }
 
         UWezel->wr = 0;
-        rownowazyc = 1;
+
     }
 
-    if(rownowazyc)
+
+
+
+    while(Wpom_rodzic != NULL)
     {
-        Wpom_rodzic = UWezel->rodzic;
-
-        while(Wpom_rodzic != NULL)
+        //Skrócenie galezi w jednym z poddrzew kiedy wezel byl w rownowadze, nie skraca wysokosci calosci
+        if(Wpom_rodzic->wr == 0)
         {
-            if(Wpom_rodzic->wr == 0)
-            {
-                if(Wpom_rodzic->lewy == Wpom) Wpom_rodzic->wr = -1;
-                else Wpom_rodzic->wr = 1;
-                break;
+            if(Wpom_rodzic->lewy == Wpom2) Wpom_rodzic->wr = -1;
+            else Wpom_rodzic->wr = 1;
+            break;
 
-            }else
+        }else
+        {
+            // Skracanie ciezszej galezi, rownowazy wezel, ale wyzej moze byc niezrownowazone
+            if(((Wpom_rodzic->wr == 1) && (Wpom_rodzic->lewy == Wpom2)) || ((Wpom_rodzic->wr == -1) && (Wpom_rodzic->prawy == Wpom2)))
             {
-                // Skracanie ciezszej galezi
-                if(((Wpom_rodzic->wr == 1) && (Wpom_rodzic->lewy == Wpom)) || ((Wpom_rodzic->wr == -1) && (Wpom_rodzic->prawy == Wpom)))
-                {
-                    Wpom_rodzic->wr = 0;
-                    Wpom = Wpom_rodzic;
-                    Wpom_rodzic = Wpom_rodzic->rodzic;
-                }else
-                {
+                Wpom_rodzic->wr = 0;
+                Wpom2 = Wpom_rodzic;
+                Wpom_rodzic = Wpom_rodzic->rodzic;
+            }else //Skrocenie lzejszego poddrzewa
+            {
+                //Przypisanie wskaznika ciezszej galezi do Wpom2
+                if(Wpom_rodzic->lewy == Wpom2) Wpom3 = Wpom_rodzic->prawy;
+                else Wpom3 = Wpom_rodzic->lewy;
 
+                //Jezeli ciezsze poddrzewo jest w rownowadze, nalezy zrobic odpowiednia rotacje aby zrownowazyc drzewo
+                if(Wpom3->wr == 0)
+                {
+                    if(Wpom_rodzic->wr == 1) Rotacja_LL(Wpom_rodzic);
+                    else Rotacja_PP(Wpom_rodzic);
+                    break;
+                }else if(Wpom3->wr == Wpom_rodzic->wr) //Jezeli ciezsze poddrzewo ma taki sam wspolczynnik rownowagi, rotacja zmieni wysokosc
+                {
+                    if(Wpom_rodzic->wr == 1) Rotacja_LL(Wpom_rodzic);
+                    else Rotacja_PP(Wpom_rodzic);
+                    Wpom2 = Wpom3;
+                    Wpom_rodzic = Wpom3->rodzic;
+                }else //Jezeli wspolczynniki sa przeciwne
+                {
+                        //Po rotacji zmiejszy sie wysokosc poddrzewa
+                    if(Wpom_rodzic->wr == 1) Rotacja_LP(Wpom_rodzic);
+                    else Rotacja_PL(Wpom_rodzic);
+                    Wpom2 = Wpom_rodzic->rodzic;
+                    Wpom_rodzic = Wpom2->rodzic;
                 }
+
             }
         }
-
     }
+
+
+    return UWezel->wartosc;
 }
 
 
@@ -378,6 +556,16 @@ void DrzewoAVL::Przegladaj_Drzewo()
     }while(Cpom != 'q');
 }
 
+Wezel* DrzewoAVL::ZnajdzWezel(TYP_DANYCH szukana_wartosc)
+{
+    Wezel* Wpom = this->korzen;
+    while((Wpom != NULL) && (Wpom->wartosc != szukana_wartosc))
+    {
+        if(szukana_wartosc < Wpom->wartosc) Wpom = Wpom->lewy;
+        else Wpom = Wpom->prawy;
+    }
 
+    return Wpom;
+}
 
 

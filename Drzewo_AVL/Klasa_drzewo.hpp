@@ -25,6 +25,7 @@ class DrzewoAVL
     void Dodawani_Wezla(TYP_DANYCH nowa_wartosc);
     TYP_DANYCH Usuwanie_Wezla(Wezel* UWezel);
     void Przegladaj_Drzewo();
+    Wezel* ZnajdzWezel(TYP_DANYCH szukana_wartosc);
 };
 
 #endif
