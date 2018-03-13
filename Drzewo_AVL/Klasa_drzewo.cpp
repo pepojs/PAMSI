@@ -96,10 +96,10 @@ void DrzewoAVL::Rotacja_PL(Wezel* Wezel_Gorny)
 
     Wpom_rodzic = Wezel_Gorny->rodzic;
 
+    Wpom_p->lewy = Wpom_l->prawy;
     if(Wpom_p->lewy != NULL) Wpom_p->lewy->rodzic = Wpom_p;
 
     Wezel_Gorny->prawy = Wpom_l->lewy;
-
     if(Wezel_Gorny->prawy != NULL) Wezel_Gorny->prawy->rodzic = Wezel_Gorny;
 
     Wpom_l->lewy = Wezel_Gorny;
@@ -137,11 +137,9 @@ void DrzewoAVL::Rotacja_LP(Wezel* Wezel_Gorny)
     Wpom_rodzic = Wezel_Gorny->rodzic;
 
     Wpom_l->prawy = Wpom_p->lewy;
-
     if(Wpom_l->prawy != NULL) Wpom_l->prawy->rodzic = Wpom_l;
 
     Wezel_Gorny->lewy = Wpom_p->prawy;
-
     if(Wezel_Gorny->lewy != NULL) Wezel_Gorny->lewy->rodzic = Wezel_Gorny;
 
     Wpom_p->prawy = Wezel_Gorny;
@@ -260,47 +258,25 @@ void DrzewoAVL::Dodawani_Wezla(TYP_DANYCH nowa_wartosc)
 TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
 {
     Wezel* Wpom, *Wpom_rodzic, *Wpom2, *Wpom3;
+    TYP_DANYCH pom;
 
+    if(UWezel == NULL)
+    {
+        cout<<"Wezel ktory chcesz usunac nie istnieje"<<endl;
+        return -1;
+    }
     if((UWezel->lewy != NULL) && (UWezel->prawy != NULL))
     {
         Wpom = UWezel->prawy;
-        //UWezel->prawy = NULL;
-        //Wpom_lewy = UWezel->lewy;
         Wpom_rodzic = UWezel;
 
-        if((Wpom->lewy != NULL) && (Wpom->prawy != NULL))
+        while((Wpom->lewy != NULL) && (Wpom->prawy != NULL))
         {
-
-            /*Wpom->rodzic = Wpom_rodzic->rodzic;
-            if(Wpom_rodzic->rodzic != NULL)
-            {
-                if(Wpom_rodzic->rodzic->prawy == Wpom_rodzic) Wpom_rodzic->rodzic->prawy = Wpom;
-                else Wpom_rodzic->rodzic->lewy = Wpom;
-
-            }else this->korzen = Wpom;*/
-
-            while((Wpom->lewy != NULL) && (Wpom->prawy != NULL))
-            {
-                /*Wpom2 = Wpom->lewy; //Zapamientuje lewa galaz
-                Wpom->lewy = Wpom_lewy; //Podmienia lewa galaz lewa galezia rodzica
-                Wpom_lewy->rodzic = Wpom;
-
-                Wpom_rodzic = Wpom;
-                Wpom_lewy = Wpom2;
-
-                Wpom->wr = 0;*/
-
-                Wpom = Wpom->lewy;
-
-            }
+            Wpom = Wpom->lewy;
         }
 
         if(Wpom->prawy != NULL)
         {
-            /*Wpom->lewy = Wpom_lewy; //Podmienia lewa galaz lewa galezia rodzica
-            Wpom_lewy->rodzic = Wpom;*/
-
-
             Wpom_rodzic = Wpom->rodzic;
             Wpom2 = Wpom->prawy;
 
@@ -324,25 +300,9 @@ TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
             if(UWezel->prawy != NULL)
             UWezel->prawy->rodzic = Wpom;
 
-            //Wpom->wr = 0;
 
         }else if(Wpom->lewy != NULL)
         {
-            /*Wpom2 = Wpom->lewy;
-            Wpom->lewy = NULL;
-
-            Wpom2->rodzic = Wpom->rodzic;
-            Wpom->rodzic->prawy = Wpom2;
-
-            Wpom->rodzic = Wpom2;
-            Wpom2->prawy = Wpom;
-
-            Wpom2->lewy = Wpom_lewy;
-            Wpom_lewy->rodzic = Wpom2;
-
-            Wpom2->wr = 0;
-            Wpom->wr = 0;*/
-
             Wpom->wr = 0;
 
             Wpom_rodzic = Wpom->rodzic;
@@ -371,11 +331,6 @@ TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
 
         }else
         {
-            /*Wpom->lewy = Wpom_lewy;
-            Wpom_lewy->rodzic = Wpom;
-
-            Wpom->wr = 1;*/
-
             Wpom_rodzic = Wpom->rodzic;
 
             if(Wpom_rodzic->lewy == Wpom)
@@ -430,7 +385,7 @@ TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
 
             Wpom2 = Wpom;
 
-        }else
+        }else if(UWezel->prawy != NULL)
         {
             Wpom_rodzic = UWezel->rodzic;
 
@@ -446,6 +401,57 @@ TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
             }else this->korzen = Wpom;
 
             Wpom2 = Wpom;
+
+        }else
+        {
+
+            Wpom_rodzic = UWezel->rodzic;
+
+            if(Wpom_rodzic != NULL)
+            {
+                if(Wpom_rodzic->wr == 0)
+                    if(Wpom_rodzic->prawy == UWezel)
+                    {
+                        Wpom_rodzic->wr = 1;
+                        Wpom_rodzic->prawy = NULL;
+
+                    }
+                    else
+                    {
+                        Wpom_rodzic->wr = -1;
+                        Wpom_rodzic->lewy = NULL;
+                    }
+                else
+                    if((Wpom_rodzic->wr == 1) && (Wpom_rodzic->lewy == UWezel))
+                    {
+                         Wpom_rodzic->wr = 0;
+                         Wpom_rodzic->lewy = NULL;
+
+                    }
+                    else if((Wpom_rodzic->wr == -1) && (Wpom_rodzic->prawy == UWezel))
+                    {
+                        Wpom_rodzic->wr = 0;
+                        Wpom_rodzic->prawy = NULL;
+                    }
+                    else if((Wpom_rodzic->wr == -1) && (Wpom_rodzic->lewy == UWezel))
+                    {
+                        Wpom_rodzic->lewy = NULL;
+                        Rotacja_PP(Wpom_rodzic);
+
+                    }
+                    else if((Wpom_rodzic->wr == 1) && (Wpom_rodzic->prawy == UWezel))
+                    {
+                        Wpom_rodzic->prawy = NULL;
+                        Rotacja_LL(Wpom_rodzic);
+                    }
+
+                Wpom2 = UWezel->rodzic;
+                Wpom_rodzic = Wpom2->rodzic;
+            }else
+            {
+                this->korzen = NULL;
+            }
+
         }
 
         UWezel->wr = 0;
@@ -493,8 +499,8 @@ TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
                 }else //Jezeli wspolczynniki sa przeciwne
                 {
                         //Po rotacji zmiejszy sie wysokosc poddrzewa
-                    if(Wpom_rodzic->wr == 1) Rotacja_LP(Wpom2);
-                    else Rotacja_PL(Wpom2);
+                    if(Wpom_rodzic->wr == 1) Rotacja_LP(Wpom2->rodzic);
+                    else Rotacja_PL(Wpom2->rodzic);
                     Wpom2 = Wpom_rodzic->rodzic;
                     Wpom_rodzic = Wpom2->rodzic;
                 }
@@ -503,8 +509,10 @@ TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
         }
     }
 
+    pom = UWezel->wartosc;
+    delete UWezel;
 
-    return UWezel->wartosc;
+    return pom;
 }
 
 

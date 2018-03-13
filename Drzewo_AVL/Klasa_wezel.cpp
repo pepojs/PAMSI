@@ -22,24 +22,28 @@ Wezel::Wezel(TYP_DANYCH pocz_wartosc)
 
 void Wezel::Wyswietl_Wezel()
 {
-    if(this->rodzic == NULL)
-        cout<<"To jest korzen"<<endl;
-    else
-        cout<<"Wartosc wezla rodzica: "<<this->rodzic->wartosc<<endl;
+    if(this != NULL)
+    {
+        if(this->rodzic == NULL)
+            cout<<"To jest korzen"<<endl;
+        else
+            cout<<"Wartosc wezla rodzica: "<<this->rodzic->wartosc<<endl;
 
-    cout<<"Wartosc wezla: "<<this->wartosc<<endl;
+        cout<<"Wartosc wezla: "<<this->wartosc<<endl;
 
-    if(this->lewy == NULL)
-        cout<<"Brak lewej galezi"<<endl;
-    else
-        cout<<"Wartosc lewej galezi: "<<this->lewy->wartosc<<endl;
+        if(this->lewy == NULL)
+            cout<<"Brak lewej galezi"<<endl;
+        else
+            cout<<"Wartosc lewej galezi: "<<this->lewy->wartosc<<endl;
 
-    if(this->prawy == NULL)
-        cout<<"Brak prawej galezi"<<endl;
-    else
-        cout<<"Wartosc prawej galezi: "<<this->prawy->wartosc<<endl;
+        if(this->prawy == NULL)
+            cout<<"Brak prawej galezi"<<endl;
+        else
+            cout<<"Wartosc prawej galezi: "<<this->prawy->wartosc<<endl;
 
-    cout<<"Wspolczynnik rownowagi wezla: "<<this->wr<<endl;
+        cout<<"Wspolczynnik rownowagi wezla: "<<this->wr<<endl;
+
+    }else cout<<"Drzewo jest puste"<<endl;
 }
 
 
