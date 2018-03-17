@@ -328,6 +328,7 @@ TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
             UWezel->prawy->rodzic = Wpom;
 
             Wpom->wr = UWezel->wr;
+            Wpom_rodzic = Wpom;
 
         }else
         {
@@ -335,13 +336,24 @@ TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
 
             if(Wpom_rodzic->lewy == Wpom)
             {
-                Wpom2 = Wpom_rodzic->lewy;
                 Wpom_rodzic->lewy = NULL;
+                if(Wpom_rodzic->wr == 0)
+                {
+                    Wpom_rodzic->wr = -1;
+                    Wpom_rodzic = NULL;
+                }else
+                {
+                    Wpom2 = Wpom_rodzic->prawy;
+                    Rotacja_PP(Wpom_rodzic);
+                    Wpom_rodzic = Wpom2->rodzic;
+                }
+
 
             }else
             {
                 Wpom2 = Wpom_rodzic->prawy;
                 Wpom_rodzic->prawy = NULL;
+                Wpom->wr = 1;
             }
 
 
@@ -363,6 +375,7 @@ TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
                 if(UWezel->prawy != NULL)
                     UWezel->prawy->rodzic = Wpom;
             }
+
 
         }
 
@@ -414,39 +427,53 @@ TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
                     {
                         Wpom_rodzic->wr = 1;
                         Wpom_rodzic->prawy = NULL;
+                        Wpom_rodzic = NULL;
 
                     }
                     else
                     {
                         Wpom_rodzic->wr = -1;
                         Wpom_rodzic->lewy = NULL;
+                        Wpom_rodzic = NULL;
                     }
                 else
                     if((Wpom_rodzic->wr == 1) && (Wpom_rodzic->lewy == UWezel))
                     {
-                         Wpom_rodzic->wr = 0;
-                         Wpom_rodzic->lewy = NULL;
+                        Wpom_rodzic->wr = 0;
+                        Wpom_rodzic->lewy = NULL;
+                        Wpom2 = UWezel->rodzic;
+                        Wpom_rodzic = Wpom2->rodzic;
 
                     }
                     else if((Wpom_rodzic->wr == -1) && (Wpom_rodzic->prawy == UWezel))
                     {
                         Wpom_rodzic->wr = 0;
                         Wpom_rodzic->prawy = NULL;
+                        Wpom2 = UWezel->rodzic;
+                        Wpom_rodzic = Wpom2->rodzic;
+
                     }
                     else if((Wpom_rodzic->wr == -1) && (Wpom_rodzic->lewy == UWezel))
                     {
                         Wpom_rodzic->lewy = NULL;
+                        Wpom2 = Wpom_rodzic->prawy;
+
                         Rotacja_PP(Wpom_rodzic);
+
+                        Wpom_rodzic = Wpom2->rodzic;
 
                     }
                     else if((Wpom_rodzic->wr == 1) && (Wpom_rodzic->prawy == UWezel))
                     {
                         Wpom_rodzic->prawy = NULL;
+                        Wpom2 = Wpom_rodzic->lewy;
+
                         Rotacja_LL(Wpom_rodzic);
+
+                        Wpom_rodzic = Wpom2->rodzic;
                     }
 
-                Wpom2 = UWezel->rodzic;
-                Wpom_rodzic = Wpom2->rodzic;
+
             }else
             {
                 this->korzen = NULL;
