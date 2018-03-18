@@ -7,6 +7,7 @@
 
 #define TYP_DANYCH int
 
+
 class DrzewoAVL
 {
     Wezel* korzen;

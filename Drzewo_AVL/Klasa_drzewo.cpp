@@ -59,7 +59,7 @@ void DrzewoAVL::Rotacja_LL(Wezel* Wezel_Gorny)
     Wpom = Wezel_Gorny->lewy;
     Wpom_rodzic = Wezel_Gorny->rodzic;
 
-    Wezel_Gorny->lewy = Wezel_Gorny->prawy;
+    Wezel_Gorny->lewy = Wpom->prawy;
 
     if(Wezel_Gorny->lewy != NULL) Wezel_Gorny->lewy->rodzic = Wezel_Gorny;
 
@@ -260,28 +260,36 @@ TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
     Wezel* Wpom, *Wpom_rodzic, *Wpom2, *Wpom3;
     TYP_DANYCH pom;
 
+    //Jezeli wspaznik na wezel do usuniecia jest pusty
     if(UWezel == NULL)
     {
         cout<<"Wezel ktory chcesz usunac nie istnieje"<<endl;
         return -1;
     }
-    if((UWezel->lewy != NULL) && (UWezel->prawy != NULL))
+    if((UWezel->lewy != NULL) && (UWezel->prawy != NULL)) //Jezeli wezel do usuniecia ma 2 synow
     {
+        //Najpierw przechodzi do prawego poddrzewa
         Wpom = UWezel->prawy;
         Wpom_rodzic = UWezel;
 
+        //Potem szuka tak dlugo az znajdzie wezel o najmniejszej wartosci, bez 2 synow
         while((Wpom->lewy != NULL) && (Wpom->prawy != NULL))
         {
             Wpom = Wpom->lewy;
         }
 
+        //Jezeli znaleziony wezel ma tylko prawego syna
         if(Wpom->prawy != NULL)
         {
-            Wpom_rodzic = Wpom->rodzic;
-            Wpom2 = Wpom->prawy;
+            Wpom->wr = 0; //Wspolczynnik rownowagi znalezionego wezla zostaje wyzerowany
 
-            Wpom->rodzic->lewy = Wpom->prawy;
-            Wpom->prawy->rodzic = Wpom->rodzic;
+            //Ustawia wskazniki do pozniejszego rownowazenia drzewa
+            Wpom_rodzic = Wpom->rodzic;
+            Wpom2 = Wpom;
+
+            //Zamienia wezel, ktory chcemy usunac z prawym synem znalezionego wezla
+            Wpom = Wpom->prawy;
+            Wpom->rodzic->prawy = NULL;
 
 
             Wpom->rodzic = UWezel->rodzic;
@@ -300,14 +308,19 @@ TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
             if(UWezel->prawy != NULL)
             UWezel->prawy->rodzic = Wpom;
 
+            Wpom->wr = UWezel->wr;
+            Wpom_rodzic = Wpom;
 
-        }else if(Wpom->lewy != NULL)
+
+        }else if(Wpom->lewy != NULL)//Jezeli znaleziony wezel ma tylko lewego syna
         {
-            Wpom->wr = 0;
+            Wpom->wr = 0; //Wspolczynnik rownowagi znalezionego wezla zostaje wyzerowany
 
+            //Ustawia wskazniki do pozniejszego rownowazenia drzewa
             Wpom_rodzic = Wpom->rodzic;
             Wpom2 = Wpom;
 
+            //Zamienia wezel, ktory chcemy usunac z lewym synem znalezionego wezla
             Wpom = Wpom->lewy;
             Wpom->rodzic->lewy = NULL;
 
@@ -330,33 +343,36 @@ TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
             Wpom->wr = UWezel->wr;
             Wpom_rodzic = Wpom;
 
-        }else
+        }else //Jezeli znaleziony wezel nie ma synow
         {
+
             Wpom_rodzic = Wpom->rodzic;
 
+            //Jezeli znaleziony wezel byl lewym synem
             if(Wpom_rodzic->lewy == Wpom)
             {
-                Wpom_rodzic->lewy = NULL;
-                if(Wpom_rodzic->wr == 0)
+                Wpom_rodzic->lewy = NULL;//Zeruje wskaznik na znaleziony wezel
+                if(Wpom_rodzic->wr == 0) //Jezeli rodzic znalezionego wezla byl w rownowadze
                 {
-                    Wpom_rodzic->wr = -1;
-                    Wpom_rodzic = NULL;
-                }else
+                    Wpom_rodzic->wr = -1; //Ustawia wspolczynnik rownowagi
+                    Wpom_rodzic = NULL; //Przypisanie NULL powoduje, ze drzewo nie bedzie juz rownowazone
+
+                }else //Jezeli rodzic znalezionego wezla ma ciezsze prawe poddrzewo
                 {
-                    Wpom2 = Wpom_rodzic->prawy;
+                    Wpom2 = Wpom_rodzic->prawy; //Ustawia wskaznik do pozniejszego rownowazenia drzewa
                     Rotacja_PP(Wpom_rodzic);
-                    Wpom_rodzic = Wpom2->rodzic;
+                    Wpom_rodzic = Wpom2->rodzic; //Ustawia wskaznik do pozniejszego rownowazenia drzewa
                 }
 
 
-            }else
+            }else //Jezeli znaleziony wezel byl prawym synem
             {
-                Wpom2 = Wpom_rodzic->prawy;
-                Wpom_rodzic->prawy = NULL;
-                Wpom->wr = 1;
+                Wpom2 = Wpom_rodzic->prawy; //Ustawia wskaznik do pozniejszego rownowazenia drzewa
+                Wpom_rodzic->prawy = NULL; //Zeruje wskaznik na znaleziony wezel
+                Wpom->wr = 1; //Ustawia wspolczynnik rownowagi
             }
 
-
+            //Zamienia znaleziony wezel z wezlem do usuniecia
             Wpom->rodzic = UWezel->rodzic;
             if(UWezel->rodzic != NULL)
             {
@@ -376,15 +392,16 @@ TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
                     UWezel->prawy->rodzic = Wpom;
             }
 
-
         }
 
-    }else
+    }else //Jezeli wezel do usuniecia nie mial 2 synow
     {
+        //Wezel do usuniecia ma tylko lewego syna
         if(UWezel->lewy != NULL)
         {
             Wpom_rodzic = UWezel->rodzic;
 
+            //Zamienia lewego syna z wezlem do usuniecia
             Wpom = UWezel->lewy;
             UWezel->lewy = NULL;
 
@@ -396,12 +413,13 @@ TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
 
             }else this->korzen = Wpom;
 
-            Wpom2 = Wpom;
+            Wpom2 = Wpom;// Ustawia wskaznik do rownowarzenia drzewa
 
-        }else if(UWezel->prawy != NULL)
+        }else if(UWezel->prawy != NULL)//Wezel do usuniecia ma tylko prawego syna
         {
             Wpom_rodzic = UWezel->rodzic;
 
+            //Zamienia prawego syna z wezlem do usuniecia
             Wpom = UWezel->prawy;
             UWezel->prawy = NULL;
 
@@ -413,64 +431,91 @@ TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
 
             }else this->korzen = Wpom;
 
-            Wpom2 = Wpom;
+            Wpom2 = Wpom; //Ustawia wskaznik do rownowarzenia drzewa
 
-        }else
+        }else //Jezeli wezel do usuniecia nie ma synow
         {
 
             Wpom_rodzic = UWezel->rodzic;
 
-            if(Wpom_rodzic != NULL)
+            if(Wpom_rodzic != NULL)//Wezel do usuniecia nie jest korzeniem
             {
-                if(Wpom_rodzic->wr == 0)
-                    if(Wpom_rodzic->prawy == UWezel)
+                if(Wpom_rodzic->wr == 0) //Jezeli rodzic wezla byl w rownowadze
+                    if(Wpom_rodzic->prawy == UWezel) //Jezeli wezel do usuniecia byl prawym synem
                     {
                         Wpom_rodzic->wr = 1;
                         Wpom_rodzic->prawy = NULL;
-                        Wpom_rodzic = NULL;
+                        Wpom_rodzic = NULL; //Przypisanie NULL powoduje, ze drzewo nie bedzie juz rownowazone
 
                     }
-                    else
+                    else //Jezeli wezel do usuniecia byl lewym synem
                     {
                         Wpom_rodzic->wr = -1;
                         Wpom_rodzic->lewy = NULL;
-                        Wpom_rodzic = NULL;
+                        Wpom_rodzic = NULL; //Przypisanie NULL powoduje, ze drzewo nie bedzie juz rownowazone
                     }
-                else
-                    if((Wpom_rodzic->wr == 1) && (Wpom_rodzic->lewy == UWezel))
+                else //Jezeli rodzic wezla do usuniecia nie byl w rownowadze
+                    if((Wpom_rodzic->wr == 1) && (Wpom_rodzic->lewy == UWezel)) //Poddrzewo z wezlem do usuniecia bylo wyzsze
                     {
                         Wpom_rodzic->wr = 0;
                         Wpom_rodzic->lewy = NULL;
-                        Wpom2 = UWezel->rodzic;
-                        Wpom_rodzic = Wpom2->rodzic;
+                        Wpom2 = UWezel->rodzic; //Ustawia wskaznik do rownowarzenia drzewa
+                        Wpom_rodzic = Wpom2->rodzic; //Ustawia wskaznik do rownowarzenia drzewa
 
                     }
-                    else if((Wpom_rodzic->wr == -1) && (Wpom_rodzic->prawy == UWezel))
+                    else if((Wpom_rodzic->wr == -1) && (Wpom_rodzic->prawy == UWezel)) //Poddrzewo z wezlem do usuniecia bylo wyzsze
                     {
                         Wpom_rodzic->wr = 0;
                         Wpom_rodzic->prawy = NULL;
-                        Wpom2 = UWezel->rodzic;
-                        Wpom_rodzic = Wpom2->rodzic;
+                        Wpom2 = UWezel->rodzic; //Ustawia wskaznik do rownowarzenia drzewa
+                        Wpom_rodzic = Wpom2->rodzic; //Ustawia wskaznik do rownowarzenia drzewa
 
                     }
-                    else if((Wpom_rodzic->wr == -1) && (Wpom_rodzic->lewy == UWezel))
+                    else if((Wpom_rodzic->wr == -1) && (Wpom_rodzic->lewy == UWezel)) //Poddrzewo z wezlem do usuniecia bylo nizsze
                     {
                         Wpom_rodzic->lewy = NULL;
-                        Wpom2 = Wpom_rodzic->prawy;
+                        Wpom2 = Wpom_rodzic->prawy; //Ustawia wskaznik do rownowarzenia drzewa
 
-                        Rotacja_PP(Wpom_rodzic);
+                        if(Wpom_rodzic->prawy->wr == -1) //Wyzsze poddrzewo (bez wezla do usuniecia) bylo niezrownowazone z prawej
+                        {
+                            Rotacja_PP(Wpom_rodzic);
+                            Wpom_rodzic = Wpom2->rodzic; //Ustawia wskaznik do rownowarzenia drzewa
 
-                        Wpom_rodzic = Wpom2->rodzic;
+                        }else if(Wpom_rodzic->prawy->wr == 1)//Wyzsze poddrzewo (bez wezla do usuniecia) bylo niezrownowazone z lewej
+                        {
+                            Rotacja_PL(Wpom_rodzic);
+                            Wpom2 = Wpom2->rodzic; //Ustawia wskaznik do rownowarzenia drzewa
+                            Wpom_rodzic = Wpom2->rodzic; //Ustawia wskaznik do rownowarzenia drzewa
+
+                        }else //Wyzsze poddrzewo (bez wezla do usuniecia) bylo zrownowazone
+                        {
+                            Rotacja_PP(Wpom_rodzic);
+                            Wpom_rodzic = NULL; //Przypisanie NULL powoduje, ze drzewo nie bedzie juz rownowazone
+                        }
 
                     }
-                    else if((Wpom_rodzic->wr == 1) && (Wpom_rodzic->prawy == UWezel))
+                    else if((Wpom_rodzic->wr == 1) && (Wpom_rodzic->prawy == UWezel)) //Poddrzewo z wezlem do usuniecia bylo nizsze
                     {
                         Wpom_rodzic->prawy = NULL;
-                        Wpom2 = Wpom_rodzic->lewy;
+                        Wpom2 = Wpom_rodzic->lewy; //Ustawia wskaznik do rownowarzenia drzewa
 
-                        Rotacja_LL(Wpom_rodzic);
+                        if(Wpom_rodzic->lewy->wr == 1) //Wyzsze poddrzewo (bez wezla do usuniecia) bylo niezrownowazone z lewej
+                        {
+                            Rotacja_LL(Wpom_rodzic);
+                            Wpom_rodzic = Wpom2->rodzic; //Ustawia wskaznik do rownowarzenia drzewa
 
-                        Wpom_rodzic = Wpom2->rodzic;
+                        }else if(Wpom_rodzic->lewy->wr == -1) //Wyzsze poddrzewo (bez wezla do usuniecia) bylo niezrownowazone z prawej
+                        {
+                            Rotacja_LP(Wpom_rodzic);
+                            Wpom2 = Wpom2->rodzic; //Ustawia wskaznik do rownowarzenia drzewa
+                            Wpom_rodzic = Wpom2->rodzic; //Ustawia wskaznik do rownowarzenia drzewa
+
+                        }else //Wyzsze poddrzewo (bez wezla do usuniecia) bylo zrownowazone
+                        {
+                            Rotacja_LL(Wpom_rodzic);
+                            Wpom_rodzic = NULL; //Przypisanie NULL powoduje, ze drzewo nie bedzie juz rownowazone
+                        }
+
                     }
 
 
@@ -487,7 +532,7 @@ TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
 
 
 
-
+    //Rownowazenie drzewa w strone korzenia
     while(Wpom_rodzic != NULL)
     {
         //Skrócenie galezi w jednym z poddrzew kiedy wezel byl w rownowadze, nie skraca wysokosci calosci
@@ -537,12 +582,12 @@ TYP_DANYCH DrzewoAVL::Usuwanie_Wezla(Wezel* UWezel)
     }
 
     pom = UWezel->wartosc;
-    delete UWezel;
+    delete UWezel; // Czysci zaalakowana pamiec
 
-    return pom;
+    return pom; //Zwraca zawartosc wezla
 }
 
-
+//Funkcja sluzaca do wyswietlania wartosci poszczegulnych wezlow drzewa
 void DrzewoAVL::Przegladaj_Drzewo()
 {
     Wezel* Wpom;
@@ -594,6 +639,7 @@ void DrzewoAVL::Przegladaj_Drzewo()
     }while(Cpom != 'q');
 }
 
+//Wyszukuje wskaznik na wezel z szukana wartoscia
 Wezel* DrzewoAVL::ZnajdzWezel(TYP_DANYCH szukana_wartosc)
 {
     Wezel* Wpom = this->korzen;
