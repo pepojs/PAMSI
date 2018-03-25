@@ -29,6 +29,7 @@ class DrzewoAVL
     TYP_DANYCH Usuwanie_Wezla(Wezel<TYP_DANYCH>* UWezel);
     void Przegladaj_Drzewo();
     Wezel<TYP_DANYCH>* ZnajdzWezel(TYP_DANYCH szukana_wartosc);
+    void Wyswietl__Drzewo();
 };
 
 template<class TYP_DANYCH>DrzewoAVL<TYP_DANYCH>::DrzewoAVL()
@@ -702,7 +703,28 @@ template<class TYP_DANYCH> Wezel<TYP_DANYCH>* DrzewoAVL<TYP_DANYCH>::ZnajdzWezel
     return Wpom;
 }
 
+template<class TYP_DANYCH> void DrzewoAVL<TYP_DANYCH>::Wyswietl_Drzewo()
+{
+    Wezel<TYP_DANYCH>* Wpom = this->korzen;
 
+    if(Wpom != NULL)
+    {
+        while(Wpom->lewy != NULL)
+        {
+            Wpom = Wpom->lewy;
+        }
+
+        if(Wpom->prawy != NULL)
+        {
+            ;
+        }
+
+        if(Wpom->rodzic != NULL)
+            Wpom = Wpom->rodzic;
+
+        if(Wpom->prawy != NULL)
+    }
+}
 
 
 #endif
