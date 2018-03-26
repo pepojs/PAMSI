@@ -15,6 +15,7 @@ int main()
         cout<<"d - dodaj nowy wezel"<<endl;
         cout<<"u - usun wezel o danej wartosci"<<endl;
         cout<<"p - przegladaj drzewo"<<endl;
+        cout<<"w - wyswieta drzewo"<<endl;
         cout<<"q - koniec programu"<<endl;
         cout<<"Podaj opcje: "<<endl;
         cin>> menu;
@@ -59,6 +60,12 @@ int main()
 
             case 'p':
                 drzewo.Przegladaj_Drzewo();
+
+            break;
+
+            case 'w':
+                drzewo.Wyswietl_Drzewo();
+                system("timeout 5");//Uzycie polecenia systemowego (Windows) do opoznienia aby mozna przeczytac komunikat
 
             break;
 
