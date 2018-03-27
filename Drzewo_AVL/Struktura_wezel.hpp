@@ -1,5 +1,5 @@
-#ifndef KLASA_WEZEL_HPP
-#define KLASA_WEZEL_HPP
+#ifndef STRUKTURA_WEZEL_HPP
+#define STRUKTURA_WEZEL_HPP
 
 #include <iostream>
 #include <cstdlib>

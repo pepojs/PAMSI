@@ -16,6 +16,7 @@ int main()
         cout<<"u - usun wezel o danej wartosci"<<endl;
         cout<<"p - przegladaj drzewo"<<endl;
         cout<<"w - wyswieta drzewo"<<endl;
+        cout<<"l - wyswieta wysokosc drzewa"<<endl;
         cout<<"q - koniec programu"<<endl;
         cout<<"Podaj opcje: "<<endl;
         cin>> menu;
@@ -65,8 +66,13 @@ int main()
 
             case 'w':
                 drzewo.Wyswietl_Drzewo();
-                system("timeout 5");//Uzycie polecenia systemowego (Windows) do opoznienia aby mozna przeczytac komunikat
+                system("timeout 10");//Uzycie polecenia systemowego (Windows) do opoznienia aby mozna przeczytac komunikat
 
+            break;
+
+            case 'l':
+                drzewo.Wyswietl_Wysokosc_Drzewa();
+                system("timeout 5");//Uzycie polecenia systemowego (Windows) do opoznienia aby mozna przeczytac komunikat
             break;
 
             case 'q':

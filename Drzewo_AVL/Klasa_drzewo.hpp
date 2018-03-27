@@ -3,10 +3,8 @@
 
 #include <iostream>
 #include <cstdlib>
-#include <string>
-#include <sstream>
 
-#include "Klasa_wezel.hpp"
+#include "Struktura_wezel.hpp"
 
 //#define TYP_DANYCH int
 
@@ -33,6 +31,11 @@ class DrzewoAVL
     void Przegladaj_Drzewo();
     Wezel<TYP_DANYCH>* ZnajdzWezel(TYP_DANYCH szukana_wartosc);
     void Wyswietl_Drzewo();
+    void Wyswietl_Wysokosc_Drzewa();
+
+    void Przejscie_Wzdluzne(Wezel<TYP_DANYCH>* wezel);
+    void Przejscie_Wsteczne(Wezel<TYP_DANYCH>* wezel);
+    void Przejscie_Poprzeczne(Wezel<TYP_DANYCH>* wezel);
 };
 
 template<class TYP_DANYCH>DrzewoAVL<TYP_DANYCH>::DrzewoAVL()
@@ -711,146 +714,68 @@ template<class TYP_DANYCH> Wezel<TYP_DANYCH>* DrzewoAVL<TYP_DANYCH>::ZnajdzWezel
     return Wpom;
 }
 
-template<class TYP_DANYCH> void DrzewoAVL<TYP_DANYCH>::Wyswietl_Drzewo()
+template<class TYP_DANYCH> void DrzewoAVL<TYP_DANYCH>::Przejscie_Wzdluzne(Wezel<TYP_DANYCH>* wezel)
 {
-    Wezel<TYP_DANYCH>* Wpom = this->korzen, *Wpom_kon;
-    ostringstream ss;
-    string Drzewo;
-    int pom = 1;
-    int pom2 = 0;
+    if(wezel == NULL)return;
+    cout<<wezel->wartosc<<" ";
+    Przejscie_Wzdluzne(wezel->lewy);
+    Przejscie_Wzdluzne(wezel->prawy);
 
-    if(Wpom != NULL)
-    {
-        ss << Wpom->wartosc;
-        Drzewo += ss.str() + "\n";
-        ss.clear();
-        ss.str("");
-
-    do
-    {
-        while(Wpom->lewy != NULL)
-        {
-            pom += 1;
-            Wpom = Wpom->lewy;
-
-            for(int i = 1;i < pom; i++)
-                    pom2 = Drzewo.find("\n", pom2+1);
-
-
-            if(Drzewo.find("\n", pom2+1) == string::npos)
-            {
-                ss << Wpom->wartosc;
-                Drzewo.insert(pom2+1, ss.str() + "\n");
-                ss.clear();
-                ss.str("");
-            }else
-            {
-                ss << Wpom->wartosc;
-                Drzewo.insert(Drzewo.find("\n", pom2+1), " , " + ss.str());
-                ss.clear();
-                ss.str("");
-            }
-
-            pom2 = 0;
-
-        }
-
-        if(Wpom->prawy != NULL)
-        {
-            pom += 1;
-
-            for(int i = 1;i < pom; i++)
-                    pom2 = Drzewo.find("\n", pom2+1);
-
-
-            if(Drzewo.find("\n", pom2+1) == string::npos)
-            {
-                ss << Wpom->prawy->wartosc;
-                Drzewo.insert(pom2+1, ss.str() + "\n");
-                ss.clear();
-                ss.str("");
-            }else
-            {
-                ss << Wpom->prawy->wartosc;
-                Drzewo.insert(Drzewo.find("\n", pom2+1), " , " + ss.str());
-                ss.clear();
-                ss.str("");
-            }
-
-            pom -= 1;
-        }
-
-        while(Wpom->rodzic != NULL)
-        {
-            if(Wpom == Wpom->rodzic->prawy)
-            {
-                Wpom = Wpom->rodzic;
-                pom -= 1;
-            }
-
-            Wpom_kon = Wpom;
-
-            if(Wpom->rodzic != NULL)
-            {
-                Wpom = Wpom->rodzic;
-                pom -= 1;
-            }else break;
-
-
-            if(Wpom->prawy != NULL)
-            {
-                pom += 1;
-                Wpom = Wpom->prawy;
-
-                if(Wpom_kon == Wpom) break;
-
-                for(int i = 0;i < pom; i++)
-                    pom2 = Drzewo.find("\n", pom2+1);
-
-                ss << Wpom->wartosc;
-                Drzewo.insert(pom2, " " + ss.str());
-                ss.clear();
-                ss.str("");
-                pom2 = 0;
-
-                break;
-            }
-        }
-    }while(Wpom_kon != Wpom);
-
-/*    pom = 0;
-    pom2 = 0;
-
-    do
-    {
-        pom = Drzewo.find("\n", pom+1);
-        pom2 += 1;
-
-    }while(pom != string::npos);
-
-    pom = 0;
-
-    for(int i = pom2-1; i > 0; i--)
-    {
-
-
-        pom2 = -1;
-        for(int j = 0; j < i-1; j++)
-        {
-            pom2 = Drzewo.find("\n", pom2 + 1);
-
-        }
-        for(int k = 0; k < pom; k++)
-            Drzewo.insert(pom2+1," ");
-
-        pom = 2*pom + 1;
-    }
-*/
-
-    cout<<Drzewo<<endl;
-
-    }
 }
 
+template<class TYP_DANYCH> void DrzewoAVL<TYP_DANYCH>::Przejscie_Wsteczne(Wezel<TYP_DANYCH>* wezel)
+{
+    if(wezel == NULL)return;
+    Przejscie_Wsteczne(wezel->lewy);
+    Przejscie_Wsteczne(wezel->prawy);
+    cout<<wezel->wartosc<<" ";
+
+}
+
+template<class TYP_DANYCH> void DrzewoAVL<TYP_DANYCH>::Przejscie_Poprzeczne(Wezel<TYP_DANYCH>* wezel)
+{
+    if(wezel == NULL)return;
+    Przejscie_Poprzeczne(wezel->lewy);
+    cout<<wezel->wartosc<<" ";
+    Przejscie_Poprzeczne(wezel->prawy);
+
+}
+
+template<class TYP_DANYCH> void DrzewoAVL<TYP_DANYCH>::Wyswietl_Drzewo()
+{
+    cout<<"Przejscie wzdluzne (PRE-ORDER):"<<endl;
+    Przejscie_Wzdluzne(korzen);
+    cout<<endl<<"Przejscie wsteczne (POST-ORDER) :"<<endl;
+    Przejscie_Wsteczne(korzen);
+    cout<<endl<<"Przejscie poprzeczne (IN-ORDER) :"<<endl;
+    Przejscie_Poprzeczne(korzen);
+    cout<<endl;
+}
+
+template<class TYP_DANYCH> void DrzewoAVL<TYP_DANYCH>::Wyswietl_Wysokosc_Drzewa()
+{
+    Wezel<TYP_DANYCH>* Wpom = korzen;
+    int wysokosc = 1;
+
+    if(korzen == NULL)
+    {
+        cout<<"Drzewo jest puste"<<endl;
+        return;
+    }
+
+    while(Wpom->lewy != NULL)
+    {
+        wysokosc += 1;
+        Wpom = Wpom->lewy;
+    }
+
+    if(Wpom->prawy != NULL)
+        wysokosc += 1;
+
+    if(korzen->wr == -1)
+        wysokosc += 1;
+
+    cout<<"Wysokosc drzewa wynosi: "<<wysokosc<<endl;
+}
 
 #endif
