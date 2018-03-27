@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Release" />
-	<File name="Klasa_drzewo.cpp" open="1" top="1" tabpos="1">
-		<Cursor position="1246" topLine="40" />
+	<ActiveTarget name="Debug" />
+	<File name="Klasa_drzewo.cpp" open="0" top="0" tabpos="1">
+		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="Klasa_drzewo.hpp" open="1" top="0" tabpos="3">
-		<Cursor position="607" topLine="8" />
+	<File name="Klasa_drzewo.hpp" open="1" top="0" tabpos="2">
+		<Cursor position="95" topLine="0" />
 	</File>
-	<File name="main.cpp" open="1" top="0" tabpos="2">
-		<Cursor position="80" topLine="0" />
+	<File name="Struktura_wezel.cpp" open="0" top="0" tabpos="4">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="Struktura_wezel.hpp" open="1" top="0" tabpos="3">
+		<Cursor position="46" topLine="0" />
+	</File>
+	<File name="main.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="0" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>

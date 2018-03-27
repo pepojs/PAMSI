@@ -33,6 +33,8 @@
 		</Compiler>
 		<Unit filename="Klasa_drzewo.cpp" />
 		<Unit filename="Klasa_drzewo.hpp" />
+		<Unit filename="Struktura_wezel.cpp" />
+		<Unit filename="Struktura_wezel.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
