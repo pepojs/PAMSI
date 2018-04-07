@@ -10,6 +10,7 @@ template <class TYP_DANYCH>
 class Sortowanie
 {
     TYP_DANYCH* Tab;
+    TYP_DANYCH* tab_pom;
     int Rozmiar;
 
     void ScalanieRos(int pocz, int sr, int kon);
@@ -29,19 +30,21 @@ class Sortowanie
 
     void PrzezScalanieRos(int pocz, int kon);
     void PrzezScalanieMal(int pocz, int kon);
-    void Szybkie();
+    void Szybkie(int pocz, int kon);
 
 };
 
 template <class TYP_DANYCH> Sortowanie<TYP_DANYCH>::Sortowanie()
 {
     Tab = NULL;
+    tab_pom = NULL;
     Rozmiar = 0;
 }
 
 template <class TYP_DANYCH> Sortowanie<TYP_DANYCH>::Sortowanie(int rozmiar)
 {
     Tab = new TYP_DANYCH[rozmiar];
+    tab_pom = new TYP_DANYCH[rozmiar];
     Rozmiar = rozmiar;
 }
 
@@ -50,6 +53,11 @@ template <class TYP_DANYCH> Sortowanie<TYP_DANYCH>::~Sortowanie()
     if(Tab != NULL)
     {
         delete Tab;
+    }
+
+    if(tab_pom != NULL)
+    {
+        delete tab_pom;
     }
 }
 
@@ -109,7 +117,7 @@ template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::WyswietlTab()
 template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::ScalanieRos(int pocz, int sr,int kon)
 {
     int pom1, pom2, pom3;
-    TYP_DANYCH* tab_pom = new TYP_DANYCH[kon+1];
+    //TYP_DANYCH* tab_pom = new TYP_DANYCH[kon+1];
 
 
     if(Tab != NULL)
@@ -143,13 +151,13 @@ template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::ScalanieRos(int pocz, i
         }
     }
 
-    delete tab_pom;
+    //delete tab_pom;
 }
 
 template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::ScalanieMal(int pocz, int sr,int kon)
 {
     int pom1, pom2, pom3;
-    TYP_DANYCH* tab_pom = new TYP_DANYCH[kon+1];
+    //TYP_DANYCH* tab_pom = new TYP_DANYCH[kon+1];
 
 
     if(Tab != NULL)
@@ -183,7 +191,7 @@ template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::ScalanieMal(int pocz, i
         }
     }
 
-    delete tab_pom;
+    //delete tab_pom;
 }
 
 //Rekurencyjne sortowanie przez scalanie
@@ -211,5 +219,34 @@ template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::PrzezScalanieMal(int po
     }
 }
 
+template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::Szybkie(int pocz,int kon)
+{
+    int pom1 = pocz, pom2 = kon, pom3, element_osiowy = Tab[(pocz+kon)/2];
+
+    do
+    {
+        while(Tab[pom1] < element_osiowy)
+            pom1++;
+
+        while(Tab[pom2] > element_osiowy)
+            pom2--;
+
+        if(pom1 <= pom2)
+        {
+            pom3 = Tab[pom1];
+            Tab[pom1] = Tab[pom2];
+            Tab[pom2] = pom3;
+
+            pom1++;
+            pom2--;
+        }
+
+    }while(pom1 <= pom2);
+
+    if(pocz < pom2) Szybkie(pocz, pom2);
+
+    if(kon > pom1) Szybkie(pom1, kon);
+
+}
 
 #endif

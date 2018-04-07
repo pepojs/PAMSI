@@ -8,10 +8,10 @@ int main()
     char znak;
 
     cout<<"Start"<<endl;
-    Sortowanie <int>scalanie(1000000);
+    Sortowanie <int>scalanie(100);
     scalanie.WypelniLos_INT(0, 100);
-    scalanie.PrzezScalanieMal(0, scalanie.ZwrocRozmiar()-1);
-    scalanie.SprawdzSortMal();
+    scalanie.PrzezScalanieRos(0, scalanie.ZwrocRozmiar()-1);
+    scalanie.SprawdzSortRos();
     cout<<"Stop"<<endl;
 
     cin>>znak;
