@@ -15,6 +15,9 @@ class Sortowanie
 
     void ScalanieRos(int pocz, int sr, int kon);
     void ScalanieMal(int pocz, int sr, int kon);
+    void TworzKopiec();
+    void UsunKopiec();
+
 
     public:
     Sortowanie();
@@ -28,9 +31,11 @@ class Sortowanie
     int ZwrocRozmiar(){return Rozmiar;}
 
 
+
     void PrzezScalanieRos(int pocz, int kon);
     void PrzezScalanieMal(int pocz, int kon);
     void Szybkie(int pocz, int kon);
+    void PrzezKopcowanie();
 
 };
 
@@ -52,12 +57,14 @@ template <class TYP_DANYCH> Sortowanie<TYP_DANYCH>::~Sortowanie()
 {
     if(Tab != NULL)
     {
-        delete Tab;
+        delete[] Tab;
+        Tab = NULL;
     }
 
     if(tab_pom != NULL)
     {
-        delete tab_pom;
+        delete[] tab_pom;
+        tab_pom = NULL;
     }
 }
 
@@ -249,4 +256,64 @@ template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::Szybkie(int pocz,int ko
 
 }
 
+template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::TworzKopiec()
+{
+    TYP_DANYCH pom;
+    int pom1, pom2;
+
+    for(int i = 1; i <Rozmiar; i++)
+    {
+        pom1 = i;
+        pom2 = pom1 / 2;
+        pom = Tab[i];
+
+        while((pom1 > 0) && (Tab[pom2] < pom))
+        {
+            Tab[pom1] = Tab[pom2];
+            pom1 = pom2;
+            pom2 = pom1 / 2;
+        }
+
+        Tab[pom1] = pom;
+    }
+
+}
+
+template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::UsunKopiec()
+{
+    TYP_DANYCH pom;
+    int pom1, pom2, pom3;
+
+    for(int i = Rozmiar-1; i > 0; i--)
+    {
+        pom = Tab[0];
+        Tab[0] = Tab[i];
+        Tab[i] = pom;
+        pom1 = 0;
+        pom2 = 1;
+
+        while(pom2 < i)
+        {
+            if((pom2 + 1 < i) && (Tab[pom2 + 1] > Tab[pom2]))
+                pom3 = pom2 + 1;
+            else
+                pom3 = pom2;
+
+            if(Tab[pom3] <= Tab[pom1]) break;
+
+            pom = Tab[pom1];
+            Tab[pom1] = Tab[pom3];
+            Tab[pom3] = pom;
+
+            pom1 = pom3;
+            pom2 = pom1 + pom1;
+        }
+    }
+}
+
+template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::PrzezKopcowanie()
+{
+    TworzKopiec();
+    UsunKopiec();
+}
 #endif

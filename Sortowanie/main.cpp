@@ -8,9 +8,9 @@ int main()
     char znak;
 
     cout<<"Start"<<endl;
-    Sortowanie <int>scalanie(100);
+    Sortowanie <int>scalanie(1000);
     scalanie.WypelniLos_INT(0, 100);
-    scalanie.PrzezScalanieRos(0, scalanie.ZwrocRozmiar()-1);
+    scalanie.PrzezKopcowanie();
     scalanie.SprawdzSortRos();
     cout<<"Stop"<<endl;
 
