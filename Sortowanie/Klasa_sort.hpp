@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <cmath>
 
 using namespace std;
 
@@ -17,6 +18,7 @@ class Sortowanie
     void ScalanieMal(int pocz, int sr, int kon);
     void TworzKopiec();
     void UsunKopiec();
+    void Intro(int pocz, int kon, int maxrek);
 
 
     public:
@@ -36,6 +38,7 @@ class Sortowanie
     void PrzezScalanieMal(int pocz, int kon);
     void Szybkie(int pocz, int kon);
     void PrzezKopcowanie();
+    void Introspektywne(int pocz, int kon);
 
 };
 
@@ -316,4 +319,45 @@ template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::PrzezKopcowanie()
     TworzKopiec();
     UsunKopiec();
 }
+
+template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::Intro(int pocz, int kon,int maxrek)
+{
+    int pom1 = pocz, pom2 = kon, pom3, element_osiowy = Tab[(pocz+kon)/2];
+
+    do
+    {
+        while(Tab[pom1] < element_osiowy)
+            pom1++;
+
+        while(Tab[pom2] > element_osiowy)
+            pom2--;
+
+        if(pom1 <= pom2)
+        {
+            pom3 = Tab[pom1];
+            Tab[pom1] = Tab[pom2];
+            Tab[pom2] = pom3;
+
+            pom1++;
+            pom2--;
+        }
+
+    }while(pom1 <= pom2);
+
+    if(pom2 > maxrek) PrzezKopcowanie();
+    else
+    {
+        if(pocz < pom2) Intro(pocz, pom2, maxrek-1);
+
+        if(kon > pom1) Intro(pom1, kon, maxrek-1);
+    }
+}
+
+
+template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::Introspektywne(int pocz, int kon)
+{
+    int maxrek = 2*log(Rozmiar);
+    Intro(pocz, kon, maxrek);
+}
+
 #endif
