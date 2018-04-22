@@ -262,22 +262,26 @@ template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::Szybkie(int pocz,int ko
 template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::TworzKopiec()
 {
     TYP_DANYCH pom;
-    int pom1, pom2;
+    int pom1, pom2; // pomocnicze indeksy elementow tablicy
 
+    //petla od 2 elementu az do konca tablicy, wyznacza kolejne elementy dodawane do kopca,
+    // 1 element i tak zostal by na swoim miejscu
     for(int i = 1; i <Rozmiar; i++)
     {
+        //Pomocnicze zmienne
         pom1 = i;
         pom2 = pom1 / 2;
         pom = Tab[i];
 
+        //Szuka miejsca dla elementy pom w tablicy wyjsciowej
         while((pom1 > 0) && (Tab[pom2] < pom))
         {
-            Tab[pom1] = Tab[pom2];
+            Tab[pom1] = Tab[pom2]; //Zamiana tego elementu
             pom1 = pom2;
-            pom2 = pom1 / 2;
+            pom2 = pom1 / 2; //Kolejny element z wyzszego wezla do porownania
         }
 
-        Tab[pom1] = pom;
+        Tab[pom1] = pom; //Zapisanie elementu dla ktorego szukalismy miejsca
     }
 
 }

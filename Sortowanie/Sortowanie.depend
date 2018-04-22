@@ -1,12 +1,15 @@
 # depslib dependency file v1.0
-1523124000 source:c:\users\bogdo\documents\programy\pamsi\sortowanie\main.cpp
+1524424819 source:c:\users\bogdo\documents\programy\pamsi\sortowanie\main.cpp
 	"Klasa_sort.hpp"
 	<iostream>
 	<time.h>
+	<windows.h>
+	<fstream>
 
-1523123903 c:\users\bogdo\documents\programy\pamsi\sortowanie\klasa_sort.hpp
+1524419395 c:\users\bogdo\documents\programy\pamsi\sortowanie\klasa_sort.hpp
 	<iostream>
 	<cstdlib>
+	<cmath>
 
 1523999466 source:c:\users\piotr\documents\usp\pamsi_clone\sortowanie\main.cpp
 	"Klasa_sort.hpp"
