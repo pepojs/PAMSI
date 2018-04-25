@@ -10,8 +10,8 @@ using namespace std;
 template <class TYP_DANYCH>
 class Sortowanie
 {
-    TYP_DANYCH* Tab;
-    TYP_DANYCH* tab_pom;
+    TYP_DANYCH* Tab; //Tablica z wartosciami do posortowania
+    TYP_DANYCH* tab_pom; //Tablica pomocnicza potrzebna do sortowania przez scalanie
     int Rozmiar;
 
     void ScalanieRos(int pocz, int sr, int kon);
@@ -42,6 +42,7 @@ class Sortowanie
 
 };
 
+//Konstruktor, jezeli nie podamy ilosci elementow nie stworzy tablicy
 template <class TYP_DANYCH> Sortowanie<TYP_DANYCH>::Sortowanie()
 {
     Tab = NULL;
@@ -49,6 +50,7 @@ template <class TYP_DANYCH> Sortowanie<TYP_DANYCH>::Sortowanie()
     Rozmiar = 0;
 }
 
+//Konstruktor, tworzy tablice o podanym rozmiarze
 template <class TYP_DANYCH> Sortowanie<TYP_DANYCH>::Sortowanie(int rozmiar)
 {
     Tab = new TYP_DANYCH[rozmiar];
@@ -56,6 +58,7 @@ template <class TYP_DANYCH> Sortowanie<TYP_DANYCH>::Sortowanie(int rozmiar)
     Rozmiar = rozmiar;
 }
 
+//Destruktor, zwalnianie pamięci
 template <class TYP_DANYCH> Sortowanie<TYP_DANYCH>::~Sortowanie()
 {
     if(Tab != NULL)
@@ -71,6 +74,7 @@ template <class TYP_DANYCH> Sortowanie<TYP_DANYCH>::~Sortowanie()
     }
 }
 
+//Funkcja pomocnicza sluzaca do sprawdzenia czy tablica zostala posortowana rosnaco
 template <class TYP_DANYCH> int Sortowanie<TYP_DANYCH>::SprawdzSortRos()
 {
     if(Tab != NULL)
@@ -91,6 +95,7 @@ template <class TYP_DANYCH> int Sortowanie<TYP_DANYCH>::SprawdzSortRos()
     return 0;
 }
 
+//Funkcja pomocnicza sluzaca do sprawdzenia czy tablica zostala posortowana malejaco
 template <class TYP_DANYCH> int Sortowanie<TYP_DANYCH>::SprawdzSortMal()
 {
     if(Tab != NULL)
@@ -111,11 +116,13 @@ template <class TYP_DANYCH> int Sortowanie<TYP_DANYCH>::SprawdzSortMal()
     return 0;
 }
 
+//Funkcja pomocnicza sluzaca do wypelniania tablicy wartosciami losowymi w zakresie od min_liczba do max_liczba
 template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::WypelniLos_INT(int min_liczba, int max_liczba)
 {
     for(int i = 0; i<Rozmiar; i++) Tab[i] = (rand()%(max_liczba+1))+min_liczba;
 }
 
+//Funkcja pomocnicza wyswietlajaca zawartosc tablicy
 template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::WyswietlTab()
 {
     cout<<"Tablica: "<<endl;
@@ -123,7 +130,7 @@ template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::WyswietlTab()
     cout<<endl;
 }
 
-
+//Sortowanie przez scalanie, funkcja sortuje tablice rosnaco
 template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::ScalanieRos(int pocz, int sr,int kon)
 {
     int pom1, pom2, pom3;
@@ -153,7 +160,9 @@ template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::ScalanieRos(int pocz, i
             }
         }
 
-        while(pom1 <= sr) //Jezeli czesc pierwsza nie zostala w calosci skopiowana, zostaje dodana na koncu
+        //Jezeli czesc pierwsza nie zostala w calosci skopiowana, zostaje dodana na koncu
+        //Druga juz jest na koncu, wiec w drugim przypadku nie trzeba jej kopiowac
+        while(pom1 <= sr)
         {
             Tab[pom3] = tab_pom[pom1];
             pom1++;
@@ -164,6 +173,7 @@ template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::ScalanieRos(int pocz, i
     //delete tab_pom;
 }
 
+//Sortowanie przez scalanie, funkcja sortuje wartosci malejaco
 template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::ScalanieMal(int pocz, int sr,int kon)
 {
     int pom1, pom2, pom3;
@@ -178,7 +188,7 @@ template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::ScalanieMal(int pocz, i
         pom2 = sr+1; //Wskazuje poczatek 2 czesci tablicy do scalenia
         pom3 = pocz; //Numer elementu do ktorego zapisuje sie posortowana liczbe
 
-        while(pom1 <= sr && pom2 <= kon) //Rob az jedna z czesci sie skonczy
+        while(pom1 <= sr && pom2 <= kon) //Rob az jedna z czesci sie skonczy, scalanie tablicy
         {
             if(tab_pom[pom1] > tab_pom[pom2])
             {
@@ -193,7 +203,9 @@ template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::ScalanieMal(int pocz, i
             }
         }
 
-        while(pom1 <= sr) //Jezeli czesc pierwsza nie zostala w calosci skopiowana, zostaje dodana na koncu
+        //Jezeli czesc pierwsza nie zostala w calosci skopiowana, zostaje dodana na koncu
+        //Druga juz jest na koncu, wiec w drugim przypadku nie trzeba jej kopiowac
+        while(pom1 <= sr)
         {
             Tab[pom3] = tab_pom[pom1];
             pom1++;
@@ -204,7 +216,7 @@ template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::ScalanieMal(int pocz, i
     //delete tab_pom;
 }
 
-//Rekurencyjne sortowanie przez scalanie
+//Rekurencyjne sortowanie przez scalanie rosnaco
 template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::PrzezScalanieRos(int pocz,int kon)
 {
     int sr;
@@ -217,6 +229,7 @@ template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::PrzezScalanieRos(int po
     }
 }
 
+//Rekurencyjne sortowanie przez scalanie malejaco
 template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::PrzezScalanieMal(int pocz,int kon)
 {
     int sr;
@@ -229,6 +242,7 @@ template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::PrzezScalanieMal(int po
     }
 }
 
+//Sortowanie szybkie, sortuje wartosci rosnaco
 template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::Szybkie(int pocz,int kon)
 {
     int pom1 = pocz, pom2 = kon, pom3, element_osiowy = Tab[(pocz+kon)/2];
@@ -264,6 +278,7 @@ template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::Szybkie(int pocz,int ko
 
 }
 
+//Funkcja uzywana do sortowania przez kopcowanie, tworzy kopiec
 template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::TworzKopiec()
 {
     TYP_DANYCH pom;
@@ -291,6 +306,7 @@ template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::TworzKopiec()
 
 }
 
+//Funkcja uzywana do sortowania przez kopcowanie, rozbiera kopiec sortujac tablice
 template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::UsunKopiec()
 {
     TYP_DANYCH pom;
@@ -327,40 +343,47 @@ template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::UsunKopiec()
     }
 }
 
+//Sortowanie przez kopcowanie
 template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::PrzezKopcowanie()
 {
     TworzKopiec();
     UsunKopiec();
 }
 
+//Sorotwanie introspetywne
 template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::Intro(int pocz, int kon,int maxrek)
 {
-    int pom1 = pocz, pom2 = kon, pom3, element_osiowy = Tab[(pocz+kon)/2];
+    int pom1 = pocz, pom2 = kon, element_osiowy = Tab[(pocz+kon)/2];
+    TYP_DANYCH  pom3;
 
-
-    do
+    if(maxrek) PrzezKopcowanie();  // Jezeli zaglebienie rekurencyjne wieksze od 2*log(n) to sortowanie pomocnicze
+    else //Rekurencyjne wywolanie sortowania introspektywnego
     {
-        while(Tab[pom1] < element_osiowy)
-            pom1++;
 
-        while(Tab[pom2] > element_osiowy)
-            pom2--;
-
-        if(pom1 <= pom2)
+        //Szukana indeksu elementu podzialu
+        while(pom1 <= pom2)// petal konczy sie gdy indeksy szukanych elementow przekrocza indeks elementu osiowego
         {
-            pom3 = Tab[pom1];
-            Tab[pom1] = Tab[pom2];
-            Tab[pom2] = pom3;
+            //szuka elemnetu wiekszego od elementu osiowego dla elementow o mniejszym indeksie od tego elementu
+            while(Tab[pom1] < element_osiowy)
+                pom1++;
 
-            pom1++;
-            pom2--;
+            //szuka elemnetu ,mniejszego od elementu osiowego dla elementow o wiekszym indeksie od tego elementu
+            while(Tab[pom2] > element_osiowy)
+                pom2--;
+
+            if(pom1 <= pom2)//zamienia miejscami elemenety znalezione
+            {
+                pom3 = Tab[pom1];
+                Tab[pom1] = Tab[pom2];
+                Tab[pom2] = pom3;
+
+                pom1++;
+                pom2--;
+            }
+
         }
 
-    }while(pom1 <= pom2);
 
-    if(pom2 > maxrek) PrzezKopcowanie();
-    else
-    {
         if(pocz < pom2) Intro(pocz, pom2, maxrek-1);
 
         if(kon > pom1) Intro(pom1, kon, maxrek-1);

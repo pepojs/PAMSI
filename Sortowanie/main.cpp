@@ -22,25 +22,29 @@ int main()
     fstream plik;
     int rozm[] = {100000, 200000,500000, 800000, 1000000, 2000000, 4000000};
     float pro_sort[] = {0, 0.25, 0.50, 0.75, 0.9, 0.95, 0.997};
-    plik.open("Scalaie21.txt", std::ios::out);
+    plik.open("Intro40.txt", std::ios::out);
 
     for(int j = 0; j<7;j++){
     Sortowanie <int>scalanie(rozm[j]);
     for(int i = 0; i<100;i++)
     {
-        scalanie.WypelniLos_INT(0, 100);
-        scalanie.PrzezScalanieMal(0,rozm[j]-1);
-        cout<<"Start"<<endl;
-        czas_start = GetTickCount();
-        //scalanie.Szybkie(0, scalanie.ZwrocRozmiar()-1);
-        scalanie.PrzezScalanieRos(0, scalanie.ZwrocRozmiar()-1);
-        //scalanie.Introspektywne(0, scalanie.ZwrocRozmiar()-1);
-        czas_stop = GetTickCount();
-        scalanie.SprawdzSortRos();
-        cout<<"Stop"<<endl;
-        cout<<"Czas trwania rowny: "<<czas_stop-czas_start<<" ms"<<endl;
-        //ZapisDoPliku(plik, i,rozm[j],czas_stop-czas_start,0);
-        plik<<i<<","<<rozm[j]<<","<<czas_stop-czas_start<<","<<"-1"<<endl;
+        for(int k = 0; k < 7; k++)
+        {
+            scalanie.WypelniLos_INT(0, 100);
+            scalanie.PrzezScalanieRos(0,pro_sort[k]*rozm[j]-1);
+            cout<<"Start"<<endl;
+            czas_start = GetTickCount();
+            //scalanie.Szybkie(0, scalanie.ZwrocRozmiar()-1);
+            //scalanie.PrzezScalanieRos(0, scalanie.ZwrocRozmiar()-1);
+            scalanie.Introspektywne(0, scalanie.ZwrocRozmiar()-1);
+            czas_stop = GetTickCount();
+            scalanie.SprawdzSortRos();
+            cout<<"Stop"<<endl;
+            cout<<"Czas trwania rowny: "<<czas_stop-czas_start<<" ms"<<endl;
+            //ZapisDoPliku(plik, i,rozm[j],czas_stop-czas_start,0);
+            plik<<i<<","<<rozm[j]<<","<<czas_stop-czas_start<<","<<pro_sort[k]<<",";
+        }
+        plik<<endl;
     }
     }
 
