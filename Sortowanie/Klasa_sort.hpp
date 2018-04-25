@@ -233,14 +233,18 @@ template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::Szybkie(int pocz,int ko
 {
     int pom1 = pocz, pom2 = kon, pom3, element_osiowy = Tab[(pocz+kon)/2];
 
+    //Szukana indeksu elementu podzialu
     do
     {
+        //szuka elemnetu wiekszego od elementu osiowego dla elementow o mniejszym indeksie od tego elementu
         while(Tab[pom1] < element_osiowy)
             pom1++;
 
+        //szuka elemnetu ,mniejszego od elementu osiowego dla elementow o wiekszym indeksie od tego elementu
         while(Tab[pom2] > element_osiowy)
             pom2--;
 
+        //zamienia miejscami elemenety znalezione
         if(pom1 <= pom2)
         {
             pom3 = Tab[pom1];
@@ -251,8 +255,9 @@ template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::Szybkie(int pocz,int ko
             pom2--;
         }
 
-    }while(pom1 <= pom2);
+    }while(pom1 <= pom2); // petal konczy sie gdy indeksy szukanych elementow przekrocza indeks elementu osiowego
 
+    //rekurencyjne wywolanie dla podzielonej tablicy na 2 czesci
     if(pocz < pom2) Szybkie(pocz, pom2);
 
     if(kon > pom1) Szybkie(pom1, kon);
@@ -293,25 +298,29 @@ template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::UsunKopiec()
 
     for(int i = Rozmiar-1; i > 0; i--)
     {
+        //Zamiana liscia z korzeniem
         pom = Tab[0];
         Tab[0] = Tab[i];
         Tab[i] = pom;
         pom1 = 0;
         pom2 = 1;
 
-        while(pom2 < i)
+        while(pom2 < i) //Petla rownowazaca kopiec
         {
+            //Sprawdza ktory syn jest wiekszy, (pom2+1) to prawy syn, pom2 to lewy
             if((pom2 + 1 < i) && (Tab[pom2 + 1] > Tab[pom2]))
                 pom3 = pom2 + 1;
             else
                 pom3 = pom2;
 
-            if(Tab[pom3] <= Tab[pom1]) break;
+            if(Tab[pom3] <= Tab[pom1]) break; //Jezeli ojciec wiekszy od wiekszego syna to koniec
 
+            //Ojciec jest mniejszy od wiekszego syna wiec jest zamieniany
             pom = Tab[pom1];
             Tab[pom1] = Tab[pom3];
             Tab[pom3] = pom;
 
+            //Idiemy od korzenia w dol
             pom1 = pom3;
             pom2 = pom1 + pom1;
         }
@@ -327,6 +336,7 @@ template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::PrzezKopcowanie()
 template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::Intro(int pocz, int kon,int maxrek)
 {
     int pom1 = pocz, pom2 = kon, pom3, element_osiowy = Tab[(pocz+kon)/2];
+
 
     do
     {
@@ -360,7 +370,7 @@ template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::Intro(int pocz, int kon
 
 template <class TYP_DANYCH> void Sortowanie<TYP_DANYCH>::Introspektywne(int pocz, int kon)
 {
-    int maxrek = 2*log(Rozmiar);
+    int maxrek = 2*log2(Rozmiar);
     Intro(pocz, kon, maxrek);
 }
 

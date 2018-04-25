@@ -11,14 +11,14 @@
 	<cstdlib>
 	<cmath>
 
-1523999466 source:c:\users\piotr\documents\usp\pamsi_clone\sortowanie\main.cpp
+1524577349 source:c:\users\piotr\documents\usp\pamsi_clone\sortowanie\main.cpp
 	"Klasa_sort.hpp"
 	<iostream>
 	<time.h>
 	<windows.h>
 	<fstream>
 
-1523996808 c:\users\piotr\documents\usp\pamsi_clone\sortowanie\klasa_sort.hpp
+1524571248 c:\users\piotr\documents\usp\pamsi_clone\sortowanie\klasa_sort.hpp
 	<iostream>
 	<cstdlib>
 	<cmath>
