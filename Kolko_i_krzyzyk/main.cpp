@@ -63,22 +63,29 @@ int main()
                 while(menu2 != 'p')
                 {
                     Kolko.RysujePoleGry();
-                    if(fWygralX || fWygralO)break;
+                    if(fWygralX == 1 || fWygralO == 1)break;
 
                     cout<<endl;
                     cout<<endl;
 
                     cout<<"Teraz kolej gracza: ";
 
-                    if(fGracz == 0)cout<<"X "<<endl;
-                    else if(fGracz == 1)cout<<"O "<<endl;
+                    if(fGracz == 0)
+                    {
+                        cout<<"X "<<endl;
+                        cout<<"Opcje: "<<endl;
+                        cout<<"w - wstaw znak w pole: "<<endl;
+                        cout<<"p - poddaj sie :( "<<endl;
+                        cout<<"Co zrobic ? "<<endl;
 
-                    cout<<"Opcje: "<<endl;
-                    cout<<"w - wstaw znak w pole: "<<endl;
-                    cout<<"p - poddaj sie :( "<<endl;
-                    cout<<"Co zrobic ? "<<endl;
+                        cin>> menu2;
 
-                    cin>> menu2;
+                    }else if(fGracz == 1)
+                    {
+                        cout<<"O "<<endl;
+                        menu2 = 'w';
+                    }
+
 
                     switch(menu2)
                     {
@@ -102,7 +109,7 @@ int main()
 
                             }else if(fGracz == 1)
                             {
-                                cout<<"Podaj kolumne pola gdzie chcesz postawic O: "<<endl;
+                                /*cout<<"Podaj kolumne pola gdzie chcesz postawic O: "<<endl;
                                 cin>>x;
                                 cout<<"Podaj wiersz pola gdzie chcesz postawic O: "<<endl;
                                 cin>>y;
@@ -113,7 +120,9 @@ int main()
                                     system("timeout 5");
                                 }
 
-                                if(Kolko.WypelniPoleO(x-1,y-1))fGracz = 0;
+                                if(Kolko.WypelniPoleO(x-1,y-1))fGracz = 0;*/
+                                Kolko.MinMax('O',0,0,0);
+                                fGracz = 0;
                                 fWygralO = Kolko.SprawdzanieStanuGryO(x-1,y-1);
                             }
 
@@ -144,14 +153,14 @@ int main()
             break;
         }
 
-        if(fWygralX)
+        if(fWygralX == 1)
         {
             cout<<"Wygral gracz X. Gratulacje !!!"<<endl;
             system("timeout 5");
             fWygralX = 0;
         }
 
-        if(fWygralO)
+        if(fWygralO == 1)
         {
             cout<<"Wygral gracz O. Gratulacje !!!"<<endl;
             system("timeout 5");

@@ -28,6 +28,8 @@ public:
     int SprawdzanieStanuGryX(int x, int y);
     int SprawdzanieStanuGryO(int x, int y);
 
+    int MinMax(char gracz, int zaglebienie, int alfa, int beta);
+
 };
 
 

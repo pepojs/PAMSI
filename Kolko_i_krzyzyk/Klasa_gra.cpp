@@ -146,7 +146,7 @@ int Gra::WypelniPoleO(int x, int y)
 
 int Gra::SprawdzanieStanuGryX(int x, int y)
 {
-    int rzad = 0, i, j;
+    int rzad = 0, i, j, fpuste = 0;
     if((x >= Rozmiar || y >= Rozmiar) || (x < 0 || y < 0))return 0;
 
     rzad = 1;
@@ -266,12 +266,23 @@ int Gra::SprawdzanieStanuGryX(int x, int y)
 
     }
 
+    for(i = 0; i < Rozmiar; i++)
+    {
+        for(j = 0; j < Rozmiar; j++)
+            if(Pole_gry[i][j] == ' ')
+            {
+                fpuste = 1;
+                break;
+            }
+    }
+
+    if(fpuste == 0)return -1; // Remis
     return 0;
 }
 
 int Gra::SprawdzanieStanuGryO(int x, int y)
 {
-    int rzad = 0, i, j;
+    int rzad = 0, i, j, fpuste = 0;
     if((x >= Rozmiar || y >= Rozmiar) || (x < 0 || y < 0))return 0;
 
     rzad = 1;
@@ -391,6 +402,72 @@ int Gra::SprawdzanieStanuGryO(int x, int y)
 
     }
 
+    for(i = 0; i < Rozmiar; i++)
+    {
+        for(j = 0; j < Rozmiar; j++)
+            if(Pole_gry[i][j] == ' ')
+            {
+                fpuste = 1;
+                break;
+            }
+    }
+
+    if(fpuste == 0)return -1; // Remis
+
     return 0;
 }
 
+int Gra::MinMax(char gracz, int zaglebienie, int alfa, int beta)
+{
+    int m, minmax, pom, k, w;
+
+    if(gracz == 'X') minmax = 2;
+    else if(gracz == 'O') minmax = -2;
+
+    for(int i = 0; i < Rozmiar; i++)
+    {
+        for(int j = 0; j < Rozmiar; j++)
+        {
+            if(Pole_gry[i][j] == ' ')
+            {
+                if(gracz == 'X')
+                {
+                    Pole_gry[i][j] = 'X';
+                    pom = SprawdzanieStanuGryX(j, i);
+                    if(pom == 1) return 1;
+                    else if(pom == -1)return 0;
+                    else m = MinMax('O', zaglebienie+1, alfa, beta);
+
+                    Pole_gry[i][j] = ' ';
+
+                    if(m < minmax)
+                    {
+                      minmax = m;
+                      w = i;
+                      k = j;
+                    }
+
+                }else if(gracz == 'O')
+                {
+                    Pole_gry[i][j] = 'O';
+                    pom = SprawdzanieStanuGryO(j, i);
+                    if(pom == 1) return -1;
+                    else if(pom == -1)return 0;
+                    else m = MinMax('X', zaglebienie+1, alfa, beta);
+
+                    Pole_gry[i][j] = ' ';
+
+                    if(m > minmax)
+                    {
+                      minmax = m;
+                      w = i;
+                      k = j;
+                    }
+                }
+            }
+        }
+    }
+
+    if(!zaglebienie)Pole_gry[w][k] = gracz;
+    return minmax;
+}
