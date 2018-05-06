@@ -149,122 +149,126 @@ int Gra::SprawdzanieStanuGryX(int x, int y)
     int rzad = 0, i, j, fpuste = 0;
     if((x >= Rozmiar || y >= Rozmiar) || (x < 0 || y < 0))return 0;
 
-    rzad = 1;
-    i = 1;
-    j = 1;
-
-    while(1)//Sparwdzenie gora - dol
+    if(Pole_gry[y][x] == 'X')
     {
-        if(y-i >= 0)
-        {
-            if(Pole_gry[y-i][x] == 'X')
-            {
-                i++;
-                rzad+=1;
-                if(rzad == IleWRzedzie)return 1;
-            }else i = 100;//Nie ma ciaglosci, wiec nie sprawdza wiecej tego warunku
+        rzad = 1;
+        i = 1;
+        j = 1;
 
-        }else if(y+j <Rozmiar)
+        while(1)//Sparwdzenie gora - dol
         {
-            if(Pole_gry[y+j][x] == 'X')
+            if(y-i >= 0 && i > 0)
             {
-                j++;
-                rzad+=1;
-                if(rzad == IleWRzedzie)return 1;
-            }else j = 100;//Nie ma ciaglosci, wiec nie sprawdza wiecej tego warunku
+                if(Pole_gry[y-i][x] == 'X')
+                {
+                    i++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)return 1;
+                }else i = -1;//Nie ma ciaglosci, wiec nie sprawdza wiecej tego warunku
 
-        }else break;
+            }else if(y+j <Rozmiar && j > 0)
+            {
+                if(Pole_gry[y+j][x] == 'X')
+                {
+                    j++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)return 1;
+                }else j = -1;//Nie ma ciaglosci, wiec nie sprawdza wiecej tego warunku
+
+            }else break;
+        }
+
+        rzad = 1;
+        i = 1;
+        j = 1;
+
+        while(1)// Sprawdzenie w lewo-prawo
+        {
+            if(x+i < Rozmiar && i > 0)
+            {
+                if(Pole_gry[y][x+i] == 'X')
+                {
+                    i++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)return 1;
+
+                }else i = -1;
+
+            }else if(x-j >= 0 && j > 0)
+            {
+                if(Pole_gry[y][x-j] == 'X')
+                {
+                    j++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)return 1;
+
+                }else j = -1;
+
+            }else break;
+        }
+
+        rzad = 1;
+        i = 1;
+        j = 1;
+
+        while(1)// Sprawdzenie po skosie /
+        {
+            if(x+i < Rozmiar && y-i >= 0 && i > 0)
+            {
+                if(Pole_gry[y-i][x+i] == 'X')
+                {
+                    i++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)return 1;
+
+                }else i = -1;
+
+            }else if(x-j >= 0 && y+j < Rozmiar && j > 0)
+            {
+                if(Pole_gry[y+j][x-j] == 'X')
+                {
+                    j++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)return 1;
+
+                }else j = -1;
+
+            }else break;
+
+        }
+
+
+        rzad = 1;
+        i = 1;
+        j = 1;
+
+        while(1)// Sprawdzenie po skosie \//
+        {
+            if(y-i >= 0 && x-i >= 0 && i > 0)
+            {
+                if(Pole_gry[y-i][x-i] == 'X')
+                {
+                    i++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)return 1;
+
+                }else i = -1;
+
+            }else if(y+j < Rozmiar && x+j < Rozmiar && j > 0)
+            {
+                if(Pole_gry[y+j][x+j] == 'X')
+                {
+                    j++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)return 1;
+
+                }else j = -1;
+
+            }else break;
+
+        }
     }
 
-    rzad = 1;
-    i = 1;
-    j = 1;
-
-    while(1)// Sprawdzenie w lewo-prawo
-    {
-        if(x+i < Rozmiar)
-        {
-            if(Pole_gry[y][x+i] == 'X')
-            {
-                i++;
-                rzad+=1;
-                if(rzad == IleWRzedzie)return 1;
-
-            }else i = 100;
-
-        }else if(x-j >= 0)
-        {
-            if(Pole_gry[y][x-i] == 'X')
-            {
-                j++;
-                rzad+=1;
-                if(rzad == IleWRzedzie)return 1;
-
-            }else j = 100;
-
-        }else break;
-    }
-
-    rzad = 1;
-    i = 1;
-    j = 1;
-
-    while(1)// Sprawdzenie po skosie /
-    {
-        if(x+i < Rozmiar && y-i >= 0)
-        {
-            if(Pole_gry[y-i][x+i] == 'X')
-            {
-                i++;
-                rzad+=1;
-                if(rzad == IleWRzedzie)return 1;
-
-            }else i = 100;
-
-        }else if(x-j >= 0 && y+j < Rozmiar)
-        {
-            if(Pole_gry[y+j][x-j] == 'X')
-            {
-                j++;
-                rzad+=1;
-                if(rzad == IleWRzedzie)return 1;
-
-            }else j = 100;
-
-        }else break;
-
-    }
-
-
-    rzad = 1;
-    i = 1;
-    j = 1;
-
-    while(1)// Sprawdzenie po skosie \//
-    {
-        if(y+i < Rozmiar && x-i >= 0)
-        {
-            if(Pole_gry[y+i][x-i] == 'X')
-            {
-                i++;
-                rzad+=1;
-                if(rzad == IleWRzedzie)return 1;
-
-            }else i = 100;
-
-        }else if(y-j >= 0 && x+j < Rozmiar)
-        {
-            if(Pole_gry[y-j][x+j] == 'X')
-            {
-                j++;
-                rzad+=1;
-                if(rzad == IleWRzedzie)return 1;
-
-            }else j = 100;
-
-        }else break;
-
-    }
 
     for(i = 0; i < Rozmiar; i++)
     {
@@ -285,122 +289,127 @@ int Gra::SprawdzanieStanuGryO(int x, int y)
     int rzad = 0, i, j, fpuste = 0;
     if((x >= Rozmiar || y >= Rozmiar) || (x < 0 || y < 0))return 0;
 
-    rzad = 1;
-    i = 1;
-    j = 1;
-
-    while(1)//Sparwdzenie gora - dol
+    if(Pole_gry[y][x] == 'O')
     {
-        if(y-i >= 0)
-        {
-            if(Pole_gry[y-i][x] == 'O')
-            {
-                i++;
-                rzad+=1;
-                if(rzad == IleWRzedzie)return 1;
-            }else i = 100;//Nie ma ciaglosci, wiec nie sprawdza wiecej tego warunku
+        rzad = 1;
+        i = 1;
+        j = 1;
 
-        }else if(y+j <Rozmiar)
-        {
-            if(Pole_gry[y+j][x] == 'O')
-            {
-                j++;
-                rzad+=1;
-                if(rzad == IleWRzedzie)return 1;
-            }else j = 100;//Nie ma ciaglosci, wiec nie sprawdza wiecej tego warunku
 
-        }else break;
+        while(1)//Sparwdzenie gora - dol
+        {
+            if(y-i >= 0)
+            {
+                if(Pole_gry[y-i][x] == 'O')
+                {
+                    i++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)return 1;
+                }else i = 100;//Nie ma ciaglosci, wiec nie sprawdza wiecej tego warunku
+
+            }else if(y+j <Rozmiar)
+            {
+                if(Pole_gry[y+j][x] == 'O')
+                {
+                    j++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)return 1;
+                }else j = 100;//Nie ma ciaglosci, wiec nie sprawdza wiecej tego warunku
+
+            }else break;
+        }
+
+        rzad = 1;
+        i = 1;
+        j = 1;
+
+        while(1)// Sprawdzenie w lewo-prawo
+        {
+            if(x+i < Rozmiar)
+            {
+                if(Pole_gry[y][x+i] == 'O')
+                {
+                    i++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)return 1;
+
+                }else i = 100;
+
+            }else if(x-j >= 0)
+            {
+                if(Pole_gry[y][x-j] == 'O')
+                {
+                    j++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)return 1;
+
+                }else j = 100;
+
+            }else break;
+        }
+
+        rzad = 1;
+        i = 1;
+        j = 1;
+
+        while(1)// Sprawdzenie po skosie /
+        {
+            if(x+i < Rozmiar && y-i >= 0)
+            {
+                if(Pole_gry[y-i][x+i] == 'O')
+                {
+                    i++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)return 1;
+
+                }else i = 100;
+
+            }else if(x-j >= 0 && y+j < Rozmiar)
+            {
+                if(Pole_gry[y+j][x-j] == 'O')
+                {
+                    j++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)return 1;
+
+                }else j = 100;
+
+            }else break;
+
+        }
+
+
+        rzad = 1;
+        i = 1;
+        j = 1;
+
+        while(1)// Sprawdzenie po skosie \//
+        {
+            if(y-i >= 0 && x-i >= 0)
+            {
+                if(Pole_gry[y-i][x-i] == 'O')
+                {
+                    i++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)return 1;
+
+                }else i = 100;
+
+            }else if(y+j < Rozmiar && x+j < Rozmiar)
+            {
+                if(Pole_gry[y+j][x+j] == 'O')
+                {
+                    j++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)return 1;
+
+                }else j = 100;
+
+            }else break;
+
+        }
     }
 
-    rzad = 1;
-    i = 1;
-    j = 1;
-
-    while(1)// Sprawdzenie w lewo-prawo
-    {
-        if(x+i < Rozmiar)
-        {
-            if(Pole_gry[y][x+i] == 'O')
-            {
-                i++;
-                rzad+=1;
-                if(rzad == IleWRzedzie)return 1;
-
-            }else i = 100;
-
-        }else if(x-j >= 0)
-        {
-            if(Pole_gry[y][x-i] == 'O')
-            {
-                j++;
-                rzad+=1;
-                if(rzad == IleWRzedzie)return 1;
-
-            }else j = 100;
-
-        }else break;
-    }
-
-    rzad = 1;
-    i = 1;
-    j = 1;
-
-    while(1)// Sprawdzenie po skosie /
-    {
-        if(x+i < Rozmiar && y-i >= 0)
-        {
-            if(Pole_gry[y-i][x+i] == 'O')
-            {
-                i++;
-                rzad+=1;
-                if(rzad == IleWRzedzie)return 1;
-
-            }else i = 100;
-
-        }else if(x-j >= 0 && y+j < Rozmiar)
-        {
-            if(Pole_gry[y+j][x-j] == 'O')
-            {
-                j++;
-                rzad+=1;
-                if(rzad == IleWRzedzie)return 1;
-
-            }else j = 100;
-
-        }else break;
-
-    }
-
-
-    rzad = 1;
-    i = 1;
-    j = 1;
-
-    while(1)// Sprawdzenie po skosie \//
-    {
-        if(y+i < Rozmiar && x-i >= 0)
-        {
-            if(Pole_gry[y+i][x-i] == 'O')
-            {
-                i++;
-                rzad+=1;
-                if(rzad == IleWRzedzie)return 1;
-
-            }else i = 100;
-
-        }else if(y-j >= 0 && x+j < Rozmiar)
-        {
-            if(Pole_gry[y-j][x+j] == 'O')
-            {
-                j++;
-                rzad+=1;
-                if(rzad == IleWRzedzie)return 1;
-
-            }else j = 100;
-
-        }else break;
-
-    }
 
     for(i = 0; i < Rozmiar; i++)
     {
@@ -417,12 +426,290 @@ int Gra::SprawdzanieStanuGryO(int x, int y)
     return 0;
 }
 
-int Gra::MinMax(char gracz, int zaglebienie, int alfa, int beta)
+int Gra::FHeurystyczna(char gracz, int x, int y)
 {
-    int m, minmax, pom, k, w;
+    int rzad = 0, rzadmax = 0, i, j, wi, wj, fpuste = 0, fkoniec_rzedu = 0;
 
-    if(gracz == 'X') minmax = 2;
-    else if(gracz == 'O') minmax = -2;
+    if(Pole_gry[y][x] == gracz)
+    {
+        rzad = 1;
+        i = 1;
+        j = 1;
+        wi = 0;
+        wj = 0;
+        fkoniec_rzedu = 0;
+
+        while(1)//Sparwdzenie gora - dol
+        {
+            if(y-i >= 0 && i > 0)
+            {
+                if(Pole_gry[y-i][x] == gracz)
+                {
+                    i++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)return IleWRzedzie;
+
+                }else if(Pole_gry[y-i][x] != ' ')
+                {
+                    fkoniec_rzedu += 1;
+                    i = -1;//Nie ma ciaglosci, wiec nie sprawdza wiecej tego warunku
+
+                }else
+                {
+                    i++;
+                    wi += 1;
+                    if(i >= IleWRzedzie)i = -1;
+                }
+
+
+            }else if(y+j <Rozmiar && j > 0)
+            {
+                if(Pole_gry[y+j][x] == gracz)
+                {
+                    j++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)return IleWRzedzie;
+
+                }else if(Pole_gry[y+j][x] != ' ')
+                {
+                    fkoniec_rzedu += 1;
+                    j = -1;//Nie ma ciaglosci, wiec nie sprawdza wiecej tego warunku
+
+                }else
+                {
+                    j++;
+                    wj += 1;
+                    if(j >= IleWRzedzie)j = -1;
+                }
+
+            }else
+            {
+                fkoniec_rzedu += 1;
+                break;
+            }
+        }
+
+        //if(fkoniec_rzedu == 1) rzad -= 1;
+        if((rzad+wi+wj) < IleWRzedzie || fkoniec_rzedu >= 2) rzad = 0;
+        if((rzad+wi+wj) >= IleWRzedzie) rzad += 1;
+        if(rzadmax < rzad) rzadmax = rzad;
+
+        rzad = 1;
+        i = 1;
+        j = 1;
+        wi = 0;
+        wj = 0;
+        fkoniec_rzedu = 0;
+
+        while(1)// Sprawdzenie w lewo-prawo
+        {
+            if(x+i < Rozmiar && i > 0)
+            {
+                if(Pole_gry[y][x+i] == gracz)
+                {
+                    i++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)return IleWRzedzie;
+
+                }else if(Pole_gry[y][x+i] != ' ')
+                {
+                    fkoniec_rzedu += 1;
+                    i = -1;
+
+                }else
+                {
+                    i++;
+                    wi += 1;
+                    if(i >= IleWRzedzie)i = -1;
+                }
+
+
+            }else if(x-j >= 0 && j > 0)
+            {
+                if(Pole_gry[y][x-j] == gracz)
+                {
+                    j++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)return IleWRzedzie;
+
+                }else if(Pole_gry[y][x-j] != ' ')
+                {
+                    fkoniec_rzedu += 1;
+                    j = -1;
+
+                }else
+                {
+                    j++;
+                    wj += 1;
+                    if(j >= IleWRzedzie)j = -1;
+                }
+
+            }else
+            {
+                fkoniec_rzedu += 1;
+                break;
+            }
+        }
+
+
+        //if(fkoniec_rzedu == 1) rzad -= 1;
+        if((rzad+wi+wj) < IleWRzedzie || fkoniec_rzedu >= 2) rzad = 0;
+        if((rzad+wi+wj) >= IleWRzedzie) rzad += 1;
+        if(rzadmax < rzad) rzadmax = rzad;
+
+        rzad = 1;
+        i = 1;
+        j = 1;
+        wi = 0;
+        wj = 0;
+        fkoniec_rzedu = 0;
+
+        while(1)// Sprawdzenie po skosie /
+        {
+            if(x+i < Rozmiar && y-i >= 0 && i > 0)
+            {
+                if(Pole_gry[y-i][x+i] == gracz)
+                {
+                    i++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)return IleWRzedzie;
+
+                }else if(Pole_gry[y-i][x+i] != ' ')
+                {
+                    fkoniec_rzedu += 1;
+                    i = -1;
+
+                }else
+                {
+                    i++;
+                    wi += 1;
+                    if(i >= IleWRzedzie)i = -1;
+                }
+
+            }else if(x-j >= 0 && y+j < Rozmiar && j > 0)
+            {
+                if(Pole_gry[y+j][x-j] == gracz)
+                {
+                    j++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)return IleWRzedzie;
+
+                }else if(Pole_gry[y+j][x-j] != ' ')
+                {
+                    fkoniec_rzedu += 1;
+                    j = -1;
+
+                }else
+                {
+                    j++;
+                    wj += 1;
+                    if(j >= IleWRzedzie)j = -1;
+                }
+
+            }else
+            {
+                fkoniec_rzedu += 1;
+                break;
+            }
+
+        }
+
+        //if(fkoniec_rzedu == 1) rzad -= 1;
+        if((rzad+wi+wj) < IleWRzedzie || fkoniec_rzedu >= 2) rzad = 0;
+        if((rzad+wi+wj) >= IleWRzedzie) rzad += 1;
+        if(rzadmax < rzad) rzadmax = rzad;
+
+        rzad = 1;
+        i = 1;
+        j = 1;
+        wi = 0;
+        wj = 0;
+        fkoniec_rzedu = 0;
+
+        while(1)// Sprawdzenie po skosie \//
+        {
+            if(y-i >= 0 && x-i >= 0 && i > 0)
+            {
+                if(Pole_gry[y-i][x-i] == gracz)
+                {
+                    i++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)return IleWRzedzie;
+
+                }else if(Pole_gry[y-i][x-i] != ' ')
+                {
+                    fkoniec_rzedu += 1;
+                    i = -1;
+
+                }else
+                {
+                    i++;
+                    wi += 1;
+                    if(i >= IleWRzedzie)i = -1;
+                }
+
+            }else if(y+j < Rozmiar && x+j < Rozmiar && j > 0)
+            {
+                if(Pole_gry[y+j][x+j] == gracz)
+                {
+                    j++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)return IleWRzedzie;
+
+                }else if(Pole_gry[y+j][x+j] != ' ')
+                {
+                    fkoniec_rzedu += 1;
+                    j = -1;
+
+                }else
+                {
+                    j++;
+                    wj += 1;
+                    if(j >= IleWRzedzie)j = -1;
+                }
+
+            }else
+            {
+                fkoniec_rzedu += 1;
+                break;
+            }
+
+        }
+
+        //if(fkoniec_rzedu == 1) rzad -= 1;
+        if((rzad+wi+wj) < IleWRzedzie || fkoniec_rzedu >= 2) rzad = 0;
+        if((rzad+wi+wj) >= IleWRzedzie) rzad += 1;
+        if(rzadmax < rzad) rzadmax = rzad;
+
+    }
+
+    for(i = 0; i < Rozmiar; i++)
+    {
+        for(j = 0; j < Rozmiar; j++)
+        {
+            if(Pole_gry[i][j] == ' ')
+            {
+                fpuste = 1;
+                break;
+            }
+        }
+
+        if(fpuste)break;
+    }
+
+    if(fpuste == 0)return 0; // Remis
+
+    if(gracz == 'O')rzadmax = -1*rzadmax;
+    return rzadmax;
+
+}
+
+int Gra::MinMax(char gracz, int zaglebienie, int alfa, int beta, int* f)
+{
+    int m, mm, pom, k = -1, w = -1;
+
+    if(gracz == 'X') mm = -2*IleWRzedzie;
+    else if(gracz == 'O') mm = 2*IleWRzedzie;
 
     for(int i = 0; i < Rozmiar; i++)
     {
@@ -434,15 +721,35 @@ int Gra::MinMax(char gracz, int zaglebienie, int alfa, int beta)
                 {
                     Pole_gry[i][j] = 'X';
                     pom = SprawdzanieStanuGryX(j, i);
-                    if(pom == 1) return 1;
-                    else if(pom == -1)return 0;
-                    else m = MinMax('O', zaglebienie+1, alfa, beta);
+
+                    if(zaglebienie >= 4)
+                    {
+                        m = FHeurystyczna('X', j, i);
+                        Pole_gry[i][j] = ' ';
+                        return m;
+                    }
+
+                    if(pom == 1)
+                    {
+                        if(zaglebienie)Pole_gry[i][j] = ' ';
+                        return IleWRzedzie;
+
+                    }else if(pom == -1)
+                    {
+                        if(zaglebienie)Pole_gry[i][j] = ' ';
+                        return 0;
+
+                    }else m = MinMax('O', zaglebienie+1, alfa, beta, NULL);
 
                     Pole_gry[i][j] = ' ';
 
-                    if(m < minmax)
+                    alfa = max(alfa, m);
+                    if(zaglebienie)
+                        if(alfa >= beta) return beta;
+
+                    if(alfa > mm)
                     {
-                      minmax = m;
+                      mm = alfa;
                       w = i;
                       k = j;
                     }
@@ -451,23 +758,52 @@ int Gra::MinMax(char gracz, int zaglebienie, int alfa, int beta)
                 {
                     Pole_gry[i][j] = 'O';
                     pom = SprawdzanieStanuGryO(j, i);
-                    if(pom == 1) return -1;
-                    else if(pom == -1)return 0;
-                    else m = MinMax('X', zaglebienie+1, alfa, beta);
+
+                    /*if(zaglebienie >= 50)
+                    {
+                        m = FHeurystyczna('O', j, i);
+                        Pole_gry[i][j] = ' ';
+                        return m;
+                    }*/
+
+                    if(pom == 1)
+                    {
+                        if(zaglebienie)Pole_gry[i][j] = ' ';
+                        else *f = pom;
+                        return -1*IleWRzedzie;
+
+                    }else if(pom == -1)
+                    {
+                        if(zaglebienie)Pole_gry[i][j] = ' ';
+                        else *f = pom;
+                        return 0;
+
+                    }else m = MinMax('X', zaglebienie+1, alfa, beta, NULL);
 
                     Pole_gry[i][j] = ' ';
 
-                    if(m > minmax)
+                    beta = min(beta, m);
+                    if(zaglebienie)
+                        if(alfa >= beta) return alfa;
+
+                    if(beta < mm)
                     {
-                      minmax = m;
+                      mm = beta;
                       w = i;
                       k = j;
                     }
+
                 }
+
             }
         }
     }
 
-    if(!zaglebienie)Pole_gry[w][k] = gracz;
-    return minmax;
+    if(!zaglebienie)
+    {
+        if(w == -1 || k == -1)return 0;
+        Pole_gry[w][k] = gracz;
+
+    }
+    return mm;
 }

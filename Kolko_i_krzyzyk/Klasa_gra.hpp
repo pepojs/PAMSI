@@ -11,6 +11,7 @@ class Gra
     char ** Pole_gry;
     int Rozmiar;
     int IleWRzedzie;
+    int FHeurystyczna(char gracz, int x, int y);
 
 public:
 
@@ -28,7 +29,7 @@ public:
     int SprawdzanieStanuGryX(int x, int y);
     int SprawdzanieStanuGryO(int x, int y);
 
-    int MinMax(char gracz, int zaglebienie, int alfa, int beta);
+    int MinMax(char gracz, int zaglebienie, int alfa, int beta, int *f);
 
 };
 

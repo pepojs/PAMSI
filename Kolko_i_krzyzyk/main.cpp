@@ -1,9 +1,12 @@
 #include "Klasa_gra.hpp"
+#include <ctime>
 
 using namespace std;
 
 int main()
 {
+    srand( time( NULL ) );
+
     int x, y, RozmiarPlanszy = 3, IleRzad;
     int fWygralX = 0, fWygralO = 0;
     int fGracz = 0;
@@ -60,10 +63,11 @@ int main()
                 Kolko.ZmienRzad(IleRzad);
 
                 menu2 = 0;
+                fGracz = 0;
                 while(menu2 != 'p')
                 {
                     Kolko.RysujePoleGry();
-                    if(fWygralX == 1 || fWygralO == 1)break;
+                    if((fWygralX == 1 || fWygralO == 1) || (fWygralO == -1 || fWygralX == -1))break;
 
                     cout<<endl;
                     cout<<endl;
@@ -121,9 +125,10 @@ int main()
                                 }
 
                                 if(Kolko.WypelniPoleO(x-1,y-1))fGracz = 0;*/
-                                Kolko.MinMax('O',0,0,0);
+                                Kolko.MinMax('O',0,-2*IleRzad,2*IleRzad,&fWygralO);
+                                //Kolko.WypelniPoleO(x,y);
                                 fGracz = 0;
-                                fWygralO = Kolko.SprawdzanieStanuGryO(x-1,y-1);
+                                //fWygralO = Kolko.SprawdzanieStanuGryO(x,y);
                             }
 
 
@@ -158,11 +163,23 @@ int main()
             cout<<"Wygral gracz X. Gratulacje !!!"<<endl;
             system("timeout 5");
             fWygralX = 0;
+
+        }else if(fWygralX == -1)
+        {
+            cout<<"Remis !!!"<<endl;
+            system("timeout 5");
+            fWygralX = 0;
         }
 
         if(fWygralO == 1)
         {
             cout<<"Wygral gracz O. Gratulacje !!!"<<endl;
+            system("timeout 5");
+            fWygralO = 0;
+
+        }else if(fWygralO == -1)
+        {
+            cout<<"Remis !!!"<<endl;
             system("timeout 5");
             fWygralO = 0;
         }
