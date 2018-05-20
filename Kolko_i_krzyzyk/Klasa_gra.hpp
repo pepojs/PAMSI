@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <string>
 #include <sstream>
+#include <ctime>
+
+const int max_zag[] = {14, 14, 14, 14, 14, 9, 7, 7, 6, 5, 5, 5};
 
 class Gra
 {
@@ -12,6 +15,7 @@ class Gra
     int Rozmiar;
     int IleWRzedzie;
     int FHeurystyczna(char gracz, int x, int y);
+    int FHeurystyczna2(char gracz, int x, int y);
 
 public:
 

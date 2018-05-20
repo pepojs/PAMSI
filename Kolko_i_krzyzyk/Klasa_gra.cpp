@@ -447,7 +447,11 @@ int Gra::FHeurystyczna(char gracz, int x, int y)
                 {
                     i++;
                     rzad+=1;
-                    if(rzad == IleWRzedzie)return IleWRzedzie;
+                    if(rzad == IleWRzedzie)
+                    {
+                        if(gracz == 'O')return -1*IleWRzedzie;
+                        else return IleWRzedzie;
+                    }
 
                 }else if(Pole_gry[y-i][x] != ' ')
                 {
@@ -468,8 +472,11 @@ int Gra::FHeurystyczna(char gracz, int x, int y)
                 {
                     j++;
                     rzad+=1;
-                    if(rzad == IleWRzedzie)return IleWRzedzie;
-
+                    if(rzad == IleWRzedzie)
+                    {
+                        if(gracz == 'O')return -1*IleWRzedzie;
+                        else return IleWRzedzie;
+                    }
                 }else if(Pole_gry[y+j][x] != ' ')
                 {
                     fkoniec_rzedu += 1;
@@ -509,7 +516,11 @@ int Gra::FHeurystyczna(char gracz, int x, int y)
                 {
                     i++;
                     rzad+=1;
-                    if(rzad == IleWRzedzie)return IleWRzedzie;
+                    if(rzad == IleWRzedzie)
+                    {
+                        if(gracz == 'O')return -1*IleWRzedzie;
+                        else return IleWRzedzie;
+                    }
 
                 }else if(Pole_gry[y][x+i] != ' ')
                 {
@@ -530,8 +541,11 @@ int Gra::FHeurystyczna(char gracz, int x, int y)
                 {
                     j++;
                     rzad+=1;
-                    if(rzad == IleWRzedzie)return IleWRzedzie;
-
+                    if(rzad == IleWRzedzie)
+                    {
+                        if(gracz == 'O')return -1*IleWRzedzie;
+                        else return IleWRzedzie;
+                    }
                 }else if(Pole_gry[y][x-j] != ' ')
                 {
                     fkoniec_rzedu += 1;
@@ -572,7 +586,11 @@ int Gra::FHeurystyczna(char gracz, int x, int y)
                 {
                     i++;
                     rzad+=1;
-                    if(rzad == IleWRzedzie)return IleWRzedzie;
+                    if(rzad == IleWRzedzie)
+                    {
+                        if(gracz == 'O')return -1*IleWRzedzie;
+                        else return IleWRzedzie;
+                    }
 
                 }else if(Pole_gry[y-i][x+i] != ' ')
                 {
@@ -592,7 +610,11 @@ int Gra::FHeurystyczna(char gracz, int x, int y)
                 {
                     j++;
                     rzad+=1;
-                    if(rzad == IleWRzedzie)return IleWRzedzie;
+                    if(rzad == IleWRzedzie)
+                    {
+                        if(gracz == 'O')return -1*IleWRzedzie;
+                        else return IleWRzedzie;
+                    }
 
                 }else if(Pole_gry[y+j][x-j] != ' ')
                 {
@@ -634,8 +656,11 @@ int Gra::FHeurystyczna(char gracz, int x, int y)
                 {
                     i++;
                     rzad+=1;
-                    if(rzad == IleWRzedzie)return IleWRzedzie;
-
+                    if(rzad == IleWRzedzie)
+                    {
+                        if(gracz == 'O')return -1*IleWRzedzie;
+                        else return IleWRzedzie;
+                    }
                 }else if(Pole_gry[y-i][x-i] != ' ')
                 {
                     fkoniec_rzedu += 1;
@@ -654,8 +679,11 @@ int Gra::FHeurystyczna(char gracz, int x, int y)
                 {
                     j++;
                     rzad+=1;
-                    if(rzad == IleWRzedzie)return IleWRzedzie;
-
+                    if(rzad == IleWRzedzie)
+                    {
+                        if(gracz == 'O')return -1*IleWRzedzie;
+                        else return IleWRzedzie;
+                    }
                 }else if(Pole_gry[y+j][x+j] != ' ')
                 {
                     fkoniec_rzedu += 1;
@@ -704,12 +732,339 @@ int Gra::FHeurystyczna(char gracz, int x, int y)
 
 }
 
+int Gra::FHeurystyczna2(char gracz, int x, int y)
+{
+    int rzad = 0, rzadmax = 0, i, j, wi, wj, fpuste = 0, fkoniec_rzedu = 0;
+    int rzad_tab[4];
+
+    if(Pole_gry[y][x] == gracz)
+    {
+        rzad = 1;
+        i = 1;
+        j = 1;
+        wi = 0;
+        wj = 0;
+        fkoniec_rzedu = 0;
+
+        while(1)//Sparwdzenie gora - dol
+        {
+            if(y-i >= 0 && i > 0)
+            {
+                if(Pole_gry[y-i][x] == gracz)
+                {
+                    i++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)
+                    {
+                        if(gracz == 'O')return -8*IleWRzedzie;
+                        else return 8*IleWRzedzie;
+                    }
+
+
+                }else if(Pole_gry[y-i][x] != ' ')
+                {
+                    fkoniec_rzedu += 1;
+                    i = -1;//Nie ma ciaglosci, wiec nie sprawdza wiecej tego warunku
+
+                }else
+                {
+                    i++;
+                    wi += 1;
+                    if(i >= IleWRzedzie)i = -1;
+                }
+
+
+            }else if(y+j <Rozmiar && j > 0)
+            {
+                if(Pole_gry[y+j][x] == gracz)
+                {
+                    j++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)
+                    {
+                        if(gracz == 'O')return -8*IleWRzedzie;
+                        else return 8*IleWRzedzie;
+                    }
+
+                }else if(Pole_gry[y+j][x] != ' ')
+                {
+                    fkoniec_rzedu += 1;
+                    j = -1;//Nie ma ciaglosci, wiec nie sprawdza wiecej tego warunku
+
+                }else
+                {
+                    j++;
+                    wj += 1;
+                    if(j >= IleWRzedzie)j = -1;
+                }
+
+            }else
+            {
+                fkoniec_rzedu += 1;
+                break;
+            }
+        }
+
+        //if(fkoniec_rzedu == 1) rzad -= 1;
+        if((rzad+wi+wj) < IleWRzedzie && fkoniec_rzedu >= 2) rzad_tab[0] = 0;
+        else if((rzad+wi+wj) < IleWRzedzie) rzad_tab[0] = rzad;
+        else if((rzad+wi+wj) >= IleWRzedzie && fkoniec_rzedu == 1) rzad_tab[0] = 2*rzad - 2;
+        else if((rzad+wi+wj) >= IleWRzedzie) rzad_tab[0] = 2*rzad;
+        rzadmax += rzad_tab[0];
+
+        rzad = 1;
+        i = 1;
+        j = 1;
+        wi = 0;
+        wj = 0;
+        fkoniec_rzedu = 0;
+
+        while(1)// Sprawdzenie w lewo-prawo
+        {
+            if(x+i < Rozmiar && i > 0)
+            {
+                if(Pole_gry[y][x+i] == gracz)
+                {
+                    i++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)
+                    {
+                        if(gracz == 'O')return -8*IleWRzedzie;
+                        else return 8*IleWRzedzie;
+                    }
+                }else if(Pole_gry[y][x+i] != ' ')
+                {
+                    fkoniec_rzedu += 1;
+                    i = -1;
+
+                }else
+                {
+                    i++;
+                    wi += 1;
+                    if(i >= IleWRzedzie)i = -1;
+                }
+
+
+            }else if(x-j >= 0 && j > 0)
+            {
+                if(Pole_gry[y][x-j] == gracz)
+                {
+                    j++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)
+                    {
+                        if(gracz == 'O')return -8*IleWRzedzie;
+                        else return 8*IleWRzedzie;
+                    }
+
+                }else if(Pole_gry[y][x-j] != ' ')
+                {
+                    fkoniec_rzedu += 1;
+                    j = -1;
+
+                }else
+                {
+                    j++;
+                    wj += 1;
+                    if(j >= IleWRzedzie)j = -1;
+                }
+
+            }else
+            {
+                fkoniec_rzedu += 1;
+                break;
+            }
+        }
+
+
+        //if(fkoniec_rzedu == 1) rzad -= 1;
+        if((rzad+wi+wj) < IleWRzedzie && fkoniec_rzedu >= 2) rzad_tab[1] = 0;
+        else if((rzad+wi+wj) < IleWRzedzie) rzad_tab[1] = rzad;
+        else if((rzad+wi+wj) >= IleWRzedzie && fkoniec_rzedu == 1) rzad_tab[1] = 2*rzad - 2;
+        else if((rzad+wi+wj) >= IleWRzedzie) rzad_tab[1] = 2*rzad;
+        rzadmax += rzad_tab[1];
+
+
+        rzad = 1;
+        i = 1;
+        j = 1;
+        wi = 0;
+        wj = 0;
+        fkoniec_rzedu = 0;
+
+        while(1)// Sprawdzenie po skosie /
+        {
+            if(x+i < Rozmiar && y-i >= 0 && i > 0)
+            {
+                if(Pole_gry[y-i][x+i] == gracz)
+                {
+                    i++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)
+                    {
+                        if(gracz == 'O')return -8*IleWRzedzie;
+                        else return 8*IleWRzedzie;
+                    }
+
+                }else if(Pole_gry[y-i][x+i] != ' ')
+                {
+                    fkoniec_rzedu += 1;
+                    i = -1;
+
+                }else
+                {
+                    i++;
+                    wi += 1;
+                    if(i >= IleWRzedzie)i = -1;
+                }
+
+            }else if(x-j >= 0 && y+j < Rozmiar && j > 0)
+            {
+                if(Pole_gry[y+j][x-j] == gracz)
+                {
+                    j++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)
+                    {
+                        if(gracz == 'O')return -8*IleWRzedzie;
+                        else return 8*IleWRzedzie;
+                    }
+                }else if(Pole_gry[y+j][x-j] != ' ')
+                {
+                    fkoniec_rzedu += 1;
+                    j = -1;
+
+                }else
+                {
+                    j++;
+                    wj += 1;
+                    if(j >= IleWRzedzie)j = -1;
+                }
+
+            }else
+            {
+                fkoniec_rzedu += 1;
+                break;
+            }
+
+        }
+
+        //if(fkoniec_rzedu == 1) rzad -= 1;
+        if((rzad+wi+wj) < IleWRzedzie && fkoniec_rzedu >= 2) rzad_tab[2] = 0;
+        else if((rzad+wi+wj) < IleWRzedzie) rzad_tab[2] = rzad;
+        else if((rzad+wi+wj) >= IleWRzedzie && fkoniec_rzedu == 1) rzad_tab[2] = 2*rzad - 2;
+        else if((rzad+wi+wj) >= IleWRzedzie) rzad_tab[2] = 2*rzad;
+        rzadmax += rzad_tab[2];
+
+
+        rzad = 1;
+        i = 1;
+        j = 1;
+        wi = 0;
+        wj = 0;
+        fkoniec_rzedu = 0;
+
+        while(1)// Sprawdzenie po skosie \//
+        {
+            if(y-i >= 0 && x-i >= 0 && i > 0)
+            {
+                if(Pole_gry[y-i][x-i] == gracz)
+                {
+                    i++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)
+                    {
+                        if(gracz == 'O')return -8*IleWRzedzie;
+                        else return 8*IleWRzedzie;
+                    }
+
+                }else if(Pole_gry[y-i][x-i] != ' ')
+                {
+                    fkoniec_rzedu += 1;
+                    i = -1;
+
+                }else
+                {
+                    i++;
+                    wi += 1;
+                    if(i >= IleWRzedzie)i = -1;
+                }
+
+            }else if(y+j < Rozmiar && x+j < Rozmiar && j > 0)
+            {
+                if(Pole_gry[y+j][x+j] == gracz)
+                {
+                    j++;
+                    rzad+=1;
+                    if(rzad == IleWRzedzie)
+                    {
+                        if(gracz == 'O')return -8*IleWRzedzie;
+                        else return 8*IleWRzedzie;
+                    }
+
+                }else if(Pole_gry[y+j][x+j] != ' ')
+                {
+                    fkoniec_rzedu += 1;
+                    j = -1;
+
+                }else
+                {
+                    j++;
+                    wj += 1;
+                    if(j >= IleWRzedzie)j = -1;
+                }
+
+            }else
+            {
+                fkoniec_rzedu += 1;
+                break;
+            }
+
+        }
+
+        //if(fkoniec_rzedu == 1) rzad -= 1;
+        if((rzad+wi+wj) < IleWRzedzie && fkoniec_rzedu >= 2) rzad_tab[3] = 0;
+        else if((rzad+wi+wj) < IleWRzedzie) rzad_tab[3] = rzad;
+        else if((rzad+wi+wj) >= IleWRzedzie && fkoniec_rzedu == 1) rzad_tab[3] = 2*rzad - 2;
+        else if((rzad+wi+wj) >= IleWRzedzie) rzad_tab[3] = 2*rzad;
+        rzadmax += rzad_tab[3];
+
+
+    }
+
+    for(i = 0; i < Rozmiar; i++)
+    {
+        for(j = 0; j < Rozmiar; j++)
+        {
+            if(Pole_gry[i][j] == ' ')
+            {
+                fpuste = 1;
+                break;
+            }
+        }
+
+        if(fpuste)break;
+    }
+
+    if(fpuste == 0)return 0; // Remis
+
+    if(gracz == 'O')rzadmax = -1*rzadmax;
+    return rzadmax;
+
+}
+
+
 int Gra::MinMax(char gracz, int zaglebienie, int alfa, int beta, int* f)
 {
     int m, mm, pom, k = -1, w = -1;
+    int zag;
 
-    if(gracz == 'X') mm = -2*IleWRzedzie;
-    else if(gracz == 'O') mm = 2*IleWRzedzie;
+    if(Rozmiar <= 11)zag = max_zag[Rozmiar];
+    else if(Rozmiar <= 16) zag = 4;
+    else zag = 3;
+
+    if(gracz == 'X') mm = -9*IleWRzedzie;
+    else if(gracz == 'O') mm = 9*IleWRzedzie;
 
     for(int i = 0; i < Rozmiar; i++)
     {
@@ -717,14 +1072,15 @@ int Gra::MinMax(char gracz, int zaglebienie, int alfa, int beta, int* f)
         {
             if(Pole_gry[i][j] == ' ')
             {
+
                 if(gracz == 'X')
                 {
                     Pole_gry[i][j] = 'X';
                     pom = SprawdzanieStanuGryX(j, i);
 
-                    if(zaglebienie >= 4)
+                    if(zaglebienie >= zag)
                     {
-                        m = FHeurystyczna('X', j, i);
+                        m = FHeurystyczna2('X', j, i);
                         Pole_gry[i][j] = ' ';
                         return m;
                     }
@@ -759,12 +1115,12 @@ int Gra::MinMax(char gracz, int zaglebienie, int alfa, int beta, int* f)
                     Pole_gry[i][j] = 'O';
                     pom = SprawdzanieStanuGryO(j, i);
 
-                    /*if(zaglebienie >= 50)
+                    if(zaglebienie >= zag)
                     {
-                        m = FHeurystyczna('O', j, i);
+                        m = FHeurystyczna2('O', j, i);
                         Pole_gry[i][j] = ' ';
                         return m;
-                    }*/
+                    }
 
                     if(pom == 1)
                     {

@@ -1,15 +1,16 @@
 # depslib dependency file v1.0
-1525346338 source:c:\users\bogdo\documents\programy\pamsi\kolko_i_krzyzyk\main.cpp
+1526752809 source:c:\users\bogdo\documents\programy\pamsi\kolko_i_krzyzyk\main.cpp
 	"Klasa_gra.hpp"
 	<ctime>
 
-1525347804 c:\users\bogdo\documents\programy\pamsi\kolko_i_krzyzyk\klasa_gra.hpp
+1526751693 c:\users\bogdo\documents\programy\pamsi\kolko_i_krzyzyk\klasa_gra.hpp
 	<iostream>
 	<stdlib.h>
 	<string>
 	<sstream>
+	<ctime>
 
-1525452272 source:c:\users\bogdo\documents\programy\pamsi\kolko_i_krzyzyk\klasa_gra.cpp
+1526752809 source:c:\users\bogdo\documents\programy\pamsi\kolko_i_krzyzyk\klasa_gra.cpp
 	"Klasa_gra.hpp"
 
 1525099062 source:c:\users\piotr\documents\usp\pamsi_clone\kolko_i_krzyzyk\main.cpp

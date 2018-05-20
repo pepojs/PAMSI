@@ -47,6 +47,11 @@ int main()
                     system("timeout 5");
                     IleRzad = 3;
 
+                }else if(RozmiarPlanszy == 4)
+                {
+                    cout<<"Dla planszy 4x4 domyslna ilosc elementow w jednej lini koniecznech do wygrania rowna 4"<<endl;
+                    system("timeout 5");
+                    IleRzad = 4;
                 }else
                 {
                     cout<<"Podaj ilosc elementow w jednej lini koniecznech do wygrania: (od 3 do 50)"<<endl;
@@ -99,7 +104,7 @@ int main()
                             {
                                 cout<<"Podaj kolumne pola gdzie chcesz postawic X: "<<endl;
                                 cin>>x;
-                                cout<<"Podaj wiersz pola gdzie chcesz postawic X: "<<endl;
+                                cout<<"Podaj wiersz pola gdzie chcesz postawic Y: "<<endl;
                                 cin>>y;
 
                                 if((x > Kolko.ZwrocRozmiar() || y > Kolko.ZwrocRozmiar()) || (x < 1 || y < 1))
@@ -125,7 +130,7 @@ int main()
                                 }
 
                                 if(Kolko.WypelniPoleO(x-1,y-1))fGracz = 0;*/
-                                Kolko.MinMax('O',0,-2*IleRzad,2*IleRzad,&fWygralO);
+                                Kolko.MinMax('O',0,-9*IleRzad,9*IleRzad,&fWygralO);
                                 //Kolko.WypelniPoleO(x,y);
                                 fGracz = 0;
                                 //fWygralO = Kolko.SprawdzanieStanuGryO(x,y);
