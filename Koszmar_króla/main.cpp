@@ -2,9 +2,8 @@
 
 int main()
 {
-    Graf <int, int> graf;
-    graf.DodajWierzcholek(1);
-    graf.DodajWierzcholek(2);
-    graf.DodajKrawedz(1,graf.ZwrocWskWierz(1),graf.ZwrocWskWierz(2));
+    Graf <int, char> graf;
+    graf.TworzGraf('W', 'A', 'H');
+    graf.WyswietlGraf();
     return 0;
 }
