@@ -1,42 +1,55 @@
 #include "Klasa_graf.hpp"
 
 template <typename TypKrawedzi, typename TypWierzcholka>
+void Wierzcholek<TypKrawedzi, TypWierzcholka>::UstawKrawedz(Krawedz<TypKrawedzi, TypWierzcholka> kra)
+{
+    if(kra.ZwrocWartWierzL() == Dane)
+        Kra.push_back(kra);
+    else
+        Kra.push_back(Krawedz<TypKrawedzi, TypWierzcholka>(kra.ZwrocWartKraw(),kra.ZwrocWskWierzP(), kra.ZwrocWskWierzL()));
+}
+
+template <typename TypKrawedzi, typename TypWierzcholka>
 void Graf<TypKrawedzi, TypWierzcholka>::DodajWierzcholek(TypWierzcholka wartosc)
 {
     for(unsigned int i = 0; i < W.size(); i++)
     {
-        if(W[i] == wartosc)
+        if(W[i].ZwrocDane() == wartosc)
         {
             //cout<<"Wezel o tej wartosci juz istnieje"<<endl;
             return;
         }
     }
-    W.push_back(wartosc);
+    W.push_back(Wierzcholek<TypKrawedzi, TypWierzcholka>(wartosc));
 }
 
 template <typename TypKrawedzi, typename TypWierzcholka>
-int Graf<TypKrawedzi, TypWierzcholka>::DodajKrawedz(TypKrawedzi wartosc, TypWierzcholka* L, TypWierzcholka* P)
+int Graf<TypKrawedzi, TypWierzcholka>::DodajKrawedz(TypKrawedzi wartosc, Wierzcholek<TypKrawedzi, TypWierzcholka>* L,
+                                                    Wierzcholek<TypKrawedzi, TypWierzcholka>* P)
 {
     for(unsigned int i = 0; i < K.size(); i++)
     {
-        if(K[i].ZwrocWartWierzL() == *L && K[i].ZwrocWartWierzP() == *P)
+        if((K[i].ZwrocWartWierzL() == L->ZwrocDane() && K[i].ZwrocWartWierzP() == P->ZwrocDane()) ||
+           (K[i].ZwrocWartWierzL() == P->ZwrocDane() && K[i].ZwrocWartWierzP() == L->ZwrocDane()))
         {
-            cout<<"Krawedz o tej wartosci juz istnieje"<<endl;
+            //cout<<"Krawedz o tej wartosci juz istnieje"<<endl;
             return 1;
         }
     }
 
     Krawedz<TypKrawedzi, TypWierzcholka> pom(wartosc, L, P);
     K.push_back(pom);
+    L->UstawKrawedz(K.back());
+    P->UstawKrawedz(K.back());
     return 0;
 }
 
 template <typename TypKrawedzi, typename TypWierzcholka>
-TypWierzcholka* Graf<TypKrawedzi, TypWierzcholka>::ZwrocWskWierz(TypWierzcholka wartosc)
+Wierzcholek<TypKrawedzi, TypWierzcholka>* Graf<TypKrawedzi, TypWierzcholka>::ZwrocWskWierz(TypWierzcholka wartosc)
 {
     for(unsigned int i = 0; i < W.size(); i++)
     {
-        if(W[i] == wartosc) return &W[i];
+        if(W[i].ZwrocDane() == wartosc) return &W[i];
     }
 
     return NULL;
@@ -45,8 +58,7 @@ TypWierzcholka* Graf<TypKrawedzi, TypWierzcholka>::ZwrocWskWierz(TypWierzcholka 
 template <typename TypKrawedzi, typename TypWierzcholka>
 void Graf<TypKrawedzi, TypWierzcholka>::TworzGraf(char kon, char wierza, char krol)
 {
-    int wierza_j = 0, wierza_i = 0, i, j, kon_i = 0, kon_j = 0, pom_petla = 1;
-    char pom_wierz = 0;
+    int wierza_j = 0, wierza_i = 0, i, j, kon_i = 0, kon_j = 0;
     char tab_pom[5][5]; //Tworzy tablice pomocnicza 5x5 odpowiadajaca planszy
     const int ruchy_rzad[] = {1, 2, 2, 1, -1, -2, -2, -1};
     const int ruchy_kolu[] = {-2, -1, 1, 2,2, 1, -1, -2};
@@ -75,9 +87,34 @@ void Graf<TypKrawedzi, TypWierzcholka>::TworzGraf(char kon, char wierza, char kr
         {
             if(i == wierza_i || j == wierza_j) //Zaznacza pola w ktorych kon nie moze stanac
                 tab_pom[i][j] = 0;
+            else
+                DodajWierzcholek(tab_pom[i][j]);
 
         }
 
+
+    for(i = 0; i < 5; i++)
+        for(j = 0; j < 5; j++)
+        {
+            if(tab_pom[i][j] != 0)
+            {
+                for(int k = 0; k < 8; k++)
+                {
+                    if((j + ruchy_rzad[k] >= 0 && j + ruchy_rzad[k] < 5) &&
+                    (i + ruchy_kolu[k] >= 0 && i + ruchy_kolu[k] < 5) &&
+                    (tab_pom[i + ruchy_kolu[k]][j + ruchy_rzad[k]] != 0))
+                    {
+                        DodajWierzcholek(tab_pom[i + ruchy_kolu[k]][j + ruchy_rzad[k]]);
+                        DodajKrawedz(k, ZwrocWskWierz(tab_pom[i][j]), ZwrocWskWierz(tab_pom[i + ruchy_kolu[k]][j + ruchy_rzad[k]]));
+
+                    }
+
+                }
+            }
+        }
+
+
+/*
     DodajWierzcholek(kon);
     pom_wierz = kon;
     j = 0;
@@ -106,7 +143,7 @@ void Graf<TypKrawedzi, TypWierzcholka>::TworzGraf(char kon, char wierza, char kr
 
     }
 
-
+*/
 
 
 
@@ -115,9 +152,9 @@ void Graf<TypKrawedzi, TypWierzcholka>::TworzGraf(char kon, char wierza, char kr
 template <typename TypKrawedzi, typename TypWierzcholka>
 void Graf<TypKrawedzi, TypWierzcholka>::WyswietlGraf()
 {
-    for(unsigned int i = 0; i < K.size(); i++)
+    for(unsigned int i = 0; i < W.size(); i++)
     {
-        K[i].Wyswietl();
+        W[i].Wyswietl();
     }
 
 }

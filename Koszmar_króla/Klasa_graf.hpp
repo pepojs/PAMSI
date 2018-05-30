@@ -6,41 +6,54 @@
 
 using namespace std;
 
-/*template <typename TypDanych>
-class Wierzcholek
-{
-    TypDanych Dane;
-
-
-};*/
+template <typename TypKrawedzi, typename TypWierzcholka>
+class Wierzcholek;
 
 template <typename TypKrawedzi, typename TypWierzcholka>
 class Krawedz
 {
     TypKrawedzi Dane;
-    TypWierzcholka* Lewy;
-    TypWierzcholka* Prawy;
+    Wierzcholek<TypKrawedzi, TypWierzcholka>* Lewy;
+    Wierzcholek<TypKrawedzi, TypWierzcholka>* Prawy;
 
 public:
 
-    Krawedz(TypKrawedzi wartosc, TypWierzcholka* L, TypWierzcholka* P){Lewy = L; Prawy = P; Dane = wartosc;}
-    void Wyswietl() {cout<<"Wierzcholek 1: "<< *Lewy <<" Krawedz: "<<Dane<< " Wierzcholek 2: "<<*Prawy<<endl;}
-    TypWierzcholka ZwrocWartWierzL() {return *Lewy;}
-    TypWierzcholka ZwrocWartWierzP() {return *Prawy;}
+    Krawedz(TypKrawedzi wartosc, Wierzcholek<TypKrawedzi, TypWierzcholka>* L, Wierzcholek<TypKrawedzi, TypWierzcholka>* P){Lewy = L; Prawy = P; Dane = wartosc;}
+    void Wyswietl() {cout<<"Wierzcholek 1: "<< Lewy->ZwrocDane() <<" Krawedz: "<<Dane<< " Wierzcholek 2: "<<Prawy->ZwrocDane()<<endl;}
+    TypWierzcholka ZwrocWartWierzL() {return Lewy->ZwrocDane();}
+    TypWierzcholka ZwrocWartWierzP() {return Prawy->ZwrocDane();}
+    Wierzcholek<TypKrawedzi, TypWierzcholka>* ZwrocWskWierzL(){return Lewy;}
+    Wierzcholek<TypKrawedzi, TypWierzcholka>* ZwrocWskWierzP(){return Prawy;}
     TypKrawedzi ZwrocWartKraw() {return Dane;}
 };
+
+template <typename TypKrawedzi, typename TypWierzcholka>
+class Wierzcholek
+{
+    TypWierzcholka Dane;
+    vector <Krawedz<TypKrawedzi, TypWierzcholka> > Kra;
+
+public:
+
+    Wierzcholek(TypWierzcholka wartosc){Dane = wartosc;}
+    void UstawKrawedz(Krawedz<TypKrawedzi, TypWierzcholka> kra);
+    TypWierzcholka ZwrocDane() {return Dane;}
+    void Wyswietl(){cout<<"Wierzcholek: "<<Dane<<endl; for(unsigned int i = 0; i < Kra.size(); i++)Kra[i].Wyswietl();}
+
+};
+
 
 template <typename TypKrawedzi, typename TypWierzcholka>
 class Graf
 {
     vector <Krawedz<TypKrawedzi, TypWierzcholka> > K;
-    vector <TypWierzcholka> W;
+    vector <Wierzcholek<TypKrawedzi, TypWierzcholka> > W;
 
 public:
 
     void DodajWierzcholek(TypWierzcholka wartosc);
-    int DodajKrawedz(TypKrawedzi wartosc, TypWierzcholka* wartoscL,TypWierzcholka* wartoscP);
-    TypWierzcholka* ZwrocWskWierz(TypWierzcholka wartosc);
+    int DodajKrawedz(TypKrawedzi wartosc,Wierzcholek<TypKrawedzi, TypWierzcholka> * wartoscL,Wierzcholek<TypKrawedzi, TypWierzcholka> * wartoscP);
+    Wierzcholek<TypKrawedzi, TypWierzcholka>* ZwrocWskWierz(TypWierzcholka wartosc);
     void TworzGraf(char kon, char wierza, char krol);
     void WyswietlGraf();
 };
