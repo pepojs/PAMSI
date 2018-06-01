@@ -1,11 +1,11 @@
 # depslib dependency file v1.0
-1527352982 source:c:\users\bogdo\documents\programy\pamsi\koszmar_króla\klasa_graf.cpp
+1527861815 source:c:\users\bogdo\documents\programy\pamsi\koszmar_króla\klasa_graf.cpp
 	"Klasa_graf.hpp"
 
-1527353432 source:c:\users\bogdo\documents\programy\pamsi\koszmar_króla\main.cpp
+1527859168 source:c:\users\bogdo\documents\programy\pamsi\koszmar_króla\main.cpp
 	"Klasa_graf.hpp"
 
-1527356612 c:\users\bogdo\documents\programy\pamsi\koszmar_króla\klasa_graf.hpp
+1527858926 c:\users\bogdo\documents\programy\pamsi\koszmar_króla\klasa_graf.hpp
 	<iostream>
 	<vector>
 

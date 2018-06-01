@@ -159,4 +159,100 @@ void Graf<TypKrawedzi, TypWierzcholka>::WyswietlGraf()
 
 }
 
+
+template <typename TypKrawedzi, typename TypWierzcholka>
+void Graf<TypKrawedzi, TypWierzcholka>::DFSRekurencja(char krol, Wierzcholek<TypKrawedzi, TypWierzcholka> wenzel,
+                                                      vector <Wierzcholek<TypKrawedzi, TypWierzcholka> > &w,
+                                                      vector <Wierzcholek<TypKrawedzi, TypWierzcholka> >odw)
+{
+    int flaga = 0;
+
+
+    for(unsigned int i = 0; i < wenzel.IloscKrawedzi(); i++)
+    {
+        //cout<<i<<" "<<(wenzel.ZwrocKrawedz(i).ZwrocWskWierzP())->ZwrocDane()<<"  "<<wenzel.ZwrocDane();
+        if((wenzel.ZwrocKrawedz(i).ZwrocWskWierzP())->ZwrocDane() == wenzel.ZwrocDane()) continue;
+
+        for(unsigned int j = 0; j < odw.size(); j++)
+        {
+            if(odw[j].ZwrocDane() == (wenzel.ZwrocKrawedz(i).ZwrocWskWierzP())->ZwrocDane())
+            {
+                flaga = 1;
+                break;
+            }
+        }
+
+        //cout<<" "<<flaga<<endl;
+        if(flaga)
+        {
+            flaga = 0;
+            continue;
+        }
+
+        if(!odw.empty())
+        {
+            if(odw.back().ZwrocDane() != wenzel.ZwrocDane())
+            odw.push_back(wenzel);
+        }
+        else odw.push_back(wenzel);
+
+        if(wenzel.ZwrocDane() == krol)
+        {
+            for(unsigned int k = 0; k < odw.size(); k++)
+                w.push_back(odw[k]);
+
+            w.push_back(Wierzcholek<TypKrawedzi, TypWierzcholka>('|'));
+            return;
+        }
+        DFSRekurencja(krol, *wenzel.ZwrocKrawedz(i).ZwrocWskWierzP(), w, odw);
+    }
+
+
+    //for(unsigned int i = 0; i < odw.size(); i++)
+    //    cout<<i<<" "<<odw[i].ZwrocDane()<<endl;
+}
+
+template <typename TypKrawedzi, typename TypWierzcholka>
+void Graf<TypKrawedzi, TypWierzcholka>::DFS(char kon, char wierza, char krol)
+{
+    int jest = 0;
+    vector<Wierzcholek<TypKrawedzi, TypWierzcholka> > Odwiedzone;
+    vector<Wierzcholek<TypKrawedzi, TypWierzcholka> > NieOdwiedzone;
+    vector<Wierzcholek<TypKrawedzi, TypWierzcholka> > Wynik;
+
+    for(unsigned int i = 0; i < W.size(); i++)
+    {
+        if(W[i].ZwrocDane() == kon)
+        {
+            NieOdwiedzone.push_back(W[i]);
+            break;
+        }
+    }
+
+    //cout<<NieOdwiedzone[0].ZwrocDane()<<endl;
+
+    do
+    {
+        jest = 0;
+        DFSRekurencja(krol, NieOdwiedzone[0],Wynik, Odwiedzone);
+
+    }while(jest == 1);
+
+
+
+   // for(unsigned int i = 0; i < Odwiedzone.size(); i++)
+   //     cout<<endl<<Odwiedzone[i].ZwrocDane()<<endl;
+
+    cout<<"Wynik "<<endl;
+
+    for(unsigned int i = 0; i < Wynik.size(); i++)
+    {
+        cout<<Wynik[i].ZwrocDane()<<" ";
+        if(Wynik[i].ZwrocDane() == '|')cout <<"\b\b "<<endl;
+    }
+
+
+}
+
+
 template class Graf<int,char>;

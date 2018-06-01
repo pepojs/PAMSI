@@ -39,6 +39,8 @@ public:
     void UstawKrawedz(Krawedz<TypKrawedzi, TypWierzcholka> kra);
     TypWierzcholka ZwrocDane() {return Dane;}
     void Wyswietl(){cout<<"Wierzcholek: "<<Dane<<endl; for(unsigned int i = 0; i < Kra.size(); i++)Kra[i].Wyswietl();}
+    unsigned int IloscKrawedzi() {return Kra.size();}
+    Krawedz<TypKrawedzi, TypWierzcholka> ZwrocKrawedz(unsigned int numer){return Kra[numer];}
 
 };
 
@@ -49,6 +51,8 @@ class Graf
     vector <Krawedz<TypKrawedzi, TypWierzcholka> > K;
     vector <Wierzcholek<TypKrawedzi, TypWierzcholka> > W;
 
+    void DFSRekurencja(char krol, Wierzcholek<TypKrawedzi, TypWierzcholka> wenzel, vector <Wierzcholek<TypKrawedzi, TypWierzcholka> > &w, vector <Wierzcholek<TypKrawedzi, TypWierzcholka> >odw);
+
 public:
 
     void DodajWierzcholek(TypWierzcholka wartosc);
@@ -56,6 +60,7 @@ public:
     Wierzcholek<TypKrawedzi, TypWierzcholka>* ZwrocWskWierz(TypWierzcholka wartosc);
     void TworzGraf(char kon, char wierza, char krol);
     void WyswietlGraf();
+    void DFS(char kon, char wierza, char krol);
 };
 
 

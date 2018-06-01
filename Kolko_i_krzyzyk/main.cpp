@@ -30,9 +30,9 @@ int main()
         switch(menu)
         {
             case 's':
-                cout<<"Podaj rozmiar planszy: (od 3 do 50)"<<endl;
+                cout<<"Podaj rozmiar planszy: (od 3 do 20)"<<endl;
                 cin >> RozmiarPlanszy;
-                if(RozmiarPlanszy > 50 || RozmiarPlanszy < 3)
+                if(RozmiarPlanszy > 20 || RozmiarPlanszy < 3)
                 {
                     cout<<"Niewlasciwy rozmiar planszy, sprobuj jeszcze raz"<<endl;
                     system("timeout 5");
@@ -54,9 +54,9 @@ int main()
                     IleRzad = 4;
                 }else
                 {
-                    cout<<"Podaj ilosc elementow w jednej lini koniecznech do wygrania: (od 3 do 50)"<<endl;
+                    cout<<"Podaj ilosc elementow w jednej lini koniecznech do wygrania: (od 3 do 20)"<<endl;
                     cin >> IleRzad;
-                    if((IleRzad > 50 || IleRzad < 3) || IleRzad > RozmiarPlanszy)
+                    if((IleRzad > 20 || IleRzad < 3) || IleRzad > RozmiarPlanszy)
                     {
                         cout<<"Niewlasciwa ilosc elementow, sprobuj jeszcze raz"<<endl;
                         system("timeout 5");
