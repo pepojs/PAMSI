@@ -216,15 +216,15 @@ template <typename TypKrawedzi, typename TypWierzcholka>
 void Graf<TypKrawedzi, TypWierzcholka>::DFS(char kon, char wierza, char krol)
 {
     int jest = 0;
+    Wierzcholek<TypKrawedzi, TypWierzcholka> Pierwszy(0);
     vector<Wierzcholek<TypKrawedzi, TypWierzcholka> > Odwiedzone;
-    vector<Wierzcholek<TypKrawedzi, TypWierzcholka> > NieOdwiedzone;
     vector<Wierzcholek<TypKrawedzi, TypWierzcholka> > Wynik;
 
     for(unsigned int i = 0; i < W.size(); i++)
     {
         if(W[i].ZwrocDane() == kon)
         {
-            NieOdwiedzone.push_back(W[i]);
+            Pierwszy = W[i];
             break;
         }
     }
@@ -234,7 +234,7 @@ void Graf<TypKrawedzi, TypWierzcholka>::DFS(char kon, char wierza, char krol)
     do
     {
         jest = 0;
-        DFSRekurencja(krol, NieOdwiedzone[0],Wynik, Odwiedzone);
+        DFSRekurencja(krol, Pierwszy,Wynik, Odwiedzone);
 
     }while(jest == 1);
 
@@ -254,5 +254,52 @@ void Graf<TypKrawedzi, TypWierzcholka>::DFS(char kon, char wierza, char krol)
 
 }
 
+template <typename TypKrawedzi, typename TypWierzcholka>
+void Graf<TypKrawedzi, TypWierzcholka>::AGwiazdka(char kon, char wierza, char krol)
+{
+    vector<StrAGwiazdka<TypKrawedzi, TypWierzcholka> > Odwiedzone;
+    vector<StrAGwiazdka<TypKrawedzi, TypWierzcholka> > NieOdwiedzone;
+
+    for(unsigned int i = 0; i < W.size(); i++)
+    {
+        if(W[i].ZwrocDane() == kon)
+        {
+            NieOdwiedzone.push_back(StrAGwiazdka<TypKrawedzi, TypWierzcholka>());
+            NieOdwiedzone.back().Wierz = W[i];
+            break;
+        }
+    }
+
+    NieOdwiedzone.back().NumerWierz = 1;
+    NieOdwiedzone.back().FH = FHeurystyczna(kon, krol);
+    NieOdwiedzone.back().FF = NieOdwiedzone.back().FG + NieOdwiedzone.back().FH;
+
+    while(!NieOdwiedzone.empty())
+    {
+
+    }
+
+}
+
+template <typename TypKrawedzi, typename TypWierzcholka>
+int Graf<TypKrawedzi, TypWierzcholka>::FHeurystyczna(char aktualny, char cel)
+{
+    int aktualny_x = 0, aktualny_y = 0;
+    int cel_x = 0, cel_y = 0;
+    int wynik = -1;
+
+    aktualny = aktualny - 65;
+    cel = cel - 65;
+
+    aktualny_x = aktualny%5;
+    aktualny_y = aktualny/5;
+
+    cel_x = cel%5;
+    cel_y = cel/5;
+
+    wynik = fabs(aktualny_x - cel_x) + fabs(aktualny_y - cel_y);
+
+    return wynik;
+}
 
 template class Graf<int,char>;

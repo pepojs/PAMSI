@@ -9,13 +9,14 @@
 	<iostream>
 	<vector>
 
-1527529679 source:c:\users\piotr\documents\usp\pamsi_clone\koszmar_króla\main.cpp
+1528458499 source:c:\users\piotr\documents\usp\pamsi_clone\koszmar_króla\main.cpp
 	"Klasa_graf.hpp"
 
-1527530308 c:\users\piotr\documents\usp\pamsi_clone\koszmar_króla\klasa_graf.hpp
+1528457886 c:\users\piotr\documents\usp\pamsi_clone\koszmar_króla\klasa_graf.hpp
 	<iostream>
 	<vector>
+	<cmath>
 
-1527528620 source:c:\users\piotr\documents\usp\pamsi_clone\koszmar_króla\klasa_graf.cpp
+1528458613 source:c:\users\piotr\documents\usp\pamsi_clone\koszmar_króla\klasa_graf.cpp
 	"Klasa_graf.hpp"
 

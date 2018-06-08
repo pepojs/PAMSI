@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 using namespace std;
 
@@ -44,6 +45,18 @@ public:
 
 };
 
+template <typename TypKrawedzi, typename TypWierzcholka>
+struct StrAGwiazdka
+{
+    int FH;
+    int FG;
+    int FF;
+    Wierzcholek<TypKrawedzi, TypWierzcholka> Rodzic;
+    Wierzcholek<TypKrawedzi, TypWierzcholka> Wierz;
+    int NumerWierz;
+
+    StrAGwiazdka():Rodzic(0),Wierz(0){FH = 0; FG = 0; FF = 0; NumerWierz = 0;}
+};
 
 template <typename TypKrawedzi, typename TypWierzcholka>
 class Graf
@@ -54,6 +67,7 @@ class Graf
     void DFSRekurencja(char krol, Wierzcholek<TypKrawedzi, TypWierzcholka> wenzel, vector <Wierzcholek<TypKrawedzi, TypWierzcholka> > &w, vector <Wierzcholek<TypKrawedzi, TypWierzcholka> >odw);
 
 public:
+int FHeurystyczna(char aktualny, char cel);
 
     void DodajWierzcholek(TypWierzcholka wartosc);
     int DodajKrawedz(TypKrawedzi wartosc,Wierzcholek<TypKrawedzi, TypWierzcholka> * wartoscL,Wierzcholek<TypKrawedzi, TypWierzcholka> * wartoscP);
@@ -61,8 +75,8 @@ public:
     void TworzGraf(char kon, char wierza, char krol);
     void WyswietlGraf();
     void DFS(char kon, char wierza, char krol);
+    void AGwiazdka(char kon, char wierza, char krol);
 };
-
 
 
 #endif // KLASA_GRAF_HPP
