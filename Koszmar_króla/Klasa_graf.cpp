@@ -49,7 +49,10 @@ int Graf<TypKrawedzi, TypWierzcholka>::DodajKrawedz(TypKrawedzi wartosc, Wierzch
 template <typename TypKrawedzi, typename TypWierzcholka>
 void Graf<TypKrawedzi, TypWierzcholka>::TworzGraf(char kon, char wierza, char krol)
 {
-    int wierza_j = 0, wierza_i = 0, i, j, kon_i = 0, kon_j = 0;
+    K.clear();
+    W.clear();
+
+    int wierza_j = 0, wierza_i = 0, i, j;
     char tab_pom[5][5]; //Tworzy tablice pomocnicza 5x5 odpowiadajaca planszy
     const int ruchy_rzad[] = {1, 2, 2, 1, -1, -2, -2, -1};
     const int ruchy_kolu[] = {-2, -1, 1, 2,2, 1, -1, -2};
@@ -61,12 +64,6 @@ void Graf<TypKrawedzi, TypWierzcholka>::TworzGraf(char kon, char wierza, char kr
             {
                 wierza_i = i;
                 wierza_j = j;
-            }
-
-            if(kon == 'A'+j+(i*5))
-            {
-                kon_i = i;
-                kon_j = j;
             }
 
             tab_pom[i][j] = 'A'+j+(i*5); //Wypelnia tablice kolejnymi nazwami pol
