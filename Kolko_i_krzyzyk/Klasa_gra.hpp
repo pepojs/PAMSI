@@ -7,7 +7,7 @@
 #include <sstream>
 #include <ctime>
 
-//Tablica zawierajaca maksymalna liczbe zaglebienia rekurencyjnego dla MinMax-a
+//Tablica zawierajaca maksymalna liczbe zaglebienia rekurencyjnego dla MinMax-a, zależną od rozmiaru planszy
 const int max_zag[] = {14, 14, 14, 14, 14, 9, 7, 7, 6, 5, 5, 5};
 
 class Gra
