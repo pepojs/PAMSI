@@ -257,6 +257,7 @@ void Graf<TypKrawedzi, TypWierzcholka>::DFS(char kon, char wierza, char krol)
 template <typename TypKrawedzi, typename TypWierzcholka>
 void Graf<TypKrawedzi, TypWierzcholka>::AGwiazdka(char kon, char wierza, char krol)
 {
+    int pom = 0, pomFF = 0;
     vector<StrAGwiazdka<TypKrawedzi, TypWierzcholka> > Odwiedzone;
     vector<StrAGwiazdka<TypKrawedzi, TypWierzcholka> > NieOdwiedzone;
 
@@ -273,9 +274,18 @@ void Graf<TypKrawedzi, TypWierzcholka>::AGwiazdka(char kon, char wierza, char kr
     NieOdwiedzone.back().NumerWierz = 1;
     NieOdwiedzone.back().FH = FHeurystyczna(kon, krol);
     NieOdwiedzone.back().FF = NieOdwiedzone.back().FG + NieOdwiedzone.back().FH;
+    pomFF = NieOdwiedzone.back().FF + 1;
 
     while(!NieOdwiedzone.empty())
     {
+        for(unsigned int i = 0; i < NieOdwiedzone.size(); i++)
+        {
+            if(pomFF > NieOdwiedzone[i].FF)
+            {
+                pomFF = NieOdwiedzone[i].FF;
+                pom = i;
+            }
+        }
 
     }
 
