@@ -1,13 +1,15 @@
 # depslib dependency file v1.0
-1527861815 source:c:\users\bogdo\documents\programy\pamsi\koszmar_króla\klasa_graf.cpp
+1528559122 source:c:\users\bogdo\documents\programy\pamsi\koszmar_króla\klasa_graf.cpp
 	"Klasa_graf.hpp"
 
-1527859168 source:c:\users\bogdo\documents\programy\pamsi\koszmar_króla\main.cpp
+1528559158 source:c:\users\bogdo\documents\programy\pamsi\koszmar_króla\main.cpp
 	"Klasa_graf.hpp"
 
-1527858926 c:\users\bogdo\documents\programy\pamsi\koszmar_króla\klasa_graf.hpp
+1528557180 c:\users\bogdo\documents\programy\pamsi\koszmar_króla\klasa_graf.hpp
 	<iostream>
 	<vector>
+	<cmath>
+	"Klasa_wierz_kraw.hpp"
 
 1528458499 source:c:\users\piotr\documents\usp\pamsi_clone\koszmar_króla\main.cpp
 	"Klasa_graf.hpp"
@@ -19,4 +21,23 @@
 
 1528458613 source:c:\users\piotr\documents\usp\pamsi_clone\koszmar_króla\klasa_graf.cpp
 	"Klasa_graf.hpp"
+
+1528557071 c:\users\bogdo\documents\programy\pamsi\koszmar_króla\klasa_wierzcholek.hpp
+	<iostream>
+	<vector>
+	<cmath>
+
+1528556674 c:\users\bogdo\documents\programy\pamsi\koszmar_króla\klasa_krawedz.hpp
+	<iostream>
+	<vector>
+	<cmath>
+	"Klasa_wierzcholek.hpp"
+
+1528558046 c:\users\bogdo\documents\programy\pamsi\koszmar_króla\klasa_wierz_kraw.hpp
+	<iostream>
+	<vector>
+	<cmath>
+
+1528557509 source:c:\users\bogdo\documents\programy\pamsi\koszmar_króla\klasa_wierz_kraw.cpp
+	"Klasa_wierz_kraw.hpp"
 

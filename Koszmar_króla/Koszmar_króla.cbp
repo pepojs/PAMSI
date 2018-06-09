@@ -33,6 +33,8 @@
 		</Compiler>
 		<Unit filename="Klasa_graf.cpp" />
 		<Unit filename="Klasa_graf.hpp" />
+		<Unit filename="Klasa_wierz_kraw.cpp" />
+		<Unit filename="Klasa_wierz_kraw.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

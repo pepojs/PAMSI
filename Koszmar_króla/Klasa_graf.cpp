@@ -1,15 +1,6 @@
 #include "Klasa_graf.hpp"
 
 template <typename TypKrawedzi, typename TypWierzcholka>
-void Wierzcholek<TypKrawedzi, TypWierzcholka>::UstawKrawedz(Krawedz<TypKrawedzi, TypWierzcholka> kra)
-{
-    if(kra.ZwrocWartWierzL() == Dane)
-        Kra.push_back(kra);
-    else
-        Kra.push_back(Krawedz<TypKrawedzi, TypWierzcholka>(kra.ZwrocWartKraw(),kra.ZwrocWskWierzP(), kra.ZwrocWskWierzL()));
-}
-
-template <typename TypKrawedzi, typename TypWierzcholka>
 void Graf<TypKrawedzi, TypWierzcholka>::DodajWierzcholek(TypWierzcholka wartosc)
 {
     for(unsigned int i = 0; i < W.size(); i++)
@@ -21,6 +12,17 @@ void Graf<TypKrawedzi, TypWierzcholka>::DodajWierzcholek(TypWierzcholka wartosc)
         }
     }
     W.push_back(Wierzcholek<TypKrawedzi, TypWierzcholka>(wartosc));
+}
+
+template <typename TypKrawedzi, typename TypWierzcholka>
+Wierzcholek<TypKrawedzi, TypWierzcholka>* Graf<TypKrawedzi, TypWierzcholka>::ZwrocWskWierz(TypWierzcholka wartosc)
+{
+    for(unsigned int i = 0; i < W.size(); i++)
+    {
+        if(W[i].ZwrocDane() == wartosc) return &W[i];
+    }
+
+    return NULL;
 }
 
 template <typename TypKrawedzi, typename TypWierzcholka>
@@ -42,17 +44,6 @@ int Graf<TypKrawedzi, TypWierzcholka>::DodajKrawedz(TypKrawedzi wartosc, Wierzch
     L->UstawKrawedz(K.back());
     P->UstawKrawedz(K.back());
     return 0;
-}
-
-template <typename TypKrawedzi, typename TypWierzcholka>
-Wierzcholek<TypKrawedzi, TypWierzcholka>* Graf<TypKrawedzi, TypWierzcholka>::ZwrocWskWierz(TypWierzcholka wartosc)
-{
-    for(unsigned int i = 0; i < W.size(); i++)
-    {
-        if(W[i].ZwrocDane() == wartosc) return &W[i];
-    }
-
-    return NULL;
 }
 
 template <typename TypKrawedzi, typename TypWierzcholka>
@@ -105,7 +96,7 @@ void Graf<TypKrawedzi, TypWierzcholka>::TworzGraf(char kon, char wierza, char kr
                     (tab_pom[i + ruchy_kolu[k]][j + ruchy_rzad[k]] != 0))
                     {
                         DodajWierzcholek(tab_pom[i + ruchy_kolu[k]][j + ruchy_rzad[k]]);
-                        DodajKrawedz(k, ZwrocWskWierz(tab_pom[i][j]), ZwrocWskWierz(tab_pom[i + ruchy_kolu[k]][j + ruchy_rzad[k]]));
+                        DodajKrawedz(3, ZwrocWskWierz(tab_pom[i][j]), ZwrocWskWierz(tab_pom[i + ruchy_kolu[k]][j + ruchy_rzad[k]]));
 
                     }
 
@@ -198,10 +189,14 @@ void Graf<TypKrawedzi, TypWierzcholka>::DFSRekurencja(char krol, Wierzcholek<Typ
 
         if(wenzel.ZwrocDane() == krol)
         {
-            for(unsigned int k = 0; k < odw.size(); k++)
-                w.push_back(odw[k]);
+            if(w.size() != 0 && w.size() > odw.size())
+            {
+                w.swap(odw);
 
-            w.push_back(Wierzcholek<TypKrawedzi, TypWierzcholka>('|'));
+            }else if(w.size() == 0)
+            {
+                w.swap(odw);
+            }
             return;
         }
         DFSRekurencja(krol, *wenzel.ZwrocKrawedz(i).ZwrocWskWierzP(), w, odw);
@@ -215,7 +210,6 @@ void Graf<TypKrawedzi, TypWierzcholka>::DFSRekurencja(char krol, Wierzcholek<Typ
 template <typename TypKrawedzi, typename TypWierzcholka>
 void Graf<TypKrawedzi, TypWierzcholka>::DFS(char kon, char wierza, char krol)
 {
-    int jest = 0;
     Wierzcholek<TypKrawedzi, TypWierzcholka> Pierwszy(0);
     vector<Wierzcholek<TypKrawedzi, TypWierzcholka> > Odwiedzone;
     vector<Wierzcholek<TypKrawedzi, TypWierzcholka> > Wynik;
@@ -229,37 +223,35 @@ void Graf<TypKrawedzi, TypWierzcholka>::DFS(char kon, char wierza, char krol)
         }
     }
 
-    //cout<<NieOdwiedzone[0].ZwrocDane()<<endl;
+    DFSRekurencja(krol, Pierwszy,Wynik, Odwiedzone);
 
-    do
+    cout<<endl<<"Wynik dla DFS: "<<endl;
+
+    if(Wynik.size() == 0)
     {
-        jest = 0;
-        DFSRekurencja(krol, Pierwszy,Wynik, Odwiedzone);
+        cout<<"Brak rozwiazania !"<<endl;
 
-    }while(jest == 1);
-
-
-
-   // for(unsigned int i = 0; i < Odwiedzone.size(); i++)
-   //     cout<<endl<<Odwiedzone[i].ZwrocDane()<<endl;
-
-    cout<<"Wynik "<<endl;
-
-    for(unsigned int i = 0; i < Wynik.size(); i++)
+    }else
     {
-        cout<<Wynik[i].ZwrocDane()<<" ";
-        if(Wynik[i].ZwrocDane() == '|')cout <<"\b\b "<<endl;
+        for(unsigned int i = 0; i < Wynik.size(); i++)
+        {
+            cout<<Wynik[i].ZwrocDane()<<" ";
+        }
+        cout<<endl;
     }
 
 
 }
 
+
 template <typename TypKrawedzi, typename TypWierzcholka>
 void Graf<TypKrawedzi, TypWierzcholka>::AGwiazdka(char kon, char wierza, char krol)
 {
     int pom = 0, pomFF = 0;
+    StrAGwiazdka<TypKrawedzi, TypWierzcholka>* pomSAG;
     vector<StrAGwiazdka<TypKrawedzi, TypWierzcholka> > Odwiedzone;
     vector<StrAGwiazdka<TypKrawedzi, TypWierzcholka> > NieOdwiedzone;
+    typename vector<StrAGwiazdka<TypKrawedzi, TypWierzcholka> >::iterator NOIter;
 
     for(unsigned int i = 0; i < W.size(); i++)
     {
@@ -274,20 +266,92 @@ void Graf<TypKrawedzi, TypWierzcholka>::AGwiazdka(char kon, char wierza, char kr
     NieOdwiedzone.back().NumerWierz = 1;
     NieOdwiedzone.back().FH = FHeurystyczna(kon, krol);
     NieOdwiedzone.back().FF = NieOdwiedzone.back().FG + NieOdwiedzone.back().FH;
-    pomFF = NieOdwiedzone.back().FF + 1;
 
     while(!NieOdwiedzone.empty())
     {
-        for(unsigned int i = 0; i < NieOdwiedzone.size(); i++)
+        pomFF = NieOdwiedzone.back().FF;
+
+        for(NOIter = NieOdwiedzone.begin(); NOIter != NieOdwiedzone.end(); NOIter++)
         {
-            if(pomFF > NieOdwiedzone[i].FF)
+            if(pomFF >= NOIter->FF)
             {
-                pomFF = NieOdwiedzone[i].FF;
-                pom = i;
+                pomFF = NOIter->FF;
+                break;
             }
         }
 
+        if(NOIter->Wierz.ZwrocDane() == krol)
+        {
+            cout<<endl<<"Wynik dla A*: "<<endl;
+            cout<<*NOIter<<endl;
+            if(!NOIter->Rodzic.empty())
+            {
+                pomSAG = &(NOIter->Rodzic.back());
+
+                while(!(*pomSAG).Rodzic.empty())
+                {
+                    cout<<(*pomSAG)<<endl;
+
+                    pomSAG = &(*pomSAG).Rodzic.back();
+                }
+
+                cout<<(*pomSAG)<<endl;
+            }
+
+            return;
+        }
+
+        Odwiedzone.push_back(*NOIter);
+        NieOdwiedzone.erase(NOIter);
+
+        for(unsigned int i = 0; i < Odwiedzone.back().Wierz.IloscKrawedzi(); i++)
+        {
+            for(unsigned int j = 0; j < Odwiedzone.size(); j++)
+            {
+                if(Odwiedzone.back().Wierz.ZwrocKrawedz(i).ZwrocWartWierzP() == Odwiedzone[j].Wierz.ZwrocDane())
+                {
+                    pom = 1;
+                    break;
+                }
+
+            }
+
+            if(pom == 1)
+            {
+                pom = 0;
+                continue;
+            }
+
+            for(unsigned int j = 0; j < NieOdwiedzone.size(); j++)
+            {
+                if(Odwiedzone.back().Wierz.ZwrocKrawedz(i).ZwrocWartWierzP() == NieOdwiedzone[j].Wierz.ZwrocDane())
+                {
+                    pom = 1;
+                    break;
+                }
+
+            }
+
+            if(pom == 1)
+            {
+                pom = 0;
+                continue;
+            }
+
+            NieOdwiedzone.push_back(StrAGwiazdka<TypKrawedzi, TypWierzcholka>());
+            NieOdwiedzone.back().Wierz = *Odwiedzone.back().Wierz.ZwrocKrawedz(i).ZwrocWskWierzP();
+            NieOdwiedzone.back().FH = FHeurystyczna(NieOdwiedzone.back().Wierz.ZwrocDane(), krol);
+            NieOdwiedzone.back().FG = Odwiedzone.back().FG + 3; // 3 odległosc miedzy kolejnymi polami
+            NieOdwiedzone.back().FF = NieOdwiedzone.back().FG + NieOdwiedzone.back().FH;
+            NieOdwiedzone.back().Rodzic.push_back(Odwiedzone.back());
+            NieOdwiedzone.back().NumerWierz = Odwiedzone.back().NumerWierz + 1;
+
+        }
+
     }
+
+    cout<<endl<<"Wynik dla A*: "<<endl;
+    cout<<"Brak rozwiazania !"<<endl;
 
 }
 
@@ -311,5 +375,19 @@ int Graf<TypKrawedzi, TypWierzcholka>::FHeurystyczna(char aktualny, char cel)
 
     return wynik;
 }
+
+template <typename TypKrawedzi, typename TypWierzcholka>
+ostream & operator<< (ostream &wy, StrAGwiazdka<TypKrawedzi, TypWierzcholka> &s)
+{
+    wy<<"Kolejnosc odnalezienia wierzcholka: "<<s.NumerWierz<<endl;
+    wy<<"Pole: "<<s.Wierz.ZwrocDane()<<endl;
+    wy<<"F(n): "<<s.FF<<endl;
+    wy<<"G(n): "<<s.FG<<endl;
+    wy<<"H(n): "<<s.FH<<endl;
+
+    return wy;
+
+}
+
 
 template class Graf<int,char>;
