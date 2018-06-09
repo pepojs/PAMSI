@@ -130,7 +130,7 @@ int main()
                                 }
 
                                 if(Kolko.WypelniPoleO(x-1,y-1))fGracz = 0;*/
-                                Kolko.MinMax('O',0,-9*IleRzad,9*IleRzad,&fWygralO);
+                                Kolko.MinMax('O',0,-9*IleRzad,9*IleRzad,&fWygralO, 0);
                                 //Kolko.WypelniPoleO(x,y);
                                 fGracz = 0;
                                 //fWygralO = Kolko.SprawdzanieStanuGryO(x,y);

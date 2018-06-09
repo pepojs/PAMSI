@@ -1278,7 +1278,7 @@ int Gra::FHeurystyczna2(char gracz, int x, int y)
 }
 
 //Metoda MinMax
-int Gra::MinMax(char gracz, int zaglebienie, int alfa, int beta, int* f)
+int Gra::MinMax(char gracz, int zaglebienie, int alfa, int beta, int* f, int funkcja)
 {
     int m, mm, pom, k = -1, w = -1;
     int zag;
@@ -1310,7 +1310,10 @@ int Gra::MinMax(char gracz, int zaglebienie, int alfa, int beta, int* f)
                     if(zaglebienie >= zag)
                     {
                         //Jezeli przekracza, wartosc jest obliczana przy pomocy funkcji heurystycznej
-                        m = FHeurystyczna2('X', j, i);
+                        //Mozna wybrac, ktora funkcje uzyc
+                        if(funkcja == 0)m = FHeurystyczna('X', j, i);
+                        else m = FHeurystyczna2('X', j, i);
+
                         Pole_gry[i][j] = ' '; //Przywraca poprzedni stan planszy gry
                         return m;
                     }
@@ -1328,7 +1331,7 @@ int Gra::MinMax(char gracz, int zaglebienie, int alfa, int beta, int* f)
                         if(zaglebienie)Pole_gry[i][j] = ' ';
                         return 0;
 
-                    }else m = MinMax('O', zaglebienie+1, alfa, beta, NULL); //Rekurencyjne wywolanie funkcji MinMax, zmienia gracza
+                    }else m = MinMax('O', zaglebienie+1, alfa, beta, NULL, 0); //Rekurencyjne wywolanie funkcji MinMax, zmienia gracza
 
                     //Przywraca plansze do poczatkowego stanu
                     Pole_gry[i][j] = ' ';
@@ -1355,7 +1358,10 @@ int Gra::MinMax(char gracz, int zaglebienie, int alfa, int beta, int* f)
                     if(zaglebienie >= zag)
                     {
                         //Jezeli przekracza, wartosc jest obliczana przy pomocy funkcji heurystycznej
-                        m = FHeurystyczna2('O', j, i);
+                        //Mozna wybrac, ktora funkcje uzyc
+                        if(funkcja == 0)m = FHeurystyczna('X', j, i);
+                        else m = FHeurystyczna2('X', j, i);
+
                         Pole_gry[i][j] = ' '; //Przywraca poprzedni stan planszy gry
                         return m;
                     }
@@ -1375,7 +1381,7 @@ int Gra::MinMax(char gracz, int zaglebienie, int alfa, int beta, int* f)
                         else *f = pom; //Zmienna sygnalizujaca ze gracz O zremisowal
                         return 0;
 
-                    }else m = MinMax('X', zaglebienie+1, alfa, beta, NULL); //Rekurencyjne wywolanie funkcji MinMax, zmienia gracza
+                    }else m = MinMax('X', zaglebienie+1, alfa, beta, NULL, 0); //Rekurencyjne wywolanie funkcji MinMax, zmienia gracza
 
                     //Przywraca plansze do poczatkowego stanu
                     Pole_gry[i][j] = ' ';
