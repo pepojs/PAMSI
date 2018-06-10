@@ -9,16 +9,16 @@
 
 using namespace std;
 
-
+//Struktura wykorzystywana w algorytmie A*
 template <typename TypKrawedzi, typename TypWierzcholka>
 struct StrAGwiazdka
 {
-    int FH;
-    int FG;
-    int FF;
-    vector<StrAGwiazdka> Rodzic;
-    Wierzcholek<TypKrawedzi, TypWierzcholka> Wierz;
-    int NumerWierz;
+    int FH; //h(n), wartosc funkcji heurystycznej
+    int FG; //g(n), wartosc odleglosci od pola startowego
+    int FF; //f(n) = g(n) + h(n)
+    vector<StrAGwiazdka> Rodzic; //struktura rodzica (wierzcholek, z ktorego przyszlismy)
+    Wierzcholek<TypKrawedzi, TypWierzcholka> Wierz; //Obecny wierzcholek
+    int NumerWierz; //Numer, w ktorej kolejnosci odwiedzono wierzcholek
 
     StrAGwiazdka():Wierz(0){FH = 0; FG = 0; FF = 0; NumerWierz = 0;}
 };

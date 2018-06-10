@@ -1,8 +1,10 @@
 #include "Klasa_graf.hpp"
 
+//Dodawanie wierzcholka do grafu
 template <typename TypKrawedzi, typename TypWierzcholka>
 void Graf<TypKrawedzi, TypWierzcholka>::DodajWierzcholek(TypWierzcholka wartosc)
 {
+    //Sprawdzenie czy taki wierzcholek juz istnieje
     for(unsigned int i = 0; i < W.size(); i++)
     {
         if(W[i].ZwrocDane() == wartosc)
@@ -11,24 +13,30 @@ void Graf<TypKrawedzi, TypWierzcholka>::DodajWierzcholek(TypWierzcholka wartosc)
             return;
         }
     }
+    //jezeli wierzcholek nie istnieje to dodaje wierzcholka do grafu
     W.push_back(Wierzcholek<TypKrawedzi, TypWierzcholka>(wartosc));
 }
 
+//Zwraca wskaznik na wierzcholek
 template <typename TypKrawedzi, typename TypWierzcholka>
 Wierzcholek<TypKrawedzi, TypWierzcholka>* Graf<TypKrawedzi, TypWierzcholka>::ZwrocWskWierz(TypWierzcholka wartosc)
 {
+    //jezeli wierzcholek istnieje zwraca wskaznik na niego
     for(unsigned int i = 0; i < W.size(); i++)
     {
         if(W[i].ZwrocDane() == wartosc) return &W[i];
     }
 
+    //inaczej null
     return NULL;
 }
 
+//Dodaje krawedz miedzy dwoma wierzcholkami
 template <typename TypKrawedzi, typename TypWierzcholka>
 int Graf<TypKrawedzi, TypWierzcholka>::DodajKrawedz(TypKrawedzi wartosc, Wierzcholek<TypKrawedzi, TypWierzcholka>* L,
                                                     Wierzcholek<TypKrawedzi, TypWierzcholka>* P)
 {
+    //Sprawdza czy krawedz juz istnieje
     for(unsigned int i = 0; i < K.size(); i++)
     {
         if((K[i].ZwrocWartWierzL() == L->ZwrocDane() && K[i].ZwrocWartWierzP() == P->ZwrocDane()) ||
@@ -39,16 +47,19 @@ int Graf<TypKrawedzi, TypWierzcholka>::DodajKrawedz(TypKrawedzi wartosc, Wierzch
         }
     }
 
+    //Tworzy krawedz miedzy wierzcholkami L i P o wartosci
     Krawedz<TypKrawedzi, TypWierzcholka> pom(wartosc, L, P);
-    K.push_back(pom);
+    K.push_back(pom); //Dodaje do listy krawedzi
     L->UstawKrawedz(K.back());
     P->UstawKrawedz(K.back());
     return 0;
 }
 
+//Tworzy graf
 template <typename TypKrawedzi, typename TypWierzcholka>
 void Graf<TypKrawedzi, TypWierzcholka>::TworzGraf(char kon, char wierza, char krol)
 {
+    //Czysci liste krawedzi i wierzcholkow grafu
     K.clear();
     W.clear();
 
@@ -86,12 +97,15 @@ void Graf<TypKrawedzi, TypWierzcholka>::TworzGraf(char kon, char wierza, char kr
         {
             if(tab_pom[i][j] != 0)
             {
+                //Sprawdza wszystkie ruchy konia
                 for(int k = 0; k < 8; k++)
                 {
+                    //jezeli ruch jest mozliwy (nie wychodzi poza tablice i nie staje na polu bicia wierzy)
                     if((j + ruchy_rzad[k] >= 0 && j + ruchy_rzad[k] < 5) &&
                     (i + ruchy_kolu[k] >= 0 && i + ruchy_kolu[k] < 5) &&
                     (tab_pom[i + ruchy_kolu[k]][j + ruchy_rzad[k]] != 0))
                     {
+                        //Dodaje wierzcholek i tworzy krawedz miedzy wierzcholkami
                         DodajWierzcholek(tab_pom[i + ruchy_kolu[k]][j + ruchy_rzad[k]]);
                         DodajKrawedz(3, ZwrocWskWierz(tab_pom[i][j]), ZwrocWskWierz(tab_pom[i + ruchy_kolu[k]][j + ruchy_rzad[k]]));
 
@@ -101,42 +115,9 @@ void Graf<TypKrawedzi, TypWierzcholka>::TworzGraf(char kon, char wierza, char kr
             }
         }
 
-
-/*
-    DodajWierzcholek(kon);
-    pom_wierz = kon;
-    j = 0;
-
-    while(pom_petla == 1)
-    {
-        pom_petla = 0;
-        for(i = 0; i < 8; i++)
-        {
-            if((kon_j + ruchy_rzad[i] >= 0 && kon_j + ruchy_rzad[i] < 5) &&
-               (kon_i + ruchy_kolu[i] >= 0 && kon_i + ruchy_kolu[i] < 5) &&
-               tab_pom[kon_i + ruchy_kolu[i]][kon_j + ruchy_rzad[i]] != 0)
-            {
-                DodajWierzcholek(tab_pom[kon_i + ruchy_kolu[i]][kon_j + ruchy_rzad[i]]);
-                cout<<"Tutaj "<<endl;
-                if(!DodajKrawedz(i, ZwrocWskWierz(pom_wierz), ZwrocWskWierz(tab_pom[kon_i + ruchy_kolu[i]][kon_j + ruchy_rzad[i]])))
-                   pom_petla = 1;
-            }
-        }
-
-        pom_wierz = K[j].ZwrocWartWierzP();
-        cout<< pom_wierz<<"  "<<endl;
-        kon_i = kon_i + ruchy_kolu[K[j].ZwrocWartKraw()];
-        kon_j = kon_j + ruchy_rzad[K[j].ZwrocWartKraw()];
-        j++;
-
-    }
-
-*/
-
-
-
 }
 
+//Wyswietla wszystkie wierzcholki w grafie wraz z krawedziami
 template <typename TypKrawedzi, typename TypWierzcholka>
 void Graf<TypKrawedzi, TypWierzcholka>::WyswietlGraf()
 {
@@ -147,7 +128,7 @@ void Graf<TypKrawedzi, TypWierzcholka>::WyswietlGraf()
 
 }
 
-
+//Metoda uzywana podczas przeszukiwania w glab grafu
 template <typename TypKrawedzi, typename TypWierzcholka>
 void Graf<TypKrawedzi, TypWierzcholka>::DFSRekurencja(char krol, Wierzcholek<TypKrawedzi, TypWierzcholka> wenzel,
                                                       vector <Wierzcholek<TypKrawedzi, TypWierzcholka> > &w,
@@ -155,12 +136,13 @@ void Graf<TypKrawedzi, TypWierzcholka>::DFSRekurencja(char krol, Wierzcholek<Typ
 {
     int flaga = 0;
 
-
+    //Sprawdzanie wszystkich krawedzi przypisanych wierzcholkowi
     for(unsigned int i = 0; i < wenzel.IloscKrawedzi(); i++)
     {
-        //cout<<i<<" "<<(wenzel.ZwrocKrawedz(i).ZwrocWskWierzP())->ZwrocDane()<<"  "<<wenzel.ZwrocDane();
+        //jezeli krawedz zaczyna sie i konczy tym samym wierzcholkiem
         if((wenzel.ZwrocKrawedz(i).ZwrocWskWierzP())->ZwrocDane() == wenzel.ZwrocDane()) continue;
 
+        //Sprawdza czy wierzcholek na koncu krawedzi (nastepny) nie byl juz odwiedzony
         for(unsigned int j = 0; j < odw.size(); j++)
         {
             if(odw[j].ZwrocDane() == (wenzel.ZwrocKrawedz(i).ZwrocWskWierzP())->ZwrocDane())
@@ -170,25 +152,29 @@ void Graf<TypKrawedzi, TypWierzcholka>::DFSRekurencja(char krol, Wierzcholek<Typ
             }
         }
 
-        //cout<<" "<<flaga<<endl;
+        //jezeli wierzcholek byl odwiedzony to sprawdza nastepna krawedz
         if(flaga)
         {
             flaga = 0;
             continue;
         }
 
+
         if(!odw.empty())
         {
+            //jezeli dany wirzcholek nie byl dodany do list odwiedzonych
             if(odw.back().ZwrocDane() != wenzel.ZwrocDane())
             odw.push_back(wenzel);
         }
         else odw.push_back(wenzel);
 
+        //jezeli osiagnieto pole, na ktorym stoi krol
         if(wenzel.ZwrocDane() == krol)
         {
+            //jezeli lista odwiedzonych wierzcholkow jest krotsza od wyniku
             if(w.size() != 0 && w.size() > odw.size())
             {
-                w.swap(odw);
+                w.swap(odw);//Zamienia liste wynik z odwiedzonymi wierzcholkami
 
             }else if(w.size() == 0)
             {
@@ -196,14 +182,13 @@ void Graf<TypKrawedzi, TypWierzcholka>::DFSRekurencja(char krol, Wierzcholek<Typ
             }
             return;
         }
+        //Rekurencja
         DFSRekurencja(krol, *wenzel.ZwrocKrawedz(i).ZwrocWskWierzP(), w, odw);
     }
 
-
-    //for(unsigned int i = 0; i < odw.size(); i++)
-    //    cout<<i<<" "<<odw[i].ZwrocDane()<<endl;
 }
 
+//DFS
 template <typename TypKrawedzi, typename TypWierzcholka>
 void Graf<TypKrawedzi, TypWierzcholka>::DFS(char kon, char wierza, char krol)
 {
@@ -211,6 +196,7 @@ void Graf<TypKrawedzi, TypWierzcholka>::DFS(char kon, char wierza, char krol)
     vector<Wierzcholek<TypKrawedzi, TypWierzcholka> > Odwiedzone;
     vector<Wierzcholek<TypKrawedzi, TypWierzcholka> > Wynik;
 
+    //Szuka w grafie pierwszego wierzcholka, na ktorym stoi kon
     for(unsigned int i = 0; i < W.size(); i++)
     {
         if(W[i].ZwrocDane() == kon)
@@ -220,8 +206,10 @@ void Graf<TypKrawedzi, TypWierzcholka>::DFS(char kon, char wierza, char krol)
         }
     }
 
+    //Rekurencyjne wywolanie DFS
     DFSRekurencja(krol, Pierwszy,Wynik, Odwiedzone);
 
+    //Wyswietla wynik przeszukiwania
     cout<<endl<<"Wynik dla DFS: "<<endl;
 
     if(Wynik.size() == 0)
@@ -240,7 +228,7 @@ void Graf<TypKrawedzi, TypWierzcholka>::DFS(char kon, char wierza, char krol)
 
 }
 
-
+//Metoda dla algorytmu A*
 template <typename TypKrawedzi, typename TypWierzcholka>
 void Graf<TypKrawedzi, TypWierzcholka>::AGwiazdka(char kon, char wierza, char krol)
 {
@@ -250,6 +238,7 @@ void Graf<TypKrawedzi, TypWierzcholka>::AGwiazdka(char kon, char wierza, char kr
     vector<StrAGwiazdka<TypKrawedzi, TypWierzcholka> > NieOdwiedzone;
     typename vector<StrAGwiazdka<TypKrawedzi, TypWierzcholka> >::iterator NOIter;
 
+    //Dodaje do listy nieodwiedzonych wierzcholek, na ktorym stoi kon
     for(unsigned int i = 0; i < W.size(); i++)
     {
         if(W[i].ZwrocDane() == kon)
@@ -260,14 +249,17 @@ void Graf<TypKrawedzi, TypWierzcholka>::AGwiazdka(char kon, char wierza, char kr
         }
     }
 
+    //Wypelnia pola struktury dla A* odpowiedznimi wartosciami
     NieOdwiedzone.back().NumerWierz = 1;
     NieOdwiedzone.back().FH = FHeurystyczna(kon, krol);
     NieOdwiedzone.back().FF = NieOdwiedzone.back().FG + NieOdwiedzone.back().FH;
 
+    //Jezeli lista nieodwiedzonych wierzcholkow nie jest pusta
     while(!NieOdwiedzone.empty())
     {
-        pomFF = NieOdwiedzone.back().FF;
+        pomFF = NieOdwiedzone.back().FF; //Ustala pomocnicza zmienna
 
+        //Szuka nieodwiedzonego wierzcholka o najmniejszej wartosci f(n)
         for(NOIter = NieOdwiedzone.begin(); NOIter != NieOdwiedzone.end(); NOIter++)
         {
             if(pomFF >= NOIter->FF)
@@ -277,8 +269,10 @@ void Graf<TypKrawedzi, TypWierzcholka>::AGwiazdka(char kon, char wierza, char kr
             }
         }
 
+        //Jezeli wierzcholkiem jest pole z krolem
         if(NOIter->Wierz.ZwrocDane() == krol)
         {
+            //Wyswietla odwiedzone wierzcholki od ostatniego do pierwszego
             cout<<endl<<"Wynik dla A*: "<<endl;
             cout<<*NOIter<<endl;
             if(!NOIter->Rodzic.empty())
@@ -298,11 +292,14 @@ void Graf<TypKrawedzi, TypWierzcholka>::AGwiazdka(char kon, char wierza, char kr
             return;
         }
 
+        //Dodaje wierzcholek do odwiedzonych
         Odwiedzone.push_back(*NOIter);
-        NieOdwiedzone.erase(NOIter);
+        NieOdwiedzone.erase(NOIter);//Usuwa z nieodwiedzonych
 
+        //Przeszukuje kolejne krawedzie polaczone z aktualnym wierzcholkiem
         for(unsigned int i = 0; i < Odwiedzone.back().Wierz.IloscKrawedzi(); i++)
         {
+            //Sprawdza czy wierzcholek byl odwiedzony
             for(unsigned int j = 0; j < Odwiedzone.size(); j++)
             {
                 if(Odwiedzone.back().Wierz.ZwrocKrawedz(i).ZwrocWartWierzP() == Odwiedzone[j].Wierz.ZwrocDane())
@@ -313,12 +310,14 @@ void Graf<TypKrawedzi, TypWierzcholka>::AGwiazdka(char kon, char wierza, char kr
 
             }
 
+            //Jezeli byl odwiedzony sprawdza nastepna krawed
             if(pom == 1)
             {
                 pom = 0;
                 continue;
             }
 
+            //Sprawdza czy wierzcholek byl dodany do listy nieodwiedzonych
             for(unsigned int j = 0; j < NieOdwiedzone.size(); j++)
             {
                 if(Odwiedzone.back().Wierz.ZwrocKrawedz(i).ZwrocWartWierzP() == NieOdwiedzone[j].Wierz.ZwrocDane())
@@ -329,12 +328,14 @@ void Graf<TypKrawedzi, TypWierzcholka>::AGwiazdka(char kon, char wierza, char kr
 
             }
 
+            //jezeli byl dodany do nieodwiedzonych to sprawdza kolejna krawedz
             if(pom == 1)
             {
                 pom = 0;
                 continue;
             }
 
+            //jezeli nie byl dodany do odwiedzonych, dodaje i wypelnia pola struktury odpowiednim wartosciami
             NieOdwiedzone.push_back(StrAGwiazdka<TypKrawedzi, TypWierzcholka>());
             NieOdwiedzone.back().Wierz = *Odwiedzone.back().Wierz.ZwrocKrawedz(i).ZwrocWskWierzP();
             NieOdwiedzone.back().FH = FHeurystyczna(NieOdwiedzone.back().Wierz.ZwrocDane(), krol);
@@ -347,11 +348,13 @@ void Graf<TypKrawedzi, TypWierzcholka>::AGwiazdka(char kon, char wierza, char kr
 
     }
 
+    //Jezeli nie znalazl zadnej scierzki
     cout<<endl<<"Wynik dla A*: "<<endl;
     cout<<"Brak rozwiazania !"<<endl;
 
 }
 
+//Funkcja heurystyczna
 template <typename TypKrawedzi, typename TypWierzcholka>
 int Graf<TypKrawedzi, TypWierzcholka>::FHeurystyczna(char aktualny, char cel)
 {
@@ -359,20 +362,25 @@ int Graf<TypKrawedzi, TypWierzcholka>::FHeurystyczna(char aktualny, char cel)
     int cel_x = 0, cel_y = 0;
     int wynik = -1;
 
+    //Zamienia litere z kodu ascii na liczbe od 0
     aktualny = aktualny - 65;
     cel = cel - 65;
 
+    //Oblicza wspolrzedne pola, od ktorego szukamy
     aktualny_x = aktualny%5;
     aktualny_y = aktualny/5;
 
+    //Oblicza wspolrzedne pola celu
     cel_x = cel%5;
     cel_y = cel/5;
 
+    //Oblicza odleglosc ze wzoru h(n) = |u - p| + |v - q|
     wynik = fabs(aktualny_x - cel_x) + fabs(aktualny_y - cel_y);
 
     return wynik;
 }
 
+//Przeciarzenie pozwalajace wyswietlic strukture dla algorytmu A*
 template <typename TypKrawedzi, typename TypWierzcholka>
 ostream & operator<< (ostream &wy, StrAGwiazdka<TypKrawedzi, TypWierzcholka> &s)
 {
