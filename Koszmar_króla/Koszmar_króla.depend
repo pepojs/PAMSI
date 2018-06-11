@@ -12,15 +12,17 @@
 	<cmath>
 	"Klasa_wierz_kraw.hpp"
 
-1528458499 source:c:\users\piotr\documents\usp\pamsi_clone\koszmar_króla\main.cpp
+1528729872 source:c:\users\piotr\documents\usp\pamsi_clone\koszmar_króla\main.cpp
+	<stdlib.h>
 	"Klasa_graf.hpp"
 
-1528457886 c:\users\piotr\documents\usp\pamsi_clone\koszmar_króla\klasa_graf.hpp
+1528732485 c:\users\piotr\documents\usp\pamsi_clone\koszmar_króla\klasa_graf.hpp
 	<iostream>
 	<vector>
 	<cmath>
+	"Klasa_wierz_kraw.hpp"
 
-1528458613 source:c:\users\piotr\documents\usp\pamsi_clone\koszmar_króla\klasa_graf.cpp
+1528729872 source:c:\users\piotr\documents\usp\pamsi_clone\koszmar_króla\klasa_graf.cpp
 	"Klasa_graf.hpp"
 
 1528557071 c:\users\bogdo\documents\programy\pamsi\koszmar_króla\klasa_wierzcholek.hpp
@@ -41,4 +43,12 @@
 
 1528557509 source:c:\users\bogdo\documents\programy\pamsi\koszmar_króla\klasa_wierz_kraw.cpp
 	"Klasa_wierz_kraw.hpp"
+
+1528729872 source:c:\users\piotr\documents\usp\pamsi_clone\koszmar_króla\klasa_wierz_kraw.cpp
+	"Klasa_wierz_kraw.hpp"
+
+1528729872 c:\users\piotr\documents\usp\pamsi_clone\koszmar_króla\klasa_wierz_kraw.hpp
+	<iostream>
+	<vector>
+	<cmath>
 

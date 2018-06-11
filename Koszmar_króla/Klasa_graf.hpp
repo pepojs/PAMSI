@@ -33,9 +33,9 @@ class Graf
     vector <Wierzcholek<TypKrawedzi, TypWierzcholka> > W;
 
     void DFSRekurencja(char krol, Wierzcholek<TypKrawedzi, TypWierzcholka> wenzel, vector <Wierzcholek<TypKrawedzi, TypWierzcholka> > &w, vector <Wierzcholek<TypKrawedzi, TypWierzcholka> >odw);
-
+    int FHeurystyczna(char aktualny, char cel);
 public:
-int FHeurystyczna(char aktualny, char cel);
+
 
     void DodajWierzcholek(TypWierzcholka wartosc);
     int DodajKrawedz(TypKrawedzi wartosc,Wierzcholek<TypKrawedzi, TypWierzcholka> * wartoscL,Wierzcholek<TypKrawedzi, TypWierzcholka> * wartoscP);
